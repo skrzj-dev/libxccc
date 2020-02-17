@@ -1,0 +1,6 @@
+#ifndef _XC_CMEM_TEST_MACROPARAMEVAL__CMEM_S_HPP_
+#define _XC_CMEM_TEST_MACROPARAMEVAL__CMEM_S_HPP_
+
+int test_cmem_eval__cmem_s(xcc_test2_param_list);
+
+#endif
