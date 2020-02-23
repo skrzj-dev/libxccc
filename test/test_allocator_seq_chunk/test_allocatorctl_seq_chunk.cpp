@@ -245,13 +245,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=0;
 		const size_t arg_itemcnt_chunk=0;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-0.1");
 		
-		xcc_test2_expect( 0 != xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 != xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(int, 0, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -260,13 +267,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=1;
 		const size_t arg_itemcnt_chunk=0;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-0.2");
 		
-		xcc_test2_expect( 0 != xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 != xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(int, 0, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -275,13 +289,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=3;
 		const size_t arg_itemcnt_chunk=0;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-0.3");
 		
-		xcc_test2_expect( 0 != xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 != xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(int, 0, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -291,13 +312,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=0;
 		const size_t arg_itemcnt_chunk=8;
-		size_t tmp_expected_capacity=0;
+		size_t tmp_expected_capacity=arg_itemcnt_chunk;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=0 capacity=8");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(int, 8, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -307,13 +335,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=1;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=1 capacity=8");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(size_t, 8, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -322,13 +357,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=2;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=2 capacity=8");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(size_t, 8, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -337,13 +379,20 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=7;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=7 capacity=8");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
 		xcc_test2_expect_eq_t(size_t, 8, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
@@ -352,14 +401,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=8;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=8 capacity=8");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*1, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -367,14 +423,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=9;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=9 capacity=8*2");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8*2, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*2, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -382,14 +445,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=10;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=10 capacity=8*2");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8*2, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*2, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -398,14 +468,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=15;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=15 capacity=8*2");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8*2, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*2, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -414,14 +491,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=16;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=16 capacity=8*2");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8*2, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*2, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -430,14 +514,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=17;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=17 capacity=8*3");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8*3, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*3, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -446,14 +537,21 @@ int test_allocator_length_to_chunk(xcc_test2_param_list)
 	
 	do
 	{
+		const size_t prev_capacity=0;
 		const size_t arg_expected_length=18;
 		const size_t arg_itemcnt_chunk=8;
 		size_t tmp_expected_capacity=0;
 		
 		xcc_test2_case("LENGTH2CHUNK-1.0-length=18 capacity=8*3");
 		
-		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
-		xcc_test2_expect_eq_t(size_t, 8*3, tmp_expected_capacity);
+		xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+				  arg_expected_length
+				, prev_capacity
+				, arg_itemcnt_chunk
+				, &tmp_expected_capacity
+			) 
+		);
+		xcc_test2_expect_eq_t(size_t, arg_itemcnt_chunk*3, tmp_expected_capacity);
 		
 		xcc_test2_case_end();
 	
@@ -500,9 +598,16 @@ int test_allocator_empty_grow_to_N(xcc_test2_param_list, const size_t arg_expect
 		
 		if(1)
 		{
+			const size_t tmp_input_capacity=0;
 			size_t tmp_expected_capacity=0;
 			
-			xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(arg_expected_length, arg_itemcnt_chunk, &tmp_expected_capacity) );
+			xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(
+					  arg_expected_length
+					, tmp_input_capacity
+					, arg_itemcnt_chunk
+					, &tmp_expected_capacity
+				) 
+			);
 			
 			xcc_test2_trap_set(1);
 			xcc_test2_expect( 0 != xc_mem_u_cmp_obj(xc_ammo_seq_state_t, &result, &state_empty) );
@@ -568,7 +673,7 @@ int test_allocator_empty_grow_zero(xcc_test2_param_list)
 			xcc_test2_expect( 0 != xc_mem_u_cmp_obj(xc_ammo_seq_state_t, &result, &initial) );
 			
 			
-			xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(0, 8, &tmp_expected_capacity) );
+			xcc_test2_expect( 0 == xc_ammo_seq_tChunkC_length2capacity(0, initial.capacity, 8, &tmp_expected_capacity) );
 			
 			xcc_test2_trap_set(1);
 			xcc_test2_expect( 0 != xc_mem_u_cmp_obj(xc_ammo_seq_state_t, &result, &state_empty) );

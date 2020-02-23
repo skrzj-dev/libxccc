@@ -51,7 +51,7 @@ class xcc_tplTestVector_vectorIntf__stlVector: public tplTestVector_vectorIntf<T
 	public: _ARG_TPL_VITEMTYPE_* get_last_refp(TPL_VTYPE* refp_self) noexcept;
 	public: _ARG_TPL_VITEMTYPE_ get_last_val(TPL_VTYPE* refp_self) noexcept;
 	
-	public: size_t DIAG_get_expected_capacity_for_length(const size_t arg_length) noexcept;
+	public: size_t DIAG_get_expected_capacity_for_length(const size_t arg_length, const size_t arg_cur_capacity) noexcept;
 	
 	public: int get_length(TPL_VTYPE* refp_self) noexcept;
 	public: int get_capacity(TPL_VTYPE* refp_self) noexcept;

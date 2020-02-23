@@ -36,15 +36,8 @@ class tplTestVector_vectorIntf
 	public: virtual _ARG_TPL_VITEMTYPE_* get_idx_refp(TPL_VTYPE* refp_self, const int idx) noexcept =0;
 	public: virtual _ARG_TPL_VITEMTYPE_& get_idx_val(TPL_VTYPE* refp_self, const int idx) noexcept =0;
 
-				public: virtual int get_first_cp(TPL_VTYPE* refp_self, _ARG_TPL_VITEMTYPE_*  refp_target) noexcept =0;
-				public: virtual _ARG_TPL_VITEMTYPE_* get_first_refp(TPL_VTYPE* refp_self) noexcept =0;
-				public: virtual _ARG_TPL_VITEMTYPE_ get_first_val(TPL_VTYPE* refp_self) noexcept =0;
-
-				public: virtual int get_last_cp(TPL_VTYPE* refp_self, _ARG_TPL_VITEMTYPE_*  refp_target) noexcept =0;
-				public: virtual _ARG_TPL_VITEMTYPE_* get_last_refp(TPL_VTYPE* refp_self) noexcept =0;
-				public: virtual _ARG_TPL_VITEMTYPE_ get_last_val(TPL_VTYPE* refp_self) noexcept =0;
 	
-	public: virtual size_t DIAG_get_expected_capacity_for_length(const size_t arg_length) noexcept =0;
+	public: virtual size_t DIAG_get_expected_capacity_for_length(const size_t arg_length, const size_t cur_capacity) noexcept =0;
 
 	public: virtual int get_length(TPL_VTYPE* refp_self) noexcept =0;
 	public: virtual int get_capacity(TPL_VTYPE* refp_self) noexcept =0;

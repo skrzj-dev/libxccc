@@ -65,6 +65,12 @@ class xcc_tplTestVector_static
 	private: int TMP_TEST_INTERNAL_02( xcc_test2_failureDetails_t& failInfo,  
 		  TPL_VTYPE* vector_obj_ref
 		, const size_t expected_length
+		, std::vector<TPL_ITEM_TYPE> expected_items
+	) noexcept;
+	
+	private: int TMP_TEST_INTERNAL_02_cap( xcc_test2_failureDetails_t& failInfo,  
+		  TPL_VTYPE* vector_obj_ref
+		, const size_t expected_length
 		, const size_t expected_capacity
 		, std::vector<TPL_ITEM_TYPE> expected_items
 	) noexcept;
@@ -73,7 +79,6 @@ class xcc_tplTestVector_static
 	private: int TMP_TEST_INTERNAL_02_uninitZero( xcc_test2_failureDetails_t& failInfo,  
 		  TPL_VTYPE* vector_obj_ref
 		, const size_t expected_length
-		, const size_t expected_capacity
 		, std::vector<TPL_ITEM_TYPE> expected_items
 	) noexcept;
 		

@@ -99,8 +99,8 @@ namespace test2
 	struct testAnnotationData_t
 	{
 		testScopeInfo_t scopeInfo;
-		char static_part[256];
-		char runtime_part[256];
+		char static_part[64];
+		char runtime_part[64];
 		
 		testAnnotationData_t()
 		{

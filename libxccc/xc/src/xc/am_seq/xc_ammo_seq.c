@@ -18,19 +18,23 @@
 
 /* --- --- --- --- */
 
-
-const xc_ammo_seq_I_t xc_ammo_seq_tChunkC_I={
-	  &xc_ammo_seq_tChunkC_length2capacity
-	, &xc_ammo_seq_tChunkC_realloc
-	, &xc_ammo_seq_idx2byteptr
-	, &xc_ammo_seq_idx2anyptr
-	, &xc_ammo_seq_tStatic_shiftLeft
-	, &xc_ammo_seq_tStatic_shiftRight
-};
-
-
-/* --- --- --- --- */
-
+int xc_ammo_seq_set_at_idx(
+	  xc_ammo_seq_state_t* self_state
+	, const size_t item_bytesize
+	, const size_t idx_public
+	, const xc_byteptr_t refp_item
+)
+{
+	xc_byteptr_t refp_target=NULL;
+	
+	if(NULL == (refp_target=xc_ammo_seq_idx2byteptr(self_state, item_bytesize, idx_public) ) ) {
+		return 1;
+	}
+	
+	memmove(refp_target, refp_item, item_bytesize);
+	
+	return 0;
+}
 
 xc_ammo_seq_state_t xc_ammo_seq_state_retv(
 	  xc_p_refp2pBytes_t refp_itemArray_byteptr
@@ -568,197 +572,6 @@ int xc_ammo_seq_tStatic_realloc(
 	return 1;
 }
 
-
-int xc_ammo_seq_tChunkC_realloc(
-	  const xc_ammo_seq_cfg_t* refp_cfg
-	, const xc_ammo_seq_state_t* refp_initial_state
-	, xc_ammo_seq_state_t* refp_result_state
-	, const size_t requested_new_length
-)
-{
-	size_t requested_new_length_for_capacity_calculation=requested_new_length;
-	size_t new_capacity=0;
-	int is_to_resize=0;
-	xc_err_decl();
-	
-	/* --- param validation: */
-	if(NULL == refp_cfg) {
-		xc_err_term_unmg();
-	}
-	if(NULL == refp_initial_state) {
-		xc_err_term_unmg();
-	}
-	if(NULL == refp_result_state) {
-		xc_err_term_unmg();
-	}
-	/* --- param validation: done */
-	
-	/* --- content validation: */
-	
-	if( 0 == refp_cfg->cnt_items_in_chunk) {
-		xc_err_term_unmg();
-	}
-	if( 0 == refp_cfg->item_bytesize) {
-		xc_err_term_unmg();
-	}
-	
-	if( NULL == refp_initial_state->refp_itemArray_byteptr.Refp2BtPtr) {
-		xc_err_term_unmg();
-	}
-	
-	/* zero -> zero is basiically do nothing; do nothing must return OK because there's no error */
-	/* && 0 == refp_initial_state->capacity */ /* capacity is irrelevant,  zero or not */
-	
-#	if 0
-	/* DECIDED: ZERO LENGTH IS ALWAYS ALLOCATED AS 1 CHUNK!!! INITIALIZED OBJECT IS ALWAYS 1 CHUNK!!! NULL /UNALLOCATED MEANS UNITIIALIZED !!! */
-	if( 0 == requested_new_length )
-	{
-		if( 0 == requested_new_length && 0 == refp_initial_state->length ) {
-			xc_mem_cp_obj(xc_ammo_seq_state_t, refp_result_state, refp_initial_state );
-			return 0;
-		}
-		else {
-			xc_err_term_unmg();
-		}
-	}
-#	endif
-	
-	xc_mem_bzero_obj(xc_ammo_seq_state_t, refp_result_state);
-	
-	if( 0 != xc_ammo_seq_tChunkC_length2capacity(requested_new_length, refp_cfg->cnt_items_in_chunk, &new_capacity) ) {
-		xc_err_term_unmg();
-	}
-	
-	/* --- content validation: done */
-
-	if( new_capacity < refp_initial_state->capacity )
-	{
-		is_to_resize=1;
-		requested_new_length_for_capacity_calculation=requested_new_length;
-		
-		/* TODO 
-		fprintf(stderr, "\nTODO!!! [%s]:[%d]\n", __FUNCTION__, __LINE__);
-		xc_err_term_unmg();*/
-		
-	}
-	else
-	if( new_capacity > refp_initial_state->capacity )
-	{
-		is_to_resize=1;
-		requested_new_length_for_capacity_calculation=requested_new_length;
-
-	}
-	else
-	if( new_capacity == refp_initial_state->capacity )
-	{
-		
-		if( 0 == refp_initial_state->capacity )
-		{
-			is_to_resize=1;
-			requested_new_length_for_capacity_calculation=1;
-		}
-		else {
-			is_to_resize=0;
-		}
-	}
-	
-	/* --- --- --- */
-	
-	if( 0 !=  is_to_resize )
-	{
-		xc_p_pBytes_t tmp_result_byteptr={0};
-		
-		/* try to resize: */
-		if(1)
-		{
-			xc_p_pBytes_t tmp_target_byteptr={0};
-			size_t newbytesize=refp_cfg->item_bytesize*new_capacity;
-			
-			tmp_result_byteptr=xc_p_pBytes_from_ref2pBytes(refp_initial_state->refp_itemArray_byteptr);
-			tmp_target_byteptr=xc_p_pBytes_from_ref2pBytes(refp_initial_state->refp_itemArray_byteptr);
-			
-			if(NULL == tmp_result_byteptr.BtPtr)
-			{
-				tmp_result_byteptr.BtPtr=xc_mem_allocz_obj_array(unsigned char, newbytesize);
-			}
-			else
-			{
-				tmp_result_byteptr.BtPtr=realloc(tmp_target_byteptr.BtPtr, newbytesize);
-			}
-			
-			if( NULL == tmp_result_byteptr.BtPtr ) {
-				xc_err_term_unmg();
-			}
-
-		}
-		/* try to resize: done */
-		
-		/* after this point evertything is valid  and can be assigned to result */
-		
-		/* result: assign new allocated ptr: */
-		refp_result_state->refp_itemArray_byteptr=refp_initial_state->refp_itemArray_byteptr;
-		xc_p_refp2pBytes_assign_pBytes(&refp_result_state->refp_itemArray_byteptr, tmp_result_byteptr);
-		/* result: assign new allocated ptr: done */
-		/* result: just write old length */
-		refp_result_state->length=requested_new_length; /* not [requested_new_length_for_capacity_calculation]! */
-		/* result: bigger capacity */
-		refp_result_state->capacity=new_capacity;
-		
-		if(1)
-		{
-			if(new_capacity > refp_initial_state->capacity) /* just zero entirebyte block in item array until the end in 1 call */
-			{
-				xc_p_pBytes_t BtPtr={0};
-				xc_p_pBytes_t BtPtr2={0};
-				const size_t byteoff_start=refp_result_state->length * refp_cfg->item_bytesize;
-				const size_t cnt_to_end=refp_result_state->capacity - refp_result_state->length;
-				
-				BtPtr2=xc_p_pBytes_from_ref2pBytes(refp_result_state->refp_itemArray_byteptr);
-				BtPtr.BtPtr=BtPtr2.BtPtr + byteoff_start;
-				xc_mem_bzero_bytes(BtPtr.BtPtr, cnt_to_end * refp_cfg->item_bytesize);
-			}
-		}
-	}
-	else
-	{
-		xc_mem_cp_obj(xc_ammo_seq_state_t, refp_result_state, refp_initial_state);
-		refp_result_state->length=requested_new_length;
-		
-	}
-	
-	return 0;
-	
-	xc_err_on_unmg();
-		if(NULL!=refp_result_state) {
-			xc_mem_bzero_obj(xc_ammo_seq_state_t, refp_result_state);
-		}
-	return 1;
-}
-
-
-int xc_ammo_seq_tChunkC_length2capacity(const size_t length, const size_t chunk_itemcnt, size_t* result_capacity)
-{
-	xc_err_decl();
-	
-	if(NULL == result_capacity) {
-		xc_err_term_unmg();
-	}
-	if(0==chunk_itemcnt) {
-		xc_err_term_unmg();
-	}
-	
-	if(length<=chunk_itemcnt) {
-		*result_capacity=chunk_itemcnt;
-	}
-	else {
-		*result_capacity=( ( (length-1) / chunk_itemcnt ) + 1) * chunk_itemcnt;
-	}
-	
-	return 0;
-	
-	xc_err_on_unmg();
-	return 1;
-}
 
 
 xc_byteptr_t xc_ammo_seq_idx2byteptr(xc_ammo_seq_state_t* self_state, const size_t item_bytesize, const size_t idx_public)

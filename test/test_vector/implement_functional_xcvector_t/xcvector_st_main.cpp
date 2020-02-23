@@ -44,7 +44,7 @@ static int test_vectT_u(xcc_test2_param_list) noexcept
 			  seqST_dummyItem_t
 			, xc_tcVectorT_LL_deref_t
 			, dummyItem_t
-			, xcc_tplTestVector_vectorIntf__xcVectorST_u< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t > 
+			, testXcVectorT::intf_api_u< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t > 
 			, testIntf_internal_xcVectorST_intf< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
 			, xcc_tplTestVector_itemIntf_obj1< dummyItem_t > 
 	> seqVectorTest_intf;
@@ -58,7 +58,7 @@ static int test_vectT_s(xcc_test2_param_list) noexcept
 			  seqST_dummyItem_t
 			, xc_tcVectorT_LL_deref_t
 			, dummyItem_t
-			, xcc_tplTestVector_vectorIntf__xcVectorST_s< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t > 
+			, testXcVectorT::intf_api_s< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t > 
 			, testIntf_internal_xcVectorST_intf< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
 			, xcc_tplTestVector_itemIntf_obj1< dummyItem_t > 
 	> seqVectorTest_intf;
@@ -72,7 +72,7 @@ static int test_vectT_i(xcc_test2_param_list) noexcept
 			  seqST_dummyItem_t
 			, xc_tcVectorT_LL_deref_t
 			, dummyItem_t
-			, xcc_tplTestVector_vectorIntf__xcVectorST_i< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t > 
+			, testXcVectorT::intf_api_i< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t > 
 			, testIntf_internal_xcVectorST_intf< seqST_dummyItem_t, dummyItem_t, xc_tcVectorT_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
 			, xcc_tplTestVector_itemIntf_obj1< dummyItem_t > 
 	> seqVectorTest_intf;

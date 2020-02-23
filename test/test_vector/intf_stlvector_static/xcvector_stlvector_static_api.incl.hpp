@@ -214,7 +214,7 @@ xcc_tplTestVector_vectorIntf__stlVector_static_m(int) get_capacity(TPL_VTYPE* re
 
 
 xcc_tplTestVector_vectorIntf__stlVector_static_hdr()
-xcc_tplTestVector_vectorIntf__stlVector_static_m(size_t) DIAG_get_expected_capacity_for_length(const size_t arg_length) noexcept
+xcc_tplTestVector_vectorIntf__stlVector_static_m(size_t) DIAG_get_expected_capacity_for_length(const size_t arg_length, const size_t cur_capacity) noexcept
 {
 
 	return 0;

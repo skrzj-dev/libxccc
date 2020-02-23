@@ -18,54 +18,241 @@
 
 #include "abstracts_functional_any/vector_test_tpl_abstraction_api.hpp"
 /* --- */
+#include "xcc/common/xcc_err.hpp"
+/* --- */
+#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/tcvector_t/xc_tcvector_t.h"
+#include "xc/tcvector_t/xc_tcvector_t_api_s.h"
+/* --- */
 
 
-#define xcc_tplTestVector_vectorIntf__xcVectorST__s_hdr() template<typename TPL_VTYPE, typename _ARG_TPL_VITEMTYPE_, typename ARG_TPL_DEREFER>
-#define xcc_tplTestVector_vectorIntf__xcVectorST_s_m(TYPE) TYPE xcc_tplTestVector_vectorIntf__xcVectorST_s <TPL_VTYPE, _ARG_TPL_VITEMTYPE_, ARG_TPL_DEREFER>::
-
-
-xcc_tplTestVector_vectorIntf__xcVectorST__s_hdr()
-class xcc_tplTestVector_vectorIntf__xcVectorST_s: public tplTestVector_vectorIntf<TPL_VTYPE, _ARG_TPL_VITEMTYPE_, ARG_TPL_DEREFER>
+namespace testXcVectorT
 {
-	public: int init(TPL_VTYPE* refp_self) noexcept;
-	public: int deinit(TPL_VTYPE* refp_self) noexcept;
-	
-	public: ARG_TPL_DEREFER derefer_retv(TPL_VTYPE* refp_self) noexcept;
-	public: int derefer_validate_integrity(TPL_VTYPE* refp_self, ARG_TPL_DEREFER* refp_deref) noexcept;
-	public: int derefer_validate_data(ARG_TPL_DEREFER* refp_tpl_deref) noexcept;
-	
-	public: int push(TPL_VTYPE* refp_self, const _ARG_TPL_VITEMTYPE_* refp_target) noexcept;
-	public: int pop(TPL_VTYPE* refp_self) noexcept;
-	
-	public: int remove_idx(TPL_VTYPE* refp_self, const int idx) noexcept;
-	
-	public: int insert_idx(TPL_VTYPE* refp_self, const int idx, const _ARG_TPL_VITEMTYPE_* refp_target) noexcept;
-	
-	public: int set(TPL_VTYPE* refp_self, const int idx, const _ARG_TPL_VITEMTYPE_* refp_target) noexcept;
-	
-	public: int get_idx_cp(TPL_VTYPE* refp_self, const int idx, _ARG_TPL_VITEMTYPE_*  refp_target) noexcept;
-	public: _ARG_TPL_VITEMTYPE_* get_idx_refp(TPL_VTYPE* refp_self, const int idx) noexcept;
-	public: _ARG_TPL_VITEMTYPE_& get_idx_val(TPL_VTYPE* refp_self, const int idx) noexcept;
 
-	public: int get_first_cp(TPL_VTYPE* refp_self, _ARG_TPL_VITEMTYPE_*  refp_target) noexcept;
-	public: _ARG_TPL_VITEMTYPE_* get_first_refp(TPL_VTYPE* refp_self) noexcept;
-	public: _ARG_TPL_VITEMTYPE_ get_first_val(TPL_VTYPE* refp_self) noexcept;
 
-	public: int get_last_cp(TPL_VTYPE* refp_self, _ARG_TPL_VITEMTYPE_*  refp_target) noexcept;
-	public: _ARG_TPL_VITEMTYPE_* get_last_refp(TPL_VTYPE* refp_self) noexcept;
-	public: _ARG_TPL_VITEMTYPE_ get_last_val(TPL_VTYPE* refp_self) noexcept;
+template<typename TPL_VTYPE, typename _ARG_TPL_VITEMTYPE_, typename ARG_TPL_DEREFER>
+class intf_api_s: public tplTestVector_vectorIntf<TPL_VTYPE, _ARG_TPL_VITEMTYPE_, ARG_TPL_DEREFER>
+{
+	public: int init(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_init(
+			  refp_self
+		);
+
+	}
+	public: int deinit(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_deinit(
+			  refp_self
+		);
+	}
 	
-	public: size_t DIAG_get_expected_capacity_for_length(const size_t arg_length) noexcept;
+	public: ARG_TPL_DEREFER derefer_retv(TPL_VTYPE* refp_self) noexcept
+	{
+		ARG_TPL_DEREFER retv=ARG_TPL_DEREFER();
+		
+		retv=xc_tcVectorT_s_derefer_get_retv(refp_self);
+		
+		return retv;
+	}
+	public: int derefer_validate_integrity(TPL_VTYPE* refp_self, ARG_TPL_DEREFER* refp_tpl_deref) noexcept
+	{
+		xc_tcVectorT_hdr_t* refp_hdr=NULL;
+		xc_byteptr_t byteptr_items=NULL;
+		xc_tcVectorT_LL_deref_t* refp_deref=refp_tpl_deref;
+		/* --- */
+		xcc_err_decl();
+		
+		try
+		{
+			
+			refp_hdr=&refp_self->prv__hdrST;
+			byteptr_items=(xc_byteptr_t)refp_self->items_array;
+			refp_deref=refp_tpl_deref;
+			/* --- */
+			
+			if( refp_deref->refp_hdr != refp_hdr ) {
+				xcc_err_term_unmg();
+			}
+			
+			if(refp_deref->items_byteptr.BtPtr != byteptr_items) {
+				xcc_err_term_unmg();
+			}
+
+			if(refp_deref->self_bytes_ref.BtPtr != (xc_byteptr_t)refp_self) {
+				xcc_err_term_unmg();
+			}
+
+			if(refp_deref->self_bytes_ref.BtPtr != (xc_byteptr_t)refp_self) {
+				xcc_err_term_unmg();
+			}
+
+			if(refp_deref->self_bytes_size!= sizeof(TPL_VTYPE) ) {
+				xcc_err_term_unmg();
+			}
+
+			return 0;
+		}
+		catch(...)
+		{
+			xcc_err_handle();
+			return 1;
+		}
+	}
+	public: int derefer_validate_data(ARG_TPL_DEREFER* refp_tpl_deref) noexcept
+	{
+		xc_tcVectorT_hdr_t* refp_hdr=refp_tpl_deref->refp_hdr;
+		xc_tcVectorT_LL_deref_t* refp_deref=refp_tpl_deref;
+		/* --- */
+		xcc_err_decl();
+		
+		try
+		{
+			xc_byteptr_t byteptr_items=NULL;
+			
+			if( NULL == refp_deref->self_bytes_ref.BtPtr ) {
+				xcc_err_term_unmg();
+			}
+			if( 0 == refp_deref->self_bytes_size) {
+				xcc_err_term_unmg();
+			}
+			if( NULL == refp_deref->items_byteptr.BtPtr) {
+				xcc_err_term_unmg();
+			}
+			
+			byteptr_items=refp_deref->items_byteptr.BtPtr;
+			
+			if( NULL == byteptr_items ) {
+				xcc_err_term_unmg();
+			}
+			
+			if( NULL == refp_deref->refp_hdr ) {
+				xcc_err_term_unmg();
+			}
+			
+			if( sizeof(_ARG_TPL_VITEMTYPE_) != refp_deref->refp_hdr->cfg.obj_bytesize  ) {
+				xcc_err_term_unmg();
+			}
+			
+			return 0;
+		}
+		catch(...)
+		{
+			
+			xcc_err_handle();
+			return 1;
+		}
+	}
 	
-	public: int get_length(TPL_VTYPE* refp_self) noexcept;
-	public: int get_capacity(TPL_VTYPE* refp_self) noexcept;
+	public: int push(TPL_VTYPE* refp_self, const _ARG_TPL_VITEMTYPE_* refp_target) noexcept
+	{
+		return xc_tcVectorT_s_push(
+			  refp_self
+			, refp_target
+		);
+	}
+	public: int pop(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_pop(
+			  refp_self
+		);
+
+	}
 	
-	public: TPL_VTYPE* alloc_init(TPL_VTYPE* refp_self) noexcept;
-	public: int dealloc(TPL_VTYPE* refp_self) noexcept;
+	public: int remove_idx(TPL_VTYPE* refp_self, const int idx) noexcept
+	{
+		return xc_tcVectorT_s_remove_idx(
+			  refp_self
+			, idx
+		);
+	}
 	
-	public: int assignFrom(TPL_VTYPE* refp_self, const TPL_VTYPE* refp_self_src, int* result_overflow) noexcept;
+	public: int insert_idx(TPL_VTYPE* refp_self, const int idx, const _ARG_TPL_VITEMTYPE_* refp_target) noexcept
+	{
+		return xc_tcVectorT_s_insert(
+			  refp_self
+			, idx
+			, refp_target
+		);
+
+	}
+	
+	public: int set(TPL_VTYPE* refp_self, const int idx, const _ARG_TPL_VITEMTYPE_* refp_target) noexcept
+	{
+		return xc_tcVectorT_s_set(
+			  refp_self
+			, idx
+			, refp_target
+		);
+	}
+	
+	public: int get_idx_cp(TPL_VTYPE* refp_self, const int idx, _ARG_TPL_VITEMTYPE_*  refp_target) noexcept
+	{
+		return xc_tcVectorT_s_item_cp(
+			  refp_self
+			, idx
+			, refp_target
+		);
+
+	}
+	public: _ARG_TPL_VITEMTYPE_* get_idx_refp(TPL_VTYPE* refp_self, const int idx) noexcept
+	{
+		return xc_tcVectorT_s_item_refp(
+			  refp_self
+			, idx
+		);
+	}
+	public: _ARG_TPL_VITEMTYPE_& get_idx_val(TPL_VTYPE* refp_self, const int idx) noexcept
+	{
+		return xc_tcVectorT_s_item_direct(
+			  refp_self
+			, idx
+		);
+	}
+
+	public: size_t DIAG_get_expected_capacity_for_length(const size_t arg_length, const size_t arg_cur_capacity) noexcept
+	{
+		/* hardcoded for test static capacity */
+		return 8;
+	}
+	
+	public: int get_length(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_get_length(
+			  refp_self
+		);
+
+	}
+	public: int get_capacity(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_get_capacity(
+			  refp_self
+		);
+	}
+	
+	public: TPL_VTYPE* alloc_init(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_alloc_init(
+			  refp_self
+		);
+	}
+	public: int dealloc(TPL_VTYPE* refp_self) noexcept
+	{
+		return xc_tcVectorT_s_dealloc(
+			  refp_self
+		);
+	}
+	
+	public: int assignFrom(TPL_VTYPE* refp_self, const TPL_VTYPE* refp_self_src, int* result_overflow) noexcept
+	{
+		return xc_tcVectorT_s_assign_from(
+			  refp_self
+			, refp_self_src
+			, result_overflow
+		);
+	}
 };
 
-#include "_xcvector_st_api_s.incl.hpp"
+}
 
 #endif

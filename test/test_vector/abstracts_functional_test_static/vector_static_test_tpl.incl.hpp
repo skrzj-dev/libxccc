@@ -42,6 +42,39 @@ xcc_tplTestVector_static_method(int) TMP_TEST_INTERNAL_02(
 	  xcc_test2_failureDetails_t& failInfo
 	, TPL_VTYPE* vector_obj_ref
 	, const size_t expected_length
+	, std::vector<TPL_ITEM_TYPE> expected_items ) noexcept
+{
+	xcc_test2_scope_disconnected();
+	
+	do
+	{
+		xcc_test2_case("checking internal state");
+		
+		const int got_length=vector_I.get_length(vector_obj_ref);
+		const int got_capacity=vector_I.get_capacity(vector_obj_ref);
+		const size_t expected_capacity=vector_I.DIAG_get_expected_capacity_for_length(expected_length, got_capacity);
+
+		xcc_test2_expect_eq_t(int, expected_length, got_length);
+		xcc_test2_expect_eq_t(int, expected_capacity, got_capacity);
+
+		xcc_test2_expect( 0 ==  INTF_INTERNAL_I.verifyInternalState_itemsNumbers(vector_obj_ref, expected_capacity, expected_length) );
+		xcc_test2_expect( 0 ==  INTF_INTERNAL_I.verifyInternalState_itemsIntegrity(vector_obj_ref, expected_capacity, expected_length) );
+		xcc_test2_expect( 0 ==  INTF_INTERNAL_I.verifyInternalState_itemsValues(vector_obj_ref, expected_capacity, expected_length, expected_items) );
+		
+		xcc_test2_case_end();
+		
+		
+	} while(0);
+	
+	xcc_test2_scope_end();
+}
+
+
+xcc_tplTestVector_static_hdr()
+xcc_tplTestVector_static_method(int) TMP_TEST_INTERNAL_02_cap( 
+	  xcc_test2_failureDetails_t& failInfo
+	, TPL_VTYPE* vector_obj_ref
+	, const size_t expected_length
 	, const size_t expected_capacity
 	, std::vector<TPL_ITEM_TYPE> expected_items ) noexcept
 {
@@ -51,8 +84,8 @@ xcc_tplTestVector_static_method(int) TMP_TEST_INTERNAL_02(
 	{
 		xcc_test2_case("checking internal state");
 		
-		int got_length=vector_I.get_length(vector_obj_ref);
-		int got_capacity=vector_I.get_capacity(vector_obj_ref);
+		const int got_length=vector_I.get_length(vector_obj_ref);
+		const int got_capacity=vector_I.get_capacity(vector_obj_ref);
 
 		xcc_test2_expect_eq_t(int, expected_length, got_length);
 		xcc_test2_expect_eq_t(int, expected_capacity, got_capacity);
@@ -74,7 +107,6 @@ xcc_tplTestVector_static_method(int) TMP_TEST_INTERNAL_02_uninitZero(
 	  xcc_test2_failureDetails_t& failInfo
 	, TPL_VTYPE* vector_obj_ref
 	, const size_t expected_length
-	, const size_t expected_capacity
 	, std::vector<TPL_ITEM_TYPE> expected_items ) noexcept
 {
 	xcc_test2_scope_disconnected();
@@ -85,6 +117,8 @@ xcc_tplTestVector_static_method(int) TMP_TEST_INTERNAL_02_uninitZero(
 		
 		int got_length=vector_I.get_length(vector_obj_ref);
 		int got_capacity=vector_I.get_capacity(vector_obj_ref);
+		
+		int  expected_capacity=vector_I.DIAG_get_expected_capacity_for_length(expected_length, got_capacity);
 
 		xcc_test2_expect_eq_t(int, expected_length, got_length);
 		xcc_test2_expect_eq_t(int, expected_capacity, got_capacity);

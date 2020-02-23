@@ -28,7 +28,7 @@ extern "C" {
 
 typedef struct xc_tcVectorD_cfg_t
 {
-	const xc_ammo_seq_I_t* refp_allocator;
+	const xc_amAlc_seq_I_t* refp_allocator;
 	size_t growable_chunk_objcnt;
 	size_t obj_bytesize;
 	

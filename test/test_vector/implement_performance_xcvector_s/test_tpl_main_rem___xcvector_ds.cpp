@@ -45,7 +45,7 @@ int testVectorPerformance_xcVectorDS::test_performance_rem(TObjRef<xcc::test::te
 		{
 			if( 0 != VectorPerformanceTest_scenario_abstract::testPerformance_pop_and_remove<
 					  big_test_array_int
-					, xcc_tplTestVector_vectorIntf__xcVectorDS_s< 
+					, testXcVectorS::intf_api_s< 
 						  big_test_array_int
 						, VectorPerformanceTest::bench_dummy_item_t
 						, xc_tcVectorS_LL_deref_t 

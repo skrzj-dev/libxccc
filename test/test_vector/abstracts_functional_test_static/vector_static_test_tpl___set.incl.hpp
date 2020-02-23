@@ -152,7 +152,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -173,7 +172,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -194,7 +192,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -219,7 +216,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -246,7 +242,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -274,7 +269,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -301,7 +295,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  
 								}
@@ -372,7 +365,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  LLII_I.item_obj(1, "v:001")
 									, LLII_I.item_obj(2, "v:002")
@@ -402,7 +394,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 								  vector_ref
 								, expected_length
-								, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 										  LLII_I.item_obj(1, "v:001")
 										, LLII_I.item_obj(2, "v:002")
@@ -480,7 +471,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 							  vector_ref
 							, expected_length
-							, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 									  LLII_I.item_obj(1, "v:001")
 									, LLII_I.item_obj(2, "v:002")
@@ -514,7 +504,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 								  vector_ref
 								, expected_length
-								, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 										  LLII_I.item_obj(1, "v:001")
 										, LLII_I.item_obj(2, "v:002")
@@ -549,7 +538,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 								  vector_ref
 								, expected_length
-								, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 										  LLII_I.item_obj(1, "v:001")
 										, LLII_I.item_obj(2, "v:002")
@@ -584,7 +572,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 								  vector_ref
 								, expected_length
-								, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 										  LLII_I.item_obj(1, "v:001")
 										, LLII_I.item_obj(2, "v:002")
@@ -620,7 +607,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 								  vector_ref
 								, expected_length
-								, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 										  LLII_I.item_obj(1, "v:001")
 										, LLII_I.item_obj(2, "v:002")
@@ -705,7 +691,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 				xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 						  vector_ref
 						, expected_length
-						, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 						, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 								  LLII_I.item_obj(1, "v:001")
 								, LLII_I.item_obj(2, "v:002")
@@ -739,7 +724,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 				xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 						  vector_ref
 						, expected_length
-						, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 						, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 								  LLII_I.item_obj(1, "v:001")
 								, LLII_I.item_obj(2, "v:002")
@@ -775,7 +759,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 				xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 						  vector_ref
 						, expected_length
-						, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 						, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 								  LLII_I.item_obj(1001, "v:1001")
 								, LLII_I.item_obj(2, "v:002")
@@ -811,7 +794,6 @@ xcc_tplTestVector_static_method(int) test_set(xcc_test2_param_list) noexcept
 				xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
 						  vector_ref
 						, expected_length
-						, vector_I.DIAG_get_expected_capacity_for_length(expected_length)
 						, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
 								  LLII_I.item_obj(1001, "v:1001")
 								, LLII_I.item_obj(2, "v:002")

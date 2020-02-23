@@ -106,9 +106,30 @@ int xc_ammo_seq_tChunkC_realloc(
 
 int xc_ammo_seq_tChunkC_length2capacity(
 	  const size_t length
+	, const size_t capacity
 	, const size_t chunk_itemcnt
 	, size_t* result_capacity
 );
+
+/* --- */
+
+int xc_ammo_seq_tChunkP2Grow_realloc(
+	  const xc_ammo_seq_cfg_t* refp_cfg
+	, const xc_ammo_seq_state_t* refp_initial_state
+	, xc_ammo_seq_state_t* refp_result_state
+	, const size_t requested_new_length
+);
+
+
+int xc_ammo_seq_tChunkP2Grow_length2capacity(
+	  const size_t length
+	, const size_t cur_capacity
+	, const size_t chunk_itemcnt
+	, size_t* result_capacity
+);
+
+
+/* --- */
 
 
 int xc_ammo_seq_tStatic_realloc(
@@ -132,6 +153,14 @@ int xc_ammo_seq_tStatic_shiftRight(
 	, xc_ammo_seq_state_t* refp_state
 	, const size_t start_public_idx
 	, const size_t shift_size
+);
+
+
+int xc_ammo_seq_set_at_idx(
+	  xc_ammo_seq_state_t* self_state
+	, const size_t item_bytesize
+	, const size_t idx_public
+	, const xc_byteptr_t refp_item
 );
 
 
@@ -181,33 +210,45 @@ void* xc_ammo_seq_idx2anyptr(
 /* even if not used, it's useful as validator to enforce API consistency */
 #if 1
 
-typedef struct xc_ammo_seq_I_t
+typedef struct xc_amAlc_seq_I_t
 {
 	int (*length2capacity)(
 		  const size_t length
+		, const size_t current_capacity
 		, const size_t chunk_itemcnt
 		, size_t* result_capacity
 	);
 	
-	int (*realloc)(
+	int (*re_alloc)(
 		  const xc_ammo_seq_cfg_t* refp_cfg
 		, const xc_ammo_seq_state_t* refp_initial_state
 		, xc_ammo_seq_state_t* refp_result_state
 		, const size_t requested_new_length
 	);
-	
+} xc_amAlc_seq_I_t;
+
+
+typedef struct xc_amMdl_seq_I_t
+{
 	xc_byteptr_t (*idx2byteptr)(
 		  xc_ammo_seq_state_t* self_state
 		, const size_t item_bytesize
 		, const size_t idx_public
 	);
-	
+
 	void* (*idx2anyptr)(
 		  xc_ammo_seq_state_t* self_state
 		, const size_t item_bytesize
 		, const size_t idx_public
 	);
 	
+	int (*set_at_idx)(
+		  xc_ammo_seq_state_t* self_state
+		, const size_t item_bytesize
+		, const size_t idx_public
+		, const xc_byteptr_t refp_item
+	);
+
 	int (*shiftLeft_prealloc)(
 		  const xc_ammo_seq_cfg_t* refp_cfg
 		, xc_ammo_seq_state_t* refp_state
@@ -221,12 +262,58 @@ typedef struct xc_ammo_seq_I_t
 		, const size_t start_public_idx
 		, const size_t shift_size
 	);
+} xc_amMdl_seq_I_t;
 
-} xc_ammo_seq_I_t;
+
+typedef struct xc_amOp_seq_I_t
+{
+	xc_byteptr_t (*insert_at_idx)(
+		  xc_ammo_seq_state_t* self_state
+		, const size_t item_bytesize
+		, const size_t idx_public
+		, const xc_byteptr_t refp_item
+	);
+
+	int (*remove_at_idx)(
+		  xc_ammo_seq_state_t* self_state
+		, const size_t item_bytesize
+		, const size_t idx_public
+	);
+	
+	int (*append)(
+		  xc_ammo_seq_state_t* self_state
+		, const size_t item_bytesize
+		, const xc_byteptr_t refp_item
+	);
+	
+	xc_byteptr_t (*access_idx)(
+		  xc_ammo_seq_state_t* self_state
+		, const size_t item_bytesize
+		, const size_t idx_public
+	);
+	
+	int (*clear)(
+		  const xc_ammo_seq_cfg_t* refp_cfg
+		, xc_ammo_seq_state_t* refp_state
+		, const size_t start_public_idx
+		, const size_t shift_size
+	);
+
+	int (*optimizeMemSize)(
+		  const xc_ammo_seq_cfg_t* refp_cfg
+		, xc_ammo_seq_state_t* refp_state
+		, const size_t start_public_idx
+		, const size_t shift_size
+	);
+	
+} xc_amOp_seq_I_t;
 
 
 /*  global interface object */
-extern const xc_ammo_seq_I_t xc_ammo_seq_tChunkC_I;
+
+extern const xc_amAlc_seq_I_t xc_amAlc_seq_tChunkP2_I;
+extern const xc_amAlc_seq_I_t xc_amAlc_seq_tChunk_I;
+extern const xc_amMdl_seq_I_t xc_amMdl_seq_I;
 
 /* virtual interfaces: done */
 

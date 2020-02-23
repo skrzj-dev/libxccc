@@ -339,7 +339,7 @@ int xc_tcVectorD_LL_init__dc01(
 	refp_deref->refp_hdr->cfg.growable_chunk_objcnt=cfg_chunk_itemcnt;
 	refp_deref->refp_hdr->cfg.obj_bytesize=cfg_itemsize;
 	
-	refp_deref->refp_hdr->cfg.refp_allocator=&xc_ammo_seq_tChunkC_I;
+	refp_deref->refp_hdr->cfg.refp_allocator=&xc_amAlc_seq_tChunk_I;
 	
 	/* allocation : separeted scope, this may change between version */
 	if(1)
@@ -363,7 +363,7 @@ int xc_tcVectorD_LL_init__dc01(
 		alloctr_state_init=xc_ammo_seq_state_retv(refp_deref->items_byteptr, 0, 0);
 		
 		/* */
-		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->realloc(
+		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->re_alloc(
 			  &alloctr_cfg
 			, &alloctr_state_init
 			, &alloctr_state_result
@@ -568,7 +568,7 @@ int xc_tcVectorD_LL_push(xc_tcVectorD_LL_deref_t self_deref, const void* obj_byt
 		);
 		
 		/* */
-		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->realloc(
+		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->re_alloc(
 			  &alloctr_cfg
 			, &alloctr_state_init
 			, &alloctr_state_result
@@ -710,7 +710,7 @@ int xc_tcVectorD_LL_pop(xc_tcVectorD_LL_deref_t self_deref)
 		new_required_length=self_deref.refp_hdr->runtime.cur_length-1;
 		
 		/* */
-		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->realloc(
+		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->re_alloc(
 			  &alloctr_cfg
 			, &alloctr_state_init
 			, &alloctr_state_result
@@ -793,7 +793,7 @@ int xc_tcVectorD_LL_rem_idx(xc_tcVectorD_LL_deref_t self_deref, const int public
 			{
 				const size_t shift_cnt=1;
 				
-				if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->shiftLeft_prealloc(
+				if( 0 !=  xc_amMdl_seq_I.shiftLeft_prealloc(
 					  &alloctr_cfg
 					, &alloctr_state_init_updated
 					, public_idx, shift_cnt) 
@@ -808,7 +808,7 @@ int xc_tcVectorD_LL_rem_idx(xc_tcVectorD_LL_deref_t self_deref, const int public
 		new_required_length=alloctr_state_init_updated.length;
 		
 		/* */
-		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->realloc(
+		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->re_alloc(
 			  &alloctr_cfg
 			, &alloctr_state_init
 			, &alloctr_state_result
@@ -892,7 +892,7 @@ int xc_tcVectorD_LL_insert(xc_tcVectorD_LL_deref_t self_deref, const int public_
 		if(1)
 		{
 			/* */
-			if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->realloc(
+			if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->re_alloc(
 				  &alloctr_cfg
 				, &alloctr_state_init
 				, &alloctr_state_result
@@ -909,7 +909,7 @@ int xc_tcVectorD_LL_insert(xc_tcVectorD_LL_deref_t self_deref, const int public_
 			{
 				const size_t shift_cnt=1;
 				
-				if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->shiftRight_prealloc(
+				if( 0 != xc_amMdl_seq_I.shiftRight_prealloc(
 					  &alloctr_cfg
 					, &alloctr_state_init_updated
 					, public_idx
@@ -1188,7 +1188,7 @@ int xc_tcVectorD_LL_assign_from(xc_tcVectorD_LL_deref_t self_deref, const xc_tcV
 		);
 		/* */
 		
-		if( 0 != self_deref.refp_hdr->cfg.refp_allocator->realloc(
+		if( 0 != self_deref.refp_hdr->cfg.refp_allocator->re_alloc(
 			  &alloctr_cfg
 			, &alloctr_state_init
 			, &alloctr_state_result

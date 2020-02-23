@@ -43,8 +43,8 @@ static int test_seqDS_u(xcc_test2_param_list) noexcept
 			  seqDS_dummyItem_t
 			, xc_tcVectorS_LL_deref_t
 			, dummyItem_t
-			, xcc_tplTestVector_vectorIntf__xcVectorDS_u< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t > 
-			, testIntf_internal_xcVectorDS_intf< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
+			, testXcVectorS::intf_api_u< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t > 
+			, testXcVectorS::intf_internal< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
 			, xcc_tplTestVector_itemIntf_obj1< dummyItem_t > 
 	> seqVectorTest_intf;
 	
@@ -57,8 +57,8 @@ static int test_seqDS_s(xcc_test2_param_list) noexcept
 			  seqDS_dummyItem_t
 			, xc_tcVectorS_LL_deref_t
 			, dummyItem_t
-			, xcc_tplTestVector_vectorIntf__xcVectorDS_s< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t > 
-			, testIntf_internal_xcVectorDS_intf< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
+			, testXcVectorS::intf_api_s< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t > 
+			, testXcVectorS::intf_internal< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
 			, xcc_tplTestVector_itemIntf_obj1< dummyItem_t > 
 	> seqVectorTest_intf;
 	
@@ -71,8 +71,8 @@ static int test_seqDS_i(xcc_test2_param_list) noexcept
 			  seqDS_dummyItem_t
 			, xc_tcVectorS_LL_deref_t
 			, dummyItem_t
-			, xcc_tplTestVector_vectorIntf__xcVectorDS_i< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t > 
-			, testIntf_internal_xcVectorDS_intf< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
+			, testXcVectorS::intf_api_i< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t > 
+			, testXcVectorS::intf_internal< seqDS_dummyItem_t, dummyItem_t, xc_tcVectorS_LL_deref_t, xcc_tplTestVector_itemIntf_obj1< dummyItem_t >  > 
 			, xcc_tplTestVector_itemIntf_obj1< dummyItem_t > 
 	> seqVectorTest_intf;
 	

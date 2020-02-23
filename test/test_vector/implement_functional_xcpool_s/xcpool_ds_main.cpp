@@ -41,12 +41,12 @@ static int test_poolS_u(xcc_test2_param_list) noexcept
 		  xcPoolDS_dummyItem_t
 		, xc_tcPoolS_LL_deref_t
 		, dummyItem_t
-		, xcc_tplTestVector_vectorIntf__xcPoolDS_u< 
+		, testXcPoolS::intf_api_u< 
 				  xcPoolDS_dummyItem_t
 				, dummyItem_t
 				, xc_tcPoolS_LL_deref_t 
 			> 
-		, testIntf_internal_xcPoolDS_intf< 
+		, testXcPoolS::intf_internal< 
 				  xcPoolDS_dummyItem_t
 				, dummyItem_t
 				, xc_tcPoolS_LL_deref_t
@@ -64,12 +64,12 @@ static int test_poolS_s(xcc_test2_param_list) noexcept
 		  xcPoolDS_dummyItem_t
 		, xc_tcPoolS_LL_deref_t
 		, dummyItem_t
-		, xcc_tplTestVector_vectorIntf__xcPoolDS_s< 
+		, testXcPoolS::intf_api_s< 
 				  xcPoolDS_dummyItem_t
 				, dummyItem_t
 				, xc_tcPoolS_LL_deref_t 
 			> 
-		, testIntf_internal_xcPoolDS_intf< 
+		, testXcPoolS::intf_internal< 
 				  xcPoolDS_dummyItem_t
 				, dummyItem_t
 				, xc_tcPoolS_LL_deref_t
@@ -87,12 +87,12 @@ static int test_poolS_i(xcc_test2_param_list) noexcept
 		  xcPoolDS_dummyItem_t
 		, xc_tcPoolS_LL_deref_t
 		, dummyItem_t
-		, tplTestVector_vectorIntf__xcPoolS_i< 
+		, testXcPoolS::intf_api_i< 
 				  xcPoolDS_dummyItem_t
 				, dummyItem_t
 				, xc_tcPoolS_LL_deref_t 
 			> 
-		, testIntf_internal_xcPoolDS_intf< 
+		, testXcPoolS::intf_internal< 
 				  xcPoolDS_dummyItem_t
 				, dummyItem_t
 				, xc_tcPoolS_LL_deref_t
