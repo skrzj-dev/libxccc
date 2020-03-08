@@ -17,7 +17,7 @@
 /* --- */
 #include "xc/common/xc_err.h"
 #include "xc/common/xc_mem.h"
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 /* --- */
 #include "xc/common/xc_str.h"
 /* --- */

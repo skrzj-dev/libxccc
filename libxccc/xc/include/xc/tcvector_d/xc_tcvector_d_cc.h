@@ -23,7 +23,7 @@ extern "C" {
 /* --- */
 #include "xc/common/xc_mem.h"
 #include "xc/common/xc_cptr.h"
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 /* --- */
 
 typedef struct xc_tcVectorD_cfg_t

@@ -23,6 +23,9 @@ extern "C" {
 
 /* --- --- --- --- --- --- --- --- */
 
+/* mark unchecked operations */
+#define xc_si_UNCHECKED(_ARG_STMT_) (_ARG_STMT_)
+
 typedef enum xc_si_retv_t
 {
 	  xc_si_retv_ok=0

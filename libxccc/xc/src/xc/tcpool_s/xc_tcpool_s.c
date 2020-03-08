@@ -15,7 +15,7 @@
 #include "xc/common/xc_si.h"
 #include "xc/common/xc_tc_common.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcpool_s/xc_tcpool_s.h"
 /* --- */
 
@@ -383,19 +383,19 @@ int xc_tcPoolS_LL_init__dc01(
 		
 		if(1)
 		{
-			xc_ammo_seq_cfg_t alloctr_cfg={0};
-			xc_ammo_seq_state_t alloctr_state_init={0};
-			xc_ammo_seq_state_t alloctr_state_result={0};
+			xc_am_seq_cfg_t alloctr_cfg={0};
+			xc_am_seq_state_t alloctr_state_init={0};
+			xc_am_seq_state_t alloctr_state_result={0};
 
-			alloctr_cfg=xc_ammo_seq_cfg_retv(
+			alloctr_cfg=xc_am_seq_cfg_retv(
 				  cfg_itemsize
 				, 1
 			);
 			
-			alloctr_state_init=xc_ammo_seq_state_retv(refp_deref->items_byteptr, 0, 0);
+			alloctr_state_init=xc_am_seq_state_retv(refp_deref->items_byteptr, 0, 0);
 			
 			/* */
-			if( 0 != xc_ammo_seq_tStatic_realloc(
+			if( 0 != xc_am_seq_tStatic_realloc(
 				  &alloctr_cfg
 				, &alloctr_state_init
 				, &alloctr_state_result
@@ -816,16 +816,16 @@ int xc_tcPoolS_LL_rem_idx(xc_tcPoolS_LL_deref_t self_deref, const int public_idx
 	/* shrink if required: */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_init_updated={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, 1
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
@@ -991,16 +991,16 @@ int xc_tcPoolS_LL_insert(xc_tcPoolS_LL_deref_t self_deref, const int public_idx,
 	if(1)
 	{
 		
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_init_updated={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, 1
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity

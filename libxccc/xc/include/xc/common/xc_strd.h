@@ -71,6 +71,11 @@ int xc_strd_append_sub(xc_strd_t* refp_self, const xc_strd_t* refp_str, const xc
 int xc_strd_append_fmt(xc_strd_t* refp_self, const char* fmt, ...) __attribute__( (format(printf, 2, 3) ) );
 int xc_strd_append_vfmt(xc_strd_t* refp_self, const char* fmt, va_list args);
 
+int xc_strd_appendLn(xc_strd_t* refp_self, const xc_strd_t* refp_str);
+int xc_strd_appendLn_sub(xc_strd_t* refp_self, const xc_strd_t* refp_str, const xc_str_substrOffs_t range);
+int xc_strd_appendLn_fmt(xc_strd_t* refp_self, const char* fmt, ...) __attribute__( (format(printf, 2, 3) ) );
+int xc_strd_appendLn_vfmt(xc_strd_t* refp_self, const char* fmt, va_list args);
+
 int xc_strd_prepend(xc_strd_t* refp_self, const xc_strd_t* refp_str);
 int xc_strd_prepend_fmt(xc_strd_t* refp_self, const char* fmt, ...) __attribute__( (format(printf, 2, 3) ) );
 int xc_strd_prepend_vfmt(xc_strd_t* refp_self, const char* fmt, va_list args);
@@ -87,7 +92,7 @@ int xc_strd_remSubstr_vfmt(xc_strd_t* refp_self, const char* fmt, va_list args);
 int xc_strd_remOffLen(xc_strd_t* refp_self, const int off, const int len);
 int xc_strd_remOffRange(xc_strd_t* refp_self, const int off1, const int off2);
 
-int xc_strd_substSubstr_cstr(xc_strd_t* refp_self, const char* str_replaced, const char* str_replacing);
+int xc_strd_replaceSubstr_cstr(xc_strd_t* refp_self, const char* str_replaced, const char* str_replacing);
 
 int xc_strd_overwrOff(xc_strd_t* refp_self, const int target_off, const xc_strd_t* refp_str);
 int xc_strd_overwrOff_fmt(xc_strd_t* refp_self, const int target_off, const char* fmt, ...) __attribute__( (format(printf, 3, 4) ) );
@@ -99,6 +104,8 @@ int xc_strd_findAll_alloc(const xc_strd_t* refp_self, xc_strd_finds_t* refp_resu
 int xc_strd_substrOffLen_alloc(const xc_strd_t* refp_self, const int off, const int len, xc_strd_t* refp_result);
 int xc_strd_substrOffRange_alloc(const xc_strd_t* refp_self, const int off1, const int off2, xc_strd_t* refp_result);
 
+int xc_strd_toUpper(xc_strd_t* refp_self);
+int xc_strd_toLower(xc_strd_t* refp_self);
 
 int xc_strd_finds_deinit(xc_strd_finds_t* refp_result);
 

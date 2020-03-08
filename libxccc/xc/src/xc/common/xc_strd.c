@@ -18,7 +18,7 @@
 /* --- */
 #include "xc/common/xc_err.h"
 #include "xc/common/xc_mem.h"
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 /* --- */
 #include "xc/common/xc_cstr.h"
 #include "xc/common/xc_str.h"
@@ -76,20 +76,20 @@ static void xc_strd_updateLen(xc_strd_t* refp_self)
 static int xc_strd_realloc_alias_LL(xc_strd_t* refp_self, const int new_requested_length)
 {
 	xc_p_pBytes_t tmp_byteptr={0};
-	xc_ammo_seq_cfg_t tmp_cfg=xc_ammo_seq_cfg_retv(
+	xc_am_seq_cfg_t tmp_cfg=xc_am_seq_cfg_retv(
 		  sizeof(xc_str_char_t)
 		, 1
 	);
-	xc_ammo_seq_state_t tmp_input=xc_ammo_seq_state_retv(
+	xc_am_seq_state_t tmp_input=xc_am_seq_state_retv(
 		  xc_p_refp2pBytes_from_raw( (unsigned char**)&refp_self->d_private->d_buf )
 		, refp_self->d_private->d_length
 		, refp_self->d_private->d_capacity
 	);
-	xc_ammo_seq_state_t tmp_output={0};
+	xc_am_seq_state_t tmp_output={0};
 	
 	xc_err_decl();
 	
-	if(0!=xc_ammo_seq_tStatic_realloc(
+	if(0!=xc_am_seq_tStatic_realloc(
 			  &tmp_cfg
 			, &tmp_input
 			, &tmp_output
@@ -1106,8 +1106,8 @@ int xc_strd_remOffLen(xc_strd_t* refp_self, const int off, const int len)
 	/* perform shift left of str byte sequence: */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t tmp_cfg={0};
-		xc_ammo_seq_state_t tmp_state={0};
+		xc_am_seq_cfg_t tmp_cfg={0};
+		xc_am_seq_state_t tmp_state={0};
 		
 		tmp_cfg.cnt_items_in_chunk=1;
 		tmp_cfg.item_bytesize=sizeof(xc_str_char_t);
@@ -1116,7 +1116,7 @@ int xc_strd_remOffLen(xc_strd_t* refp_self, const int off, const int len)
 		tmp_state.length=refp_self->d_private->d_length;
 		tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw( refp_self->d_private->d_buf );
 		
-		if( 0 != xc_ammo_seq_tStatic_shiftLeft(
+		if( 0 != xc_am_seq_tStatic_shiftLeft(
 				  &tmp_cfg
 				, &tmp_state
 				, off+target_validated_len
@@ -1474,7 +1474,7 @@ static int xc_strd_substSubstr_LL(xc_strd_t* refp_self, const xc_cstrRo_t str_re
  * [str_replaced: must be not null, must be not empty];
  * [str_replaced: must be not null];
  */
-int xc_strd_substSubstr_cstr(xc_strd_t* refp_self, const char* str_replaced, const char* str_replacing)
+int xc_strd_replaceSubstr_cstr(xc_strd_t* refp_self, const char* str_replaced, const char* str_replacing)
 {
 	xc_cstrRo_t tmp_str_replaced={0};
 	xc_cstrRo_t tmp_str_replacing={0};
@@ -1523,6 +1523,40 @@ int xc_strd_substSubstr_cstr(xc_strd_t* refp_self, const char* str_replaced, con
 	
 	xc_err_on_unmg();
 	return 1;
+}
+
+/* --- --- --- --- */
+
+int xc_strd_toUpper(xc_strd_t* refp_self)
+{
+	return 0;
+}
+
+int xc_strd_toLower(xc_strd_t* refp_self)
+{
+	return 0;
+}
+
+/* --- --- --- --- */
+
+int xc_strd_appendLn(xc_strd_t* refp_self, const xc_strd_t* refp_str)
+{
+	return 0;
+}
+
+int xc_strd_appendLn_sub(xc_strd_t* refp_self, const xc_strd_t* refp_str, const xc_str_substrOffs_t range)
+{
+	return 0;
+}
+
+int xc_strd_appendLn_fmt(xc_strd_t* refp_self, const char* fmt, ...)
+{
+	return 0;
+}
+
+int xc_strd_appendLn_vfmt(xc_strd_t* refp_self, const char* fmt, va_list args)
+{
+	return 0;
 }
 
 /* --- --- --- --- */

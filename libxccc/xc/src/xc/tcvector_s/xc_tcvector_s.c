@@ -13,16 +13,15 @@
 #include "xc/common/xc_err.h"
 #include "xc/common/xc_mem.h"
 #include "xc/common/xc_tc_common.h"
+#include "xc/common/xc_si.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_s/xc_tcvector_s.h"
 /* --- */
 
 
 #define xc_tcVectorS_LL_initval 2340
 
-
-static void* idx2itemptr(const xc_tcVectorS_LL_deref_t* self_deref, const size_t idx_public);
 
 /*
  * high- level validation of DEREFER; DOES NOT check if object is operational; 
@@ -38,8 +37,6 @@ static int xc_tcVectorS_LL_validate_initialization_and_index_access_insert_refp(
 
 
 /* *** *** *** */
-/* *** INIT: *** */
-/* *** INIT: *** */
 
 
 /* *** INIT: *** */
@@ -104,6 +101,7 @@ static int xc_tcVectorS_LL_validate_integrity_const(const xc_tcVectorS_LL_derefC
 	xc_err_return();
 }
 
+
 int xc_tcVectorS_LL_validate_initialized(const xc_tcVectorS_LL_deref_t* refp_deref)
 {
 	xc_err_decl();
@@ -124,6 +122,7 @@ int xc_tcVectorS_LL_validate_initialized(const xc_tcVectorS_LL_deref_t* refp_der
 	xc_err_on_unmg();
 	xc_err_return();
 }
+
 
 int xc_tcVectorS_LL_validate_initialized_const(const xc_tcVectorS_LL_derefConst_t* refp_deref)
 {
@@ -179,6 +178,7 @@ static int xc_tcVectorS_LL_validate_initialization_and_index_access_refp(const x
 	return 1;
 }
 
+
 static int xc_tcVectorS_LL_validate_initialization_and_index_access_insert_refp(const xc_tcVectorS_LL_deref_t* self_deref, const int idx)
 {
 	size_t conv_idx=0;
@@ -212,12 +212,11 @@ static int xc_tcVectorS_LL_validate_initialization_and_index_access_insert_refp(
 	return 1;
 }
 
+
 int xc_tcVectorS_LL_validate_initialization_and_index_access(xc_tcVectorS_LL_deref_t self_deref, const int idx)
 {
 	return xc_tcVectorS_LL_validate_initialization_and_index_access_refp(&self_deref, idx);
 }
-
-
 
 
 xc_tcVectorS_LL_deref_t xc_tcVectorS_LL_derefer_get_retv(xc_tcVectorS_hdr_t* refp_hdr, unsigned char** refp_items_byteptr, unsigned char* self_byteptr, const size_t self_size)
@@ -246,6 +245,7 @@ xc_tcVectorS_LL_deref_t xc_tcVectorS_LL_derefer_get_retv(xc_tcVectorS_hdr_t* ref
 	return retv_empty;
 	
 }
+
 
 xc_tcVectorS_LL_derefConst_t xc_tcVectorS_LL_derefer_get_retv_const(const xc_tcVectorS_hdr_t* refp_hdr, const unsigned char** refp_items_byteptr, const unsigned char* self_byteptr, const size_t self_size)
 {
@@ -292,6 +292,7 @@ int xc_tcVectorS_LL_init(
 	);
 }
 
+
 int xc_tcVectorS_LL_init__dc01(
 	  xc_tcVectorS_LL_deref_t self_deref
 	, const size_t cfg_itemsize
@@ -329,9 +330,9 @@ int xc_tcVectorS_LL_init__dc01(
 	/* allocation : separeted scope, this may change between version */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
 		if(1) /* indicate initialization by writing specific pattern */
 		{
@@ -340,15 +341,15 @@ int xc_tcVectorS_LL_init__dc01(
 			}
 		}
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  cfg_itemsize
 			, 1
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(refp_deref->items_byteptr, 0, 0);
+		alloctr_state_init=xc_am_seq_state_retv(refp_deref->items_byteptr, 0, 0);
 		
 		/* */
-		if( 0 != xc_ammo_seq_tStatic_realloc(
+		if( 0 != xc_am_seq_tStatic_realloc(
 			  &alloctr_cfg
 			, &alloctr_state_init
 			, &alloctr_state_result
@@ -423,6 +424,7 @@ void* xc_tcVectorS_LL_init_ret_self_refp__dc01(
 	return NULL;
 }
 
+
 int xc_tcVectorS_LL_deinit(xc_tcVectorS_LL_deref_t self_deref)
 {
 	xc_byteptr_t items_byteptr=NULL;
@@ -431,8 +433,28 @@ int xc_tcVectorS_LL_deinit(xc_tcVectorS_LL_deref_t self_deref)
 	if( 0 != xc_tcVectorS_LL_validate_initialized(&self_deref) ) {
 		xc_err_term_unmg();
 	}
+	/* --- */
 	
-	items_byteptr=xc_p_pBytes_from_ref2pBytes(self_deref.items_byteptr).BtPtr;
+	if(1)
+	{
+		xc_am_seq_cfg_t _cfg={0};
+		xc_am_seq_state_t _state={0};
+		
+		_cfg=xc_am_seq_cfg_retv(
+			  self_deref.refp_hdr->cfg.obj_bytesize
+			, 1
+		);
+		
+		_state=xc_am_seq_state_retv(
+			  self_deref.items_byteptr
+			, self_deref.refp_hdr->runtime.cur_length
+			, self_deref.refp_hdr->runtime.cur_capacity
+		);
+		
+		if( 0 != xc_amOp_seq_clear(&_cfg, &_state) ) {
+			xc_err_term_unmg();
+		}
+	}
 	
 	if(NULL != items_byteptr ) {
 		free(items_byteptr);
@@ -497,26 +519,12 @@ int xc_tcVectorS_LL_inspect_LLII_info_cp(xc_tcVectorS_LL_deref_t self_deref, con
 /* *** INIT: done *** */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* *** ADD: *** */
-
 
 
 int xc_tcVectorS_LL_push(xc_tcVectorS_LL_deref_t self_deref, const void* obj_bytes_ref, const size_t obj_bytes_size)
 {
-	size_t new_required_length=0;
-	size_t idx_last_old=0;
+	xc_am_seq_state_t state_init={0};
 	xc_tcVectorS_LL_deref_t* refp_deref=&self_deref;
 	xc_err_decl();
 	/* --- */
@@ -529,34 +537,17 @@ int xc_tcVectorS_LL_push(xc_tcVectorS_LL_deref_t self_deref, const void* obj_byt
 	}
 	/* --- */
 	
-	new_required_length=self_deref.refp_hdr->runtime.cur_length+1;
+	state_init=xc_am_seq_state_retv(
+		  self_deref.items_byteptr
+		, self_deref.refp_hdr->runtime.cur_length
+		, self_deref.refp_hdr->runtime.cur_capacity
+	);
 
-	if(new_required_length>self_deref.refp_hdr->runtime.cur_capacity) {
+	if( 0 != xc_amOp_seq_push(&state_init, self_deref.refp_hdr->cfg.obj_bytesize, (xc_byteptr_t)obj_bytes_ref) ) {
 		xc_err_term_unmg();
 	}
-
-	/* --- */
 	
-	idx_last_old=self_deref.refp_hdr->runtime.cur_length;
-	
-	/* allocation : separeted scope, this may change between version */
-	if(1)
-	{
-		/* nothing to do - just increase length */
-		refp_deref->refp_hdr->runtime.cur_length=new_required_length;
-	}
-	
-	/* shallow copy to last index before reallocation */
-	if(1)
-	{
-		void* item_destination_ptr=NULL;
-		
-		if(NULL == (item_destination_ptr=idx2itemptr(&self_deref, idx_last_old) ) ) {
-			xc_err_term_unmg();
-		}
-		
-		memcpy( item_destination_ptr, obj_bytes_ref, self_deref.refp_hdr->cfg.obj_bytesize );
-	}
+	self_deref.refp_hdr->runtime.cur_length=state_init.length;
 	
 	return 0;
 	
@@ -565,43 +556,10 @@ int xc_tcVectorS_LL_push(xc_tcVectorS_LL_deref_t self_deref, const void* obj_byt
 }
 
 
-
 /* *** ADD: done *** */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* *** REMOVE: *** */
-
 
 
 int xc_tcVectorS_LL_pop(xc_tcVectorS_LL_deref_t self_deref)
@@ -621,60 +579,38 @@ int xc_tcVectorS_LL_pop(xc_tcVectorS_LL_deref_t self_deref)
 
 	/* --- */
 	
-	/* validate state: */
-
-	if( 0 == self_deref.refp_hdr->runtime.cur_length ) {
-		xc_err_term_unmg();
-	}
-	if( 0 == self_deref.refp_hdr->runtime.cur_capacity ) { /* redundant */
-		xc_err_term_unmg();
-	}
-	/* validate state: done */
-	
-	/*  : */
-	new_required_length=self_deref.refp_hdr->runtime.cur_length-1;
-	
-	if( new_required_length>self_deref.refp_hdr->runtime.cur_capacity ) {
-		xc_err_term_unmg();
-	}
-	/*  : done */
-	
-	/* --- */
-	
-	/* erase last: */
+	/* perform: */
 	if(1)
 	{
-		size_t last_array_idx=0;
-		xc_byteptr_t lastItem_byteptr=NULL;
+		xc_am_seq_state_t state={0};
 		
-		/* get last array index: */
-		last_array_idx=self_deref.refp_hdr->runtime.cur_length-1;
-		/* get last array index: done */
+		state=xc_am_seq_state_retv(
+			  self_deref.items_byteptr
+			, self_deref.refp_hdr->runtime.cur_length
+			, self_deref.refp_hdr->runtime.cur_capacity
+		);
 		
-		if(NULL == (lastItem_byteptr=idx2itemptr(&self_deref, last_array_idx) ) ) {
+		if( 0 != xc_amOp_seq_pop(&state, self_deref.refp_hdr->cfg.obj_bytesize) ) {
 			xc_err_term_unmg();
 		}
 		
-		xc_mem_bzero_bytes(lastItem_byteptr, self_deref.refp_hdr->cfg.obj_bytesize);
+		refp_deref->refp_hdr->runtime.cur_length=state.length;
 	}
-	/* erase last: done */
+	/* perform: done */
 	
-	/* shrink if required: */
+	/* realloc (shrink if required): */
 	if(1)
 	{
-		refp_deref->refp_hdr->runtime.cur_length=new_required_length;
+		/* nothing to do */
 	}
-	/* shrink if required: done */
+	/* realloc (shrink if required): done */
+
 	
 	return 0;
 	
 	xc_err_on_unmg();
 	return 1;
 }
-
-
-
-
 
 
 int xc_tcVectorS_LL_rem_idx(xc_tcVectorS_LL_deref_t self_deref, const int public_idx)
@@ -694,59 +630,40 @@ int xc_tcVectorS_LL_rem_idx(xc_tcVectorS_LL_deref_t self_deref, const int public
 
 	/* --- */
 	
-	/* validate state: */
-	if( 0 == self_deref.refp_hdr->runtime.cur_length ) {
-		xc_err_term_unmg();
-	}
-	if( 0 == self_deref.refp_hdr->runtime.cur_capacity ) { /* redundant */
-		xc_err_term_unmg();
-	}
-	if( target_array_idx >= self_deref.refp_hdr->runtime.cur_length ) {
-		xc_err_term_unmg();
-	}
-	/* validate state: done */
-	
-	/* : */
-	new_required_length=self_deref.refp_hdr->runtime.cur_length-1;
-	if(new_required_length>self_deref.refp_hdr->runtime.cur_capacity) {
-		xc_err_term_unmg();
-	}
-	/* : done */
-	
-	/* shrink if required: */
+	/* perform: */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, 1
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
 		);
 		
-		alloctr_state_init_updated=alloctr_state_init;
-		
-		/* shift: */
-		if(1)
-		{
-			const size_t shift_cnt=1;
-			
-			if( 0 != xc_ammo_seq_tStatic_shiftLeft(&alloctr_cfg, &alloctr_state_init_updated, target_array_idx, shift_cnt) ) {
-				xc_err_term_unmg();
-			}
+		if( 0 != xc_amOp_seq_remove_at_idx(
+				  &alloctr_state_init
+				, self_deref.refp_hdr->cfg.obj_bytesize
+				, target_array_idx
+			) 
+		) {
+			xc_err_term_unmg();
 		}
-		/* shift: done */
 		
-		refp_deref->items_byteptr=alloctr_state_init_updated.refp_itemArray_byteptr;
-		refp_deref->refp_hdr->runtime.cur_capacity=alloctr_state_init_updated.capacity;
-		refp_deref->refp_hdr->runtime.cur_length=alloctr_state_init_updated.length;
+		refp_deref->refp_hdr->runtime.cur_length=alloctr_state_init.length;
+	}
+	/* perform: done */
+	
+	/* shrink if required: */
+	if(1)
+	{
+		/* nothing to do */
 	}
 	/* shrink if required: done */
 	
@@ -757,10 +674,6 @@ int xc_tcVectorS_LL_rem_idx(xc_tcVectorS_LL_deref_t self_deref, const int public
 }
 
 /* *** REMOVE: done *** */
-
-
-
-
 
 
 /* *** INSERT: *** */
@@ -786,7 +699,7 @@ int xc_tcVectorS_LL_insert(xc_tcVectorS_LL_deref_t self_deref, const int public_
 	/* --- 	*/
 	
 	/* : */
-	new_required_length = self_deref.refp_hdr->runtime.cur_length+1;
+	xc_si_UNCHECKED(new_required_length = self_deref.refp_hdr->runtime.cur_length+1);
 	if( new_required_length > self_deref.refp_hdr->runtime.cur_capacity ) {
 		xc_err_term_unmg();
 	}
@@ -804,61 +717,38 @@ int xc_tcVectorS_LL_insert(xc_tcVectorS_LL_deref_t self_deref, const int public_
 	/* grow if required: */
 	if(1)
 	{
+		/* fixed capacity, do nothing */
+	}
+	/* insert: done */
+	
+	/* insert: */
+	if(1)
+	{
+		xc_am_seq_state_t alloctr_state_init={0};
 		
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
-		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
-			  self_deref.refp_hdr->cfg.obj_bytesize
-			, 1
-		);
-		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
 		);
 		
-		alloctr_state_init_updated=alloctr_state_init;
-		
-		if(target_array_idx < self_deref.refp_hdr->runtime.cur_length )
-		{
-			/* shift: */
-			if(1)
-			{
-				const size_t shift_cnt=1;
-				
-				if( 0 != xc_ammo_seq_tStatic_shiftRight(&alloctr_cfg, &alloctr_state_init_updated, public_idx, shift_cnt) ) {
-					xc_err_term_unmg();
-				}
-			}
-			/* shift: done */
-		}
-		else /* just append 1 element */
-		{
-			alloctr_state_init_updated.length++;
-		}
-		
-		refp_deref->items_byteptr=alloctr_state_init_updated.refp_itemArray_byteptr;
-		refp_deref->refp_hdr->runtime.cur_capacity=alloctr_state_init_updated.capacity;
-		refp_deref->refp_hdr->runtime.cur_length=alloctr_state_init_updated.length;
-	}
-	/* grow if required: done */
-	
-	/* set item at index: */
-	if(1)
-	{
-		void* item_destination_ptr=NULL;
-		
-		if(NULL == (item_destination_ptr=idx2itemptr(&self_deref, target_array_idx) ) ) {
+		if( 0 != xc_amOp_seq_insert_at_idx(
+				  &alloctr_state_init
+				, self_deref.refp_hdr->cfg.obj_bytesize
+				, target_array_idx
+				, (const xc_byteptr_t)obj_bytes_ref
+			) 
+		) {
 			xc_err_term_unmg();
 		}
 		
-		memcpy( item_destination_ptr, obj_bytes_ref, self_deref.refp_hdr->cfg.obj_bytesize );
+		/* apply changes: */
+		refp_deref->refp_hdr->runtime.cur_length=alloctr_state_init.length;
+		/* apply changes: done */
+
 	}
-	/* set item at index: done */
-	
+	/* insert: done */
+
 	return 0;
 	
 	xc_err_on_unmg();
@@ -869,12 +759,9 @@ int xc_tcVectorS_LL_insert(xc_tcVectorS_LL_deref_t self_deref, const int public_
 /* *** INSERT: DONE *** */
 
 
-
-
-
 int xc_tcVectorS_LL_get_cp(xc_tcVectorS_LL_deref_t self_deref, const int idx, void* obj_bytes_ref, const size_t obj_bytes_size)
 {
-	void* refp_item_by_idx=NULL;
+	xc_byteptr_t refp_item_by_idx=NULL;
 	xc_err_decl();
 	/* --- */
 	
@@ -887,8 +774,25 @@ int xc_tcVectorS_LL_get_cp(xc_tcVectorS_LL_deref_t self_deref, const int idx, vo
 	}
 	/* validate params: done */
 	
-	if( NULL == (refp_item_by_idx=idx2itemptr(&self_deref, idx) ) ) {
-		xc_err_term_unmg();
+	if(1)
+	{
+		xc_am_seq_cfg_t cfg={0};
+		xc_am_seq_state_t state={0};
+		
+		cfg=xc_am_seq_cfg_retv(
+			  self_deref.refp_hdr->cfg.obj_bytesize
+			, 1
+		);
+
+		state=xc_am_seq_state_retv(
+			  self_deref.items_byteptr
+			, self_deref.refp_hdr->runtime.cur_length
+			, self_deref.refp_hdr->runtime.cur_capacity
+		);
+
+		if( NULL == ( refp_item_by_idx=xc_amOp_seq_item_at_idx(&cfg, &state, idx) ) ) {
+			xc_err_term_unmg();
+		}
 	}
 	
 	memcpy(obj_bytes_ref, refp_item_by_idx, self_deref.refp_hdr->cfg.obj_bytesize);
@@ -898,8 +802,6 @@ int xc_tcVectorS_LL_get_cp(xc_tcVectorS_LL_deref_t self_deref, const int idx, vo
 	xc_err_on_unmg();
 	return 1;
 }
-
-
 
 
 int xc_tcVectorS_LL_get_capacity(xc_tcVectorS_LL_deref_t self_deref)
@@ -938,7 +840,6 @@ int xc_tcVectorS_LL_get_length(xc_tcVectorS_LL_deref_t self_deref)
 }
 
 
-
 int xc_tcVectorS_LL_isEmpty(xc_tcVectorS_LL_deref_t self_deref)
 {
 	xc_err_decl();
@@ -965,7 +866,6 @@ int xc_tcVectorS_LL_isEmpty(xc_tcVectorS_LL_deref_t self_deref)
 
 int xc_tcVectorS_LL_set_idx(xc_tcVectorS_LL_deref_t self_deref, const int idx, const void* obj_bytes_ref, const size_t obj_bytes_size)
 {
-	
 	xc_tcVectorS_LL_deref_t* refp_deref=&self_deref;
 	xc_err_decl();
 	/* --- */
@@ -980,13 +880,17 @@ int xc_tcVectorS_LL_set_idx(xc_tcVectorS_LL_deref_t self_deref, const int idx, c
 	/* shallow copy to last index before reallocation */
 	if(1)
 	{
-		void* item_destination_ptr=NULL;
+		xc_am_seq_state_t state={0};
 		
-		if(NULL == (item_destination_ptr=idx2itemptr(&self_deref, idx) ) ) {
+		state=xc_am_seq_state_retv(
+			  self_deref.items_byteptr
+			, self_deref.refp_hdr->runtime.cur_length
+			, self_deref.refp_hdr->runtime.cur_capacity
+		);
+
+		if( 0 != xc_amMdl_seq_I.set_at_idx(&state, self_deref.refp_hdr->cfg.obj_bytesize, idx, (const xc_byteptr_t)obj_bytes_ref) ) {
 			xc_err_term_unmg();
 		}
-		
-		memcpy( item_destination_ptr, obj_bytes_ref, self_deref.refp_hdr->cfg.obj_bytesize );
 	}
 	
 	return 0;
@@ -1055,6 +959,7 @@ int xc_tcVectorS_LL_dealloc(xc_tcVectorS_LL_deref_t self_deref)
 
 int xc_tcVectorS_LL_assign_from(xc_tcVectorS_LL_deref_t self_deref, const xc_tcVectorS_LL_derefConst_t src_deref, int* opt_overflow)
 {
+	int tmp_overflow=0;
 	size_t new_required_length=0;
 	xc_err_decl();
 	/* --- */
@@ -1066,84 +971,52 @@ int xc_tcVectorS_LL_assign_from(xc_tcVectorS_LL_deref_t self_deref, const xc_tcV
 		xc_err_term_unmg();
 	}
 	/* --- */
-	if(1)
-	{
-		/* new length: from SRC */
-		new_required_length=src_deref.refp_hdr->runtime.cur_length;
-		
-		/* limit by SELF capacity: */
-		if( new_required_length > self_deref.refp_hdr->runtime.cur_capacity ) {
-			new_required_length = self_deref.refp_hdr->runtime.cur_capacity;
-		}
-	}
-	/* limit by SELF capacity: done */
-	/* --- */
-	
-	if(1) /*  optional but useful shortcut: DO NOTHING RETURN OK if PARAM TARGEET and PARAM SOURCE are same */
-	{
-		if( self_deref.self_bytes_ref.BtPtr == src_deref.self_bytes_ref.BtPtr ) {
-			return 0; /* nothing to be done, no error- return OK */
-		}
-		
-	}
 	
 	if(1)
 	{
-		/*self_deref.items_byteptr=alloctr_state_result.refp_itemArray_byteptr;*/ /* NO CHANGE */
-		/*self_deref.refp_hdr->runtime.cur_capacity=alloctr_state_result.capacity;*/ /* NO CHANGE */
-		self_deref.refp_hdr->runtime.cur_length=new_required_length;
-	}
-	
-	if(1) /* addition: export information about overflow */
-	{
-		if( NULL != opt_overflow ) {
-			size_t diff=0;
-			xc_tc_calc_overflow(
-				  self_deref.refp_hdr->runtime.cur_capacity
-				, src_deref.refp_hdr->runtime.cur_length
-				, &diff 
-			);
-			*opt_overflow=diff; /* !!! int -> uint [validated] */
+		xc_am_seq_cfg_t src_cfg={0};
+		xc_am_seq_state_c_t src_state={0};
+		xc_am_seq_cfg_t self_cfg={0};
+		xc_am_seq_state_t self_state={0};
+		
+		self_cfg=xc_am_seq_cfg_retv(
+			  self_deref.refp_hdr->cfg.obj_bytesize
+			, 1
+		);
+		self_state=xc_am_seq_state_retv(
+			  self_deref.items_byteptr
+			, self_deref.refp_hdr->runtime.cur_length
+			, self_deref.refp_hdr->runtime.cur_capacity
+		);
+		
+		src_cfg=xc_am_seq_cfg_retv(
+			  src_deref.refp_hdr->cfg.obj_bytesize
+			, 1
+		);
+		src_state=xc_am_seq_state_const_retv(
+			  src_deref.items_byteptr
+			, src_deref.refp_hdr->runtime.cur_length
+			, src_deref.refp_hdr->runtime.cur_capacity
+		);
+		
+		if(0!=xc_amOp_seq_assignFrom(
+				  &self_cfg
+				, &self_state
+				, &src_cfg
+				, &src_state
+				, &tmp_overflow
+			)
+		) {
+			xc_err_term_unmg();
 		}
+		
+		self_deref.refp_hdr->runtime.cur_length=self_state.length;
+		self_deref.refp_hdr->runtime.cur_capacity=self_state.capacity;
+		
 	}
-	
-	if(1) /* just copy entire memory block instead of copying object by object */
-	{
-		size_t self_items_memblock_bytesize_total=0;
-		const size_t maxcnt=new_required_length;
-		xc_p_pBytes_t self_items_memblock_ptr=xc_p_pBytes_from_ref2pBytes(self_deref.items_byteptr);
-		xc_p_pBytesConst_t src_items_memblock_ptr=xc_ptr_pBytesConst_from_ref2pBytesConst(src_deref.items_byteptr);
-		
-		self_items_memblock_bytesize_total=self_deref.refp_hdr->cfg.obj_bytesize * self_deref.refp_hdr->runtime.cur_capacity;
-		
-		xc_mem_bzero_bytes(self_items_memblock_ptr.BtPtr, self_items_memblock_bytesize_total);
-		
-		memcpy(self_items_memblock_ptr.BtPtr, src_items_memblock_ptr.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize*maxcnt); /* varranteed non overlapping memory block, memcpy can be used instead of memmove */
-	}
-	
+
 	return 0;
 	
 	xc_err_on_unmg();
 	return 1;
-}
-
-
-static void* idx2itemptr(const xc_tcVectorS_LL_deref_t* self_deref, const size_t idx_public)
-{
-	xc_p_pBytes_t tmp_BtPtr={0};
-	xc_byteptr_t refp_item=NULL;
-	
-	if(NULL==self_deref) {
-		return NULL;
-	}
-	
-	if( idx_public >= self_deref->refp_hdr->runtime.cur_capacity) {
-		return NULL;
-	}
-	
-	tmp_BtPtr=xc_p_pBytes_from_ref2pBytes(self_deref->items_byteptr);
-	
-	refp_item=tmp_BtPtr.BtPtr+idx_public*self_deref->refp_hdr->cfg.obj_bytesize;
-	
-	return refp_item;
 }
