@@ -149,6 +149,8 @@ void xc_err_signalize_error(const xc_err_scopeInfo_t* refp_err_info);
 
 #define xc_err_return() return xc_err_retv();
 
+#define xc_err_panic() do { abort(); } while(0);
+
 /* --- --- --- */
 
 /* --- --- --- */

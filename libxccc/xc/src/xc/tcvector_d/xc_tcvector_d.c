@@ -17,7 +17,7 @@
 #include "xc/common/xc_mem.h"
 #include "xc/common/xc_tc_common.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_d/xc_tcvector_d.h"
 /* --- */
 
@@ -344,9 +344,9 @@ int xc_tcVectorD_LL_init__dc01(
 	/* allocation : separeted scope, this may change between version */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
 		if(1) /* indicate initialization by writing specific pattern */
 		{
@@ -355,12 +355,12 @@ int xc_tcVectorD_LL_init__dc01(
 			}
 		}
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  cfg_itemsize
 			, cfg_chunk_itemcnt
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(refp_deref->items_byteptr, 0, 0);
+		alloctr_state_init=xc_am_seq_state_retv(refp_deref->items_byteptr, 0, 0);
 		
 		/* */
 		if( 0 != refp_deref->refp_hdr->cfg.refp_allocator->re_alloc(
@@ -552,16 +552,16 @@ int xc_tcVectorD_LL_push(xc_tcVectorD_LL_deref_t self_deref, const void* obj_byt
 	/* allocation : separeted scope, this may change between version */
 	if(1)  /* if(new_required_length >= self_deref.refp_hdr->runtime.cur_capacity) */ /* !!! OPTIMIZATION REQUIRED */
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, self_deref.refp_hdr->cfg.growable_chunk_objcnt
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
@@ -692,16 +692,16 @@ int xc_tcVectorD_LL_pop(xc_tcVectorD_LL_deref_t self_deref)
 	if(1)
 	{
 		size_t new_required_length=0;
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, self_deref.refp_hdr->cfg.growable_chunk_objcnt
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
@@ -768,17 +768,17 @@ int xc_tcVectorD_LL_rem_idx(xc_tcVectorD_LL_deref_t self_deref, const int public
 	if(1)
 	{
 		size_t new_required_length=0;
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, self_deref.refp_hdr->cfg.growable_chunk_objcnt
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
@@ -871,17 +871,17 @@ int xc_tcVectorD_LL_insert(xc_tcVectorD_LL_deref_t self_deref, const int public_
 	/* grow if required: */
 	if(1) /*if(new_required_length >= self_deref.refp_hdr->runtime.cur_capacity)*/ /* !!! OPTIMIZATION REQUIRED */
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, self_deref.refp_hdr->cfg.growable_chunk_objcnt
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity
@@ -1167,21 +1167,21 @@ int xc_tcVectorD_LL_assign_from(xc_tcVectorD_LL_deref_t self_deref, const xc_tcV
 	if(1)
 	{
 		size_t new_required_length=0;
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_result={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_result={0};
 		
 		/* new length: from SRC */
 		new_required_length=src_deref.refp_hdr->runtime.cur_length;
 		
 		/* cfg: from SELF */
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, self_deref.refp_hdr->cfg.growable_chunk_objcnt
 		);
 		
 		/* initial state: from SELF */
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  self_deref.items_byteptr
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->runtime.cur_capacity

@@ -18,7 +18,7 @@
 /* --- */
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_d/xc_tcvector_d.h"
 /* --- */
 
@@ -272,7 +272,7 @@ class intf_api_u: public tplTestVector_vectorIntf<TPL_VTYPE, TPL_ITEMTYPE, TPL_D
 		if(1)
 		{
 			size_t capacity=0;
-			if( 0!=xc_ammo_seq_tChunkC_length2capacity( arg_length, arg_cur_capacity, 8, &capacity) ) {
+			if( 0!=xc_am_seq_tChunkC_length2capacity( arg_length, arg_cur_capacity, 8, &capacity) ) {
 				return 0;
 			}
 			return capacity;
@@ -316,6 +316,11 @@ class intf_api_u: public tplTestVector_vectorIntf<TPL_VTYPE, TPL_ITEMTYPE, TPL_D
 			, refp_self_src
 			, result_overflow
 		);
+	}
+	
+	public: int DIAG_is_continuous(void) noexcept
+	{
+		return 1;
 	}
 	
 };

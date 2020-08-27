@@ -80,17 +80,17 @@ int main(int argc, char **argv)
 				}
 			}
 			
-			if(1)
+			if(0)
 			{
 				try
 				{
-					if(1)
+					if(0)
 					{
 						if(0!=test_seqST_x() ) {
 							xcc_err_term_unmg();
 						}
 					}
-					if(1)
+					if(0)
 					{
 						if(0!=test_seqD_x() ) {
 							xcc_err_term_unmg();

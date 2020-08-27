@@ -49,7 +49,7 @@ extern "C" {
 	/**/\
 	static int               xc_tcVectorT__I0_name(_ARG_SVECT_TYPE_, insert )              (_ARG_SVECT_TYPE_* refp_self, const int idx, const _ARG_ITEMTYPE_* refp_result_item);\
 	/**/\
-	static _ARG_ITEMTYPE_*   xc_tcVectorT__I0_name(_ARG_SVECT_TYPE_, get_refp )         (_ARG_SVECT_TYPE_* refp_self, const int idx);\
+	static _ARG_ITEMTYPE_*   xc_tcVectorT__I0_name(_ARG_SVECT_TYPE_, get_refp )            (_ARG_SVECT_TYPE_* refp_self, const int idx);\
 	static int               xc_tcVectorT__I0_name(_ARG_SVECT_TYPE_, get_val_cp )          (_ARG_SVECT_TYPE_* refp_self, const int idx, _ARG_ITEMTYPE_* refp_result_item);\
 	/**/\
 	static int               xc_tcVectorT__I0_name(_ARG_SVECT_TYPE_, get_capacity )        ( _ARG_SVECT_TYPE_* refp_self);\

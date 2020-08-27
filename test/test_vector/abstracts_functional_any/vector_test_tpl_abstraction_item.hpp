@@ -25,6 +25,7 @@ class xcc_tplTestVector_itemIntf_obj1
 	public: static _ARG_TPL_VITEMTYPE_ item_obj(const int int_value, const char* str_value) noexcept;
 	public: static _ARG_TPL_VITEMTYPE_ item_val(const int int_value) noexcept;
 	public: static int item_eq(const _ARG_TPL_VITEMTYPE_* refp_item_1, const _ARG_TPL_VITEMTYPE_* refp_item_2) noexcept;
+	public: static std::string item_toString(const _ARG_TPL_VITEMTYPE_* refp_item_1) noexcept;
 };
 
 

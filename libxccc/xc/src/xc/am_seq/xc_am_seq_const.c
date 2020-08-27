@@ -13,31 +13,31 @@
 #include "xc/common/xc_err.h"
 #include "xc/common/xc_mem.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 /* --- */
 
 /* --- --- --- --- */
 
 const xc_amAlc_seq_I_t xc_amAlc_seq_tChunk_I={
-	  &xc_ammo_seq_tChunkC_length2capacity
-	, &xc_ammo_seq_tChunkC_realloc
+	  &xc_am_seq_tChunkC_length2capacity
+	, &xc_am_seq_tChunkC_realloc
 };
 
 
 const xc_amMdl_seq_I_t xc_amMdl_seq_I={
-	  &xc_ammo_seq_idx2byteptr
-	, &xc_ammo_seq_idx2anyptr
-	, &xc_ammo_seq_set_at_idx
-	, &xc_ammo_seq_tStatic_shiftLeft
-	, &xc_ammo_seq_tStatic_shiftRight
+	  &xc_am_seq_idx2byteptr
+	, &xc_am_seq_idx2anyptr
+	, &xc_am_seq_set_at_idx
+	, &xc_am_seq_tStatic_shiftLeft
+	, &xc_am_seq_tStatic_shiftRight
 };
 
 /* --- --- --- --- */
 
-int xc_ammo_seq_tChunkC_realloc(
-	  const xc_ammo_seq_cfg_t* refp_cfg
-	, const xc_ammo_seq_state_t* refp_initial_state
-	, xc_ammo_seq_state_t* refp_result_state
+int xc_am_seq_tChunkC_realloc(
+	  const xc_am_seq_cfg_t* refp_cfg
+	, const xc_am_seq_state_t* refp_initial_state
+	, xc_am_seq_state_t* refp_result_state
 	, const size_t requested_new_length
 )
 {
@@ -71,9 +71,9 @@ int xc_ammo_seq_tChunkC_realloc(
 		xc_err_term_unmg();
 	}
 	
-	xc_mem_bzero_obj(xc_ammo_seq_state_t, refp_result_state);
+	xc_mem_bzero_obj(xc_am_seq_state_t, refp_result_state);
 	
-	if( 0 != xc_ammo_seq_tChunkC_length2capacity(requested_new_length, refp_initial_state->capacity, refp_cfg->cnt_items_in_chunk, &new_capacity) ) {
+	if( 0 != xc_am_seq_tChunkC_length2capacity(requested_new_length, refp_initial_state->capacity, refp_cfg->cnt_items_in_chunk, &new_capacity) ) {
 		xc_err_term_unmg();
 	}
 	
@@ -169,7 +169,7 @@ int xc_ammo_seq_tChunkC_realloc(
 	}
 	else
 	{
-		xc_mem_cp_obj(xc_ammo_seq_state_t, refp_result_state, refp_initial_state);
+		xc_mem_cp_obj(xc_am_seq_state_t, refp_result_state, refp_initial_state);
 		refp_result_state->length=requested_new_length;
 		
 	}
@@ -178,13 +178,13 @@ int xc_ammo_seq_tChunkC_realloc(
 	
 	xc_err_on_unmg();
 		if(NULL!=refp_result_state) {
-			xc_mem_bzero_obj(xc_ammo_seq_state_t, refp_result_state);
+			xc_mem_bzero_obj(xc_am_seq_state_t, refp_result_state);
 		}
 	return 1;
 }
 
 
-int xc_ammo_seq_tChunkC_length2capacity(
+int xc_am_seq_tChunkC_length2capacity(
 	  const size_t length
 	, const size_t capacity
 	, const size_t chunk_itemcnt

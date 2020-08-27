@@ -13,13 +13,13 @@
 #include "xc/common/xc_err.h"
 #include "xc/common/xc_mem.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 /* --- */
 
 /* --- --- --- --- */
 
-int xc_ammo_seq_set_at_idx(
-	  xc_ammo_seq_state_t* self_state
+int xc_am_seq_set_at_idx(
+	  xc_am_seq_state_t* self_state
 	, const size_t item_bytesize
 	, const size_t idx_public
 	, const xc_byteptr_t refp_item
@@ -27,7 +27,7 @@ int xc_ammo_seq_set_at_idx(
 {
 	xc_byteptr_t refp_target=NULL;
 	
-	if(NULL == (refp_target=xc_ammo_seq_idx2byteptr(self_state, item_bytesize, idx_public) ) ) {
+	if(NULL == (refp_target=xc_am_seq_idx2byteptr(self_state, item_bytesize, idx_public) ) ) {
 		return 1;
 	}
 	
@@ -36,13 +36,28 @@ int xc_ammo_seq_set_at_idx(
 	return 0;
 }
 
-xc_ammo_seq_state_t xc_ammo_seq_state_retv(
+xc_am_seq_state_t xc_am_seq_state_retv(
 	  xc_p_refp2pBytes_t refp_itemArray_byteptr
 	, const size_t length
 	, const size_t capacity
 )
 {
-	xc_ammo_seq_state_t retv={0};
+	xc_am_seq_state_t retv={0};
+	
+	retv.refp_itemArray_byteptr=refp_itemArray_byteptr;
+	retv.length=length;
+	retv.capacity=capacity;
+	
+	return retv;
+}
+
+xc_am_seq_state_c_t xc_am_seq_state_const_retv(
+	  xc_p_refp2pBytesConst_t refp_itemArray_byteptr
+	, const size_t length
+	, const size_t capacity
+)
+{
+	xc_am_seq_state_c_t retv={0};
 	
 	retv.refp_itemArray_byteptr=refp_itemArray_byteptr;
 	retv.length=length;
@@ -52,9 +67,9 @@ xc_ammo_seq_state_t xc_ammo_seq_state_retv(
 }
 
 
-xc_ammo_seq_cfg_t xc_ammo_seq_cfg_retv(const size_t item_bytesize, const size_t cnt_items_in_chunk)
+xc_am_seq_cfg_t xc_am_seq_cfg_retv(const size_t item_bytesize, const size_t cnt_items_in_chunk)
 {
-	xc_ammo_seq_cfg_t retv={0};
+	xc_am_seq_cfg_t retv={0};
 	
 	retv.item_bytesize=item_bytesize;
 	retv.cnt_items_in_chunk=cnt_items_in_chunk;
@@ -63,11 +78,11 @@ xc_ammo_seq_cfg_t xc_ammo_seq_cfg_retv(const size_t item_bytesize, const size_t 
 }
 
 
-int xc_ammo_seq_tStatic_shiftLeft_calculate(
-	  const xc_ammo_seq_state_t* refp_state
+int xc_am_seq_tStatic_shiftLeft_calculate(
+	  const xc_am_seq_state_t* refp_state
 	, const size_t target_idx
 	, const size_t req_shift_cnt
-	, xc_ammo_seq_tStatic_shift_info_t* result
+	, xc_am_seq_tStatic_shift_info_t* result
 )
 {
 	xc_err_decl();
@@ -86,7 +101,7 @@ int xc_ammo_seq_tStatic_shiftLeft_calculate(
 	}
 	/* --- */
 	
-	xc_mem_bzero_obj(xc_ammo_seq_tStatic_shift_info_t, result);
+	xc_mem_bzero_obj(xc_am_seq_tStatic_shift_info_t, result);
 	
 	if( 0 != req_shift_cnt )
 	{
@@ -122,11 +137,11 @@ int xc_ammo_seq_tStatic_shiftLeft_calculate(
 }
 
 
-int xc_ammo_seq_tStatic_shiftRight_calculate(
-	  const xc_ammo_seq_state_t* refp_state
+int xc_am_seq_tStatic_shiftRight_calculate(
+	  const xc_am_seq_state_t* refp_state
 	, const size_t target_idx
 	, const size_t req_shift_cnt
-	, xc_ammo_seq_tStatic_shift_info_t* result
+	, xc_am_seq_tStatic_shift_info_t* result
 )
 {
 	xc_err_decl();
@@ -145,7 +160,7 @@ int xc_ammo_seq_tStatic_shiftRight_calculate(
 	}
 	/* --- */
 	
-	xc_mem_bzero_obj(xc_ammo_seq_tStatic_shift_info_t, result);
+	xc_mem_bzero_obj(xc_am_seq_tStatic_shift_info_t, result);
 	
 	if( 0 != req_shift_cnt )
 	{
@@ -220,9 +235,9 @@ int xc_ammo_seq_tStatic_shiftRight_calculate(
 	>[1][2][3][4][5][6][7][.]
 	
 */
-int xc_ammo_seq_tStatic_shiftLeft(
-	  const xc_ammo_seq_cfg_t* refp_cfg
-	, xc_ammo_seq_state_t* refp_state
+int xc_am_seq_tStatic_shiftLeft(
+	  const xc_am_seq_cfg_t* refp_cfg
+	, xc_am_seq_state_t* refp_state
 	, const size_t start_public_idx
 	, const size_t shift_size
 )
@@ -251,9 +266,9 @@ int xc_ammo_seq_tStatic_shiftLeft(
 	if(0!=shift_size)
 	{
 		const size_t target_array_idx_next=start_public_idx+1;
-		xc_ammo_seq_tStatic_shift_info_t tmpresult={0};
+		xc_am_seq_tStatic_shift_info_t tmpresult={0};
 		
-		if( 0 != xc_ammo_seq_tStatic_shiftLeft_calculate(refp_state, start_public_idx, shift_size, &tmpresult) ) {
+		if( 0 != xc_am_seq_tStatic_shiftLeft_calculate(refp_state, start_public_idx, shift_size, &tmpresult) ) {
 			xc_err_term_unmg();
 		}
 		
@@ -269,13 +284,13 @@ int xc_ammo_seq_tStatic_shiftLeft(
 			size_t length_for_memcpy_operation=tmpresult.cnt_from_target_index_to_orig_length; /*!*/
 			size_t length_for_memzero_operation=tmpresult.cnt_shift_bound;
 			
-			if(NULL == (target_item_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, start_public_idx) ) ) {
+			if(NULL == (target_item_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, start_public_idx) ) ) {
 				xc_err_term_unmg();
 			}
-			if(NULL == (target_next_item_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, target_array_idx_next) ) ) {
+			if(NULL == (target_next_item_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, target_array_idx_next) ) ) {
 				xc_err_term_unmg();
 			}
-			if(NULL == (after_lastItem_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, next_idx_after_lastIitem_after) ) ) {
+			if(NULL == (after_lastItem_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, next_idx_after_lastIitem_after) ) ) {
 				xc_err_term_unmg();
 			}
 			
@@ -298,7 +313,7 @@ int xc_ammo_seq_tStatic_shiftLeft(
 			
 			xc_byteptr_t after_lastItem_byteptr=NULL;
 
-			if(NULL == (after_lastItem_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, refp_state->length-1 ) ) ) {
+			if(NULL == (after_lastItem_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, refp_state->length-1 ) ) ) {
 				xc_err_term_unmg();
 			}
 
@@ -323,9 +338,9 @@ int xc_ammo_seq_tStatic_shiftLeft(
 }
 
 
-int xc_ammo_seq_tStatic_shiftRight(
-	  const xc_ammo_seq_cfg_t* refp_cfg
-	, xc_ammo_seq_state_t* refp_state
+int xc_am_seq_tStatic_shiftRight(
+	  const xc_am_seq_cfg_t* refp_cfg
+	, xc_am_seq_state_t* refp_state
 	, const size_t start_public_idx
 	, const size_t shift_size
 )
@@ -354,10 +369,10 @@ int xc_ammo_seq_tStatic_shiftRight(
 	if(0!=shift_size)
 	{
 		size_t target_array_idx_next=0;
-		xc_ammo_seq_tStatic_shift_info_t tmpresult={0};
+		xc_am_seq_tStatic_shift_info_t tmpresult={0};
 		/* const size_t target_array_idx_next=start_public_idx+1; */
 		
-		if( 0 != xc_ammo_seq_tStatic_shiftRight_calculate(refp_state, start_public_idx, shift_size, &tmpresult) ) {
+		if( 0 != xc_am_seq_tStatic_shiftRight_calculate(refp_state, start_public_idx, shift_size, &tmpresult) ) {
 			xc_err_term_unmg();
 		}
 		
@@ -370,13 +385,13 @@ int xc_ammo_seq_tStatic_shiftRight(
 			xc_byteptr_t target_next_item_byteptr=NULL;
 			xc_byteptr_t after_curItem_byteptr=NULL;
 			
-			if(NULL == (target_item_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, start_public_idx) ) ) {
+			if(NULL == (target_item_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, start_public_idx) ) ) {
 				xc_err_term_unmg();
 			}
-			if(NULL == (target_next_item_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, target_array_idx_next) ) ) {
+			if(NULL == (target_next_item_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, target_array_idx_next) ) ) {
 				xc_err_term_unmg();
 			}
-			if(NULL == (after_curItem_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, start_public_idx) ) ) {
+			if(NULL == (after_curItem_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, start_public_idx) ) ) {
 				xc_err_term_unmg();
 			}
 			
@@ -399,7 +414,7 @@ int xc_ammo_seq_tStatic_shiftRight(
 			
 			xc_byteptr_t after_lastItem_byteptr=NULL;
 
-			if(NULL == (after_lastItem_byteptr=xc_ammo_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, refp_state->length ) ) ) {
+			if(NULL == (after_lastItem_byteptr=xc_am_seq_idx2byteptr(refp_state, refp_cfg->item_bytesize, refp_state->length ) ) ) {
 				xc_err_term_unmg();
 			}
 
@@ -424,10 +439,10 @@ int xc_ammo_seq_tStatic_shiftRight(
 }
 
 
-int xc_ammo_seq_tStatic_realloc(
-	  const xc_ammo_seq_cfg_t* refp_cfg
-	, const xc_ammo_seq_state_t* refp_initial_state
-	, xc_ammo_seq_state_t* refp_result_state
+int xc_am_seq_tStatic_realloc(
+	  const xc_am_seq_cfg_t* refp_cfg
+	, const xc_am_seq_state_t* refp_initial_state
+	, xc_am_seq_state_t* refp_result_state
 	, const size_t requested_new_capacity
 )
 {
@@ -467,7 +482,7 @@ int xc_ammo_seq_tStatic_realloc(
 	}
 	/* restriction on capacity value zero: done */
 	
-	xc_mem_bzero_obj(xc_ammo_seq_state_t, refp_result_state);
+	xc_mem_bzero_obj(xc_am_seq_state_t, refp_result_state);
 	
 	/* --- content validation: done */
 
@@ -544,7 +559,7 @@ int xc_ammo_seq_tStatic_realloc(
 	}
 	else /* no change, just copy initial -> result */
 	{
-		xc_mem_cp_obj(xc_ammo_seq_state_t, refp_result_state, refp_initial_state);
+		xc_mem_cp_obj(xc_am_seq_state_t, refp_result_state, refp_initial_state);
 	}
 	
 	if(1)
@@ -567,14 +582,14 @@ int xc_ammo_seq_tStatic_realloc(
 	
 	xc_err_on_unmg();
 		if(NULL!=refp_result_state) {
-			xc_mem_bzero_obj(xc_ammo_seq_state_t, refp_result_state);
+			xc_mem_bzero_obj(xc_am_seq_state_t, refp_result_state);
 		}
 	return 1;
 }
 
 
 
-xc_byteptr_t xc_ammo_seq_idx2byteptr(xc_ammo_seq_state_t* self_state, const size_t item_bytesize, const size_t idx_public)
+xc_byteptr_t xc_am_seq_idx2byteptr(xc_am_seq_state_t* self_state, const size_t item_bytesize, const size_t idx_public)
 {
 	xc_p_pBytes_t tmp_BtPtr={0};
 	xc_byteptr_t refp_item=NULL;
@@ -595,7 +610,7 @@ xc_byteptr_t xc_ammo_seq_idx2byteptr(xc_ammo_seq_state_t* self_state, const size
 }
 
 
-void* xc_ammo_seq_idx2anyptr(xc_ammo_seq_state_t* self_state, const size_t item_bytesize, const size_t idx_public)
+void* xc_am_seq_idx2anyptr(xc_am_seq_state_t* self_state, const size_t item_bytesize, const size_t idx_public)
 {
 	xc_p_pBytes_t tmp_BtPtr={0};
 	xc_byteptr_t refp_item=NULL;

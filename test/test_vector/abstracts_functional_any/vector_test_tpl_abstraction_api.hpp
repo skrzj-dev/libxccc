@@ -46,6 +46,9 @@ class tplTestVector_vectorIntf
 	public: virtual int dealloc(TPL_VTYPE* refp_self) noexcept =0;
 	
 	public: virtual int assignFrom(TPL_VTYPE* refp_self, const TPL_VTYPE* refp_self_src, int* result_overflow) noexcept =0;
+	
+	public: virtual int DIAG_is_continuous(void) noexcept =0;
+
 };
 
 #endif

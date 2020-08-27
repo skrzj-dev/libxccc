@@ -16,7 +16,7 @@
 #include "xcc/test/xcc_test2.hpp"
 /* --- */
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 /* --- */
 #include "abstracts_functional_any/vector_test_tpl___param_evaluation_check.hpp"
 

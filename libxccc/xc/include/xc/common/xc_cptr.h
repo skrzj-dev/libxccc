@@ -168,10 +168,14 @@ typedef struct xc_p_refp2pBytesConstArray_t
 xc_p_pBytes_t           xc_p_pBytes_from_ref2pBytes(xc_p_refp2pBytes_t refp_src);
 xc_p_pBytes_t           xc_p_pBytes_from_raw(unsigned char* target);
 
+
 int                     xc_p_refp2pBytes_assign_pBytes(xc_p_refp2pBytes_t* refp_target, xc_p_pBytes_t refp_src);
 xc_p_refp2pBytes_t       xc_p_refp2pBytes_from_raw(unsigned char** target);
 
+
 xc_p_pBytesConst_t      xc_ptr_pBytesConst_from_ref2pBytesConst(xc_p_refp2pBytesConst_t refp_src);
+xc_p_pBytesConst_t      xc_ptr_pBytesConst_from_raw(const unsigned char* target);
+
 
 /* --- --- --- */
 /* --- --- --- */
@@ -265,6 +269,11 @@ typedef struct xcc_p_refp2pIntArray_t
 /* --- --- --- --- */
 
 #define xc_p_refp2pBytes_castFrom_raw(_ARG_PTR_SRC_) (unsigned char**)&(_ARG_PTR_SRC_)
+
+#define xc_p_refp2pBytes_castFrom_rawT(_ARG_TYPE_, _ARG_PTR_SRC_) ( ( (_ARG_TYPE_)**(NULL) != &(_ARG_PTR_SRC_) ) \
+		? (unsigned char**)&(_ARG_PTR_SRC_) \
+		: (unsigned char**)&(_ARG_PTR_SRC_) \
+	)
 
 #define xc_p_pBytes_castFrom_raw(_ARG_PTR_SRC_) (unsigned char*)(_ARG_PTR_SRC_)
 

@@ -17,7 +17,7 @@
 /* --- */
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_s/xc_tcvector_s.h"
 /* --- */
 #include "_xcvector_ds_api_i_hlp.hpp"
@@ -268,6 +268,11 @@ class intf_api_i: public tplTestVector_vectorIntf<TPL_VTYPE, _ARG_TPL_VITEMTYPE_
 		);
 	}
 	
+	public: int DIAG_is_continuous(void) noexcept
+	{
+		return 1;
+	}
+
 };
 
 }

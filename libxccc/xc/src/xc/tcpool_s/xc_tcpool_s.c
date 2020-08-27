@@ -15,7 +15,7 @@
 #include "xc/common/xc_si.h"
 #include "xc/common/xc_tc_common.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcpool_s/xc_tcpool_s.h"
 /* --- */
 
@@ -23,8 +23,6 @@
 #define xc_tcPoolS_LL_initval 3440
 
 /*static void* LLII2itemptr(const xc_tcPoolS_LL_deref_t* self_deref, const xc_tc_LLII_idx_t idx_LLII);*/
-static xc_tc_LLII_idx_t publicidxLookup2LLII(const xc_tcPoolS_LL_deref_t* self_deref, const int idx);
-static xc_p_pBytes_t publicidxLookup2itemptr(const xc_tcPoolS_LL_deref_t* self_deref, const int idx);
 static xc_p_pBytes_t LLII_to_itemptr(const xc_tcPoolS_LL_deref_t* self_deref, const xc_tc_LLII_idx_t idx_LLII);
 
 /*
@@ -40,10 +38,67 @@ static int xc_tcPoolS_LL_validate_initialization_and_index_access_refp(const xc_
 static int xc_tcPoolS_LL_validate_initialization_and_index_access_insert_refp(const xc_tcPoolS_LL_deref_t* self_deref, const int idx);
 
 
+static int xc_tc1_frees(xc_am_seq_ctx_t* result, xc_tcPoolS_LL_deref_t* arg);
+static int xc_tc1_lookups(xc_am_seq_ctx_t* result, xc_tcPoolS_LL_deref_t* arg);
+static int xc_tc1_items(xc_am_seq_ctx_t* result, xc_tcPoolS_LL_deref_t* arg);
+
+static int xc_tc1_frees(xc_am_seq_ctx_t* result, xc_tcPoolS_LL_deref_t* arg)
+{
+	xc_mem_bzero_obj(xc_am_seq_ctx_t, result);
+	
+	result->cfg=xc_am_seq_cfg_retv(
+		  sizeof(xc_tc_LLII_idx_t)
+		, 1
+	);
+
+	result->state=xc_am_seq_state_retv(
+		  xc_p_refp2pBytes_from_raw( (unsigned char**)&arg->refp_hdr->runtime.frees.arrS)
+		, arg->refp_hdr->runtime.cur_capacity-arg->refp_hdr->runtime.cur_length
+		, arg->refp_hdr->runtime.cur_capacity
+	);
+	
+	return 0;
+}
+
+static int xc_tc1_lookups(xc_am_seq_ctx_t* result, xc_tcPoolS_LL_deref_t* arg)
+{
+	xc_mem_bzero_obj(xc_am_seq_ctx_t, result);
+	
+	result->cfg=xc_am_seq_cfg_retv(
+		  sizeof(xc_tc_LLII_idx_t)
+		, 1
+	);
+	
+	result->state=xc_am_seq_state_retv(
+		  xc_p_refp2pBytes_from_raw( (unsigned char**)&arg->refp_hdr->runtime.lookups.arrS)
+		, arg->refp_hdr->runtime.cur_length
+		, arg->refp_hdr->runtime.cur_capacity
+	);
+	
+	return 0;
+}
+
+static int xc_tc1_items(xc_am_seq_ctx_t* result, xc_tcPoolS_LL_deref_t* arg)
+{
+	xc_mem_bzero_obj(xc_am_seq_ctx_t, result);
+	
+	result->cfg=xc_am_seq_cfg_retv(
+		  arg->refp_hdr->cfg.obj_bytesize
+		, 1
+	);
+	
+	result->state=xc_am_seq_state_retv(
+		  xc_p_refp2pBytes_from_raw(( unsigned char**)&arg->items_byteptr )
+		, arg->refp_hdr->runtime.cur_length
+		, arg->refp_hdr->runtime.cur_capacity
+	);
+	
+	return 0;
+}
+
 /* *** *** *** */
 
 /* *** INIT: *** */
-
 
 static int xc_tcPoolS_LL_validate_integrity(const xc_tcPoolS_LL_deref_t* refp_deref)
 {
@@ -252,9 +307,10 @@ int xc_tcPoolS_LL_publicIdx_to_lookupIdx_validated(xc_tcPoolS_LL_deref_t self_de
 	
 	if( 0 == xc_tcPoolS_LL_validate_initialization_and_index_access_refp(&self_deref, idx) ) {
 		
-		tmp_LLII=xc_tcVectorS_u_item_direct(&self_deref.refp_hdr->runtime.vectDS_lookup, idx);
+		tmp_LLII=self_deref.refp_hdr->runtime.lookups.arrS[idx];
 	}
 	else {
+		xc_err_panic();
 		/* panic */
 		
 	}
@@ -383,19 +439,19 @@ int xc_tcPoolS_LL_init__dc01(
 		
 		if(1)
 		{
-			xc_ammo_seq_cfg_t alloctr_cfg={0};
-			xc_ammo_seq_state_t alloctr_state_init={0};
-			xc_ammo_seq_state_t alloctr_state_result={0};
+			xc_am_seq_cfg_t alloctr_cfg={0};
+			xc_am_seq_state_t alloctr_state_init={0};
+			xc_am_seq_state_t alloctr_state_result={0};
 
-			alloctr_cfg=xc_ammo_seq_cfg_retv(
+			alloctr_cfg=xc_am_seq_cfg_retv(
 				  cfg_itemsize
 				, 1
 			);
 			
-			alloctr_state_init=xc_ammo_seq_state_retv(refp_deref->items_byteptr, 0, 0);
+			alloctr_state_init=xc_am_seq_state_retv(refp_deref->items_byteptr, 0, 0);
 			
 			/* */
-			if( 0 != xc_ammo_seq_tStatic_realloc(
+			if( 0 != xc_am_seq_tStatic_realloc(
 				  &alloctr_cfg
 				, &alloctr_state_init
 				, &alloctr_state_result
@@ -412,34 +468,43 @@ int xc_tcPoolS_LL_init__dc01(
 		{
 			if(1)
 			{
-				if( 0 != xc_tcVectorS_u_init(&refp_deref->refp_hdr->runtime.vectDS_lookup, refp_deref->refp_hdr->runtime.cur_capacity) ) {
-					xc_err_term_unmg();
+				if(1)
+				{
+					refp_deref->refp_hdr->runtime.lookups.arrS=xc_mem_allocz_obj_array(xc_tc_LLII_idx_t, refp_deref->refp_hdr->runtime.cur_capacity);
+					
+					if(NULL == refp_deref->refp_hdr->runtime.lookups.arrS ) {
+						xc_err_term_unmg();
+					}
 				}
 			}
 			
 			if(1)
 			{
+				xc_am_seq_ctx_t frees_ctx={0};
 				int tmp_idx=0;
 				
-				if( 0 != xc_tcVectorS_u_init(&refp_deref->refp_hdr->runtime.vectDS_free, refp_deref->refp_hdr->runtime.cur_capacity) ) {
-					xc_err_term_unmg();
+				if(1)
+				{
+					refp_deref->refp_hdr->runtime.frees.arrS=xc_mem_allocz_obj_array(xc_tc_LLII_idx_t, refp_deref->refp_hdr->runtime.cur_capacity);
+					
+					if(NULL == refp_deref->refp_hdr->runtime.frees.arrS ) {
+						xc_err_term_unmg();
+					}
 				}
+				
+				xc_tc1_frees(&frees_ctx, refp_deref);
 				
 				for(tmp_idx=refp_deref->refp_hdr->runtime.cur_capacity-1; tmp_idx>=0; tmp_idx--)
 				{
 					xc_tc_LLII_idx_t tmpidx=xc_tc_LLII_idx_itz(tmp_idx);
 					
-					if(0!=xc_tcVectorS_u_push(
-							  &refp_deref->refp_hdr->runtime.vectDS_free
-							, &tmpidx
-						)
-					) {
-						xc_err_term_unmg();
-					}
+					refp_deref->refp_hdr->runtime.frees.arrS[tmp_idx]=tmpidx;
+					/*if( 0 != xc_amOp_seq_push_U(xc_tc_LLII_idx_t, &frees_ctx.state, frees_ctx.cfg.item_bytesize, &tmpidx) ) {
+					*	xc_err_term_unmg();
+					*}*/
 				}
 			}
 		}
-
 	}
 	
 	return 0;
@@ -587,6 +652,11 @@ int xc_tcPoolS_LL_push(xc_tcPoolS_LL_deref_t self_deref, const void* obj_bytes_r
 	size_t new_required_length=0;
 	xc_tc_LLII_idx_t cur_free_LLII=xc_tc_LLII_idx_itz_invalid();
 	xc_tcPoolS_LL_deref_t* refp_deref=&self_deref;
+	/* --- */
+	xc_am_seq_ctx_t ctx_lookup={0};
+	xc_am_seq_ctx_t ctx_free={0};
+	xc_am_seq_ctx_t ctx_items={0};
+	/* --- */
 	xc_err_decl();
 	/* --- */
 	
@@ -606,18 +676,19 @@ int xc_tcPoolS_LL_push(xc_tcPoolS_LL_deref_t self_deref, const void* obj_bytes_r
 	
 	if(1)
 	{
-		int free_last_idx= xc_tcVectorS_u_get_length(&self_deref.refp_hdr->runtime.vectDS_free)-1;
+		xc_tc1_frees(&ctx_free, &self_deref);
+		xc_tc1_lookups(&ctx_lookup, &self_deref);
+		xc_tc1_items(&ctx_items, &self_deref);
+	}
+	
+	if(1)
+	{
+		const xc_tc_LLII_idx_t tmp_invalid=xc_tc_LLII_idx_itz_invalid();
 		xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
 		
+		
 		/* get last free LLII: */
-		if( 0 != xc_tcVectorS_u_item_cp( 
-				  &self_deref.refp_hdr->runtime.vectDS_free
-				, free_last_idx
-				, &tmp_LLII
-			)
-		) {
-			xc_err_term_unmg();
-		}
+		tmp_LLII=self_deref.refp_hdr->runtime.frees.arrS[ ctx_free.state.length-1 ];
 		/* get last free LLII: done */
 		
 		if( xc_tc_LLII_idx_isInvalid(&tmp_LLII) ) {
@@ -625,15 +696,11 @@ int xc_tcPoolS_LL_push(xc_tcPoolS_LL_deref_t self_deref, const void* obj_bytes_r
 		}
 		
 		/* push LLII to lookup: */
-		if( 0 != xc_tcVectorS_u_push( &self_deref.refp_hdr->runtime.vectDS_lookup, &tmp_LLII) ) {
-			xc_err_term_unmg();
-		}
+		self_deref.refp_hdr->runtime.lookups.arrS[ ctx_lookup.state.length ]=tmp_LLII;
 		/* push LLII to lookup: done */
 		
 		/* pop last free LLII: */
-		if(0!=xc_tcVectorS_u_pop( &self_deref.refp_hdr->runtime.vectDS_free) ) {
-			xc_err_term_unmg();
-		}
+		self_deref.refp_hdr->runtime.frees.arrS[ ctx_free.state.length-1 ]=tmp_invalid;
 		/* pop last free LLII: done */
 		
 		cur_free_LLII=tmp_LLII;
@@ -653,10 +720,7 @@ int xc_tcPoolS_LL_push(xc_tcPoolS_LL_deref_t self_deref, const void* obj_bytes_r
 		}
 		
 		memcpy( target.BtPtr, obj_bytes_ref, self_deref.refp_hdr->cfg.obj_bytesize );
-	}
-	
-	if(1)
-	{
+		
 		self_deref.refp_hdr->runtime.cur_length=new_required_length;
 	}
 	
@@ -676,9 +740,15 @@ int xc_tcPoolS_LL_push(xc_tcPoolS_LL_deref_t self_deref, const void* obj_bytes_r
 
 int xc_tcPoolS_LL_pop(xc_tcPoolS_LL_deref_t self_deref)
 {
-	xc_tc_LLII_idx_t cur_target_lookup=xc_tc_LLII_idx_itz_invalid();
+	const xc_tc_LLII_idx_t invalid_LLII=xc_tc_LLII_idx_itz_invalid();
 	size_t new_required_length=0;
 	xc_tcPoolS_LL_deref_t* refp_deref=&self_deref;
+	xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
+	/* --- */
+	xc_am_seq_ctx_t ctx_lookup={0};
+	xc_am_seq_ctx_t ctx_free={0};
+	xc_am_seq_ctx_t ctx_items={0};
+	/* --- */
 	xc_err_decl();
 	/* --- */
 	
@@ -705,7 +775,7 @@ int xc_tcPoolS_LL_pop(xc_tcPoolS_LL_deref_t self_deref)
 	/*  : */
 	new_required_length=self_deref.refp_hdr->runtime.cur_length-1;
 	
-	if( new_required_length>self_deref.refp_hdr->runtime.cur_capacity ) {
+	if( new_required_length >= self_deref.refp_hdr->runtime.cur_capacity ) {
 		xc_err_term_unmg();
 	}
 	/*  : done */
@@ -714,58 +784,58 @@ int xc_tcPoolS_LL_pop(xc_tcPoolS_LL_deref_t self_deref)
 	
 	if(1)
 	{
-		int last_idx=self_deref.refp_hdr->runtime.cur_length-1;
-		xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
-		
-		/* get last lookup LLII: */
-		if( 0 != xc_tcVectorS_u_item_cp( 
-				  &self_deref.refp_hdr->runtime.vectDS_lookup
-				, last_idx
-				, &tmp_LLII
-			)
-		) {
+		if( 0 != xc_tc1_lookups(&ctx_lookup, &self_deref) ) {
 			xc_err_term_unmg();
 		}
-		/* get last lookup LLII: done */
+		if( 0 != xc_tc1_frees(&ctx_free, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+		if( 0 != xc_tc1_items(&ctx_items, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+	}
 		
+	if(1) 
+	{
+		const xc_tc_LLII_idx_t tmp_invalid=xc_tc_LLII_idx_itz_invalid();
+		const int last_idx=self_deref.refp_hdr->runtime.cur_length-1;
+
+		/* get LLII to last item by public idx: */
+		tmp_LLII=self_deref.refp_hdr->runtime.lookups.arrS[last_idx];
+		/* get LLII to last item by public idx: done */
+		
+		/* paranoic check, LLII must be valid: */
 		if( xc_tc_LLII_idx_isInvalid(&tmp_LLII) ) {
 			xc_err_term_unmg();
 		}
+		/* paranoic check, LLII must be valid: done */
 		
 		/* push LLII to free: */
-		if( 0 != xc_tcVectorS_u_push( &self_deref.refp_hdr->runtime.vectDS_free, &tmp_LLII) ) {
-			xc_err_term_unmg();
-		}
+		self_deref.refp_hdr->runtime.frees.arrS[ctx_free.state.length]=tmp_LLII;
 		/* push LLII to free: done */
-		
+
 		/* pop last lookup LLII: */
-		if(0!=xc_tcVectorS_u_pop( &self_deref.refp_hdr->runtime.vectDS_lookup) ) {
-			xc_err_term_unmg();
-		}
+		self_deref.refp_hdr->runtime.lookups.arrS[last_idx]=tmp_invalid;
 		/* pop last lookup LLII: done */
-		
-		cur_target_lookup=tmp_LLII;
 	}
 	
-	/* erase last: */
+	/* erase item: */
 	if(1)
 	{
-		xc_p_pBytes_t target_itemptr={0};
-		
-		target_itemptr=LLII_to_itemptr(&self_deref, cur_target_lookup);
-		
-		if(NULL==target_itemptr.BtPtr) {
-			xc_err_term_unmg();
+		if(1)
+		{
+			xc_p_pBytes_t byteptr_item=LLII_to_itemptr(refp_deref, tmp_LLII);
+			xc_mem_bzero_bytes(byteptr_item.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize);
 		}
 		
-		xc_mem_bzero_bytes(target_itemptr.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize);
+		self_deref.refp_hdr->runtime.cur_length=new_required_length;
 	}
-	/* erase last: done */
+	/* erase item: done */
 	
 	/* shrink if required: */
 	if(1)
 	{
-		refp_deref->refp_hdr->runtime.cur_length=new_required_length;
+		/* fixed size, nothing to do */
 	}
 	/* shrink if required: done */
 	
@@ -781,6 +851,12 @@ int xc_tcPoolS_LL_rem_idx(xc_tcPoolS_LL_deref_t self_deref, const int public_idx
 	size_t new_required_length=0;
 	const size_t target_array_idx=public_idx; /* ! uint <- int  */
 	xc_tcPoolS_LL_deref_t* refp_deref=&self_deref;
+	xc_tc_LLII_idx_t target_item_LLII=xc_tc_LLII_idx_itz_invalid();
+	/* --- */
+	xc_am_seq_ctx_t ctx_lookup={0};
+	xc_am_seq_ctx_t ctx_free={0};
+	xc_am_seq_ctx_t ctx_items={0};
+	/* --- */
 	xc_err_decl();
 	/* --- */
 	
@@ -805,90 +881,72 @@ int xc_tcPoolS_LL_rem_idx(xc_tcPoolS_LL_deref_t self_deref, const int public_idx
 	}
 	/* validate state: done */
 	
-	/* : */
-	new_required_length=self_deref.refp_hdr->runtime.cur_length-1;
-	if(new_required_length>self_deref.refp_hdr->runtime.cur_capacity) {
-		xc_err_term_unmg();
-	}
-	/* : done */
-	
-	
-	/* shrink if required: */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
-		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
-			  self_deref.refp_hdr->cfg.obj_bytesize
-			, 1
-		);
-		
-		alloctr_state_init=xc_ammo_seq_state_retv(
-			  self_deref.items_byteptr
-			, self_deref.refp_hdr->runtime.cur_length
-			, self_deref.refp_hdr->runtime.cur_capacity
-		);
-		
-		alloctr_state_init_updated=alloctr_state_init;
-		
-		alloctr_state_init_updated.length--;
-		
-		refp_deref->items_byteptr=alloctr_state_init_updated.refp_itemArray_byteptr;
-		refp_deref->refp_hdr->runtime.cur_capacity=alloctr_state_init_updated.capacity;
-		refp_deref->refp_hdr->runtime.cur_length=alloctr_state_init_updated.length;
+		if( 0 != xc_tc1_lookups(&ctx_lookup, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+		if( 0 != xc_tc1_frees(&ctx_free, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+		if( 0 != xc_tc1_items(&ctx_items, &self_deref) ) {
+			xc_err_term_unmg();
+		}	
 	}
-	/* shrink if required: done */
 	
+	/* validate new length: */
 	if(1)
 	{
+		new_required_length=self_deref.refp_hdr->runtime.cur_length-1;
+		if(new_required_length>=self_deref.refp_hdr->runtime.cur_capacity) {
+			xc_err_term_unmg();
+		}
+	}
+	/* validate new length: done */
+	
+	if(1) 
+	{
+		const xc_tc_LLII_idx_t tmp_invalid=xc_tc_LLII_idx_itz_invalid();
 		xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
-		xc_p_pBytes_t byteptr_item={0};
+
+		/* get LLII to last item by public idx: */
+		tmp_LLII=self_deref.refp_hdr->runtime.lookups.arrS[public_idx];
+		/* get LLII to last item by public idx: done */
 		
-		/* get lookup [LLII]: */
-		if( 0 != xc_tcVectorS_u_item_cp(
-				  &refp_deref->refp_hdr->runtime.vectDS_lookup
-				, public_idx
-				, &tmp_LLII
-			)
-		) {
+		/* paranoic check, LLII must be valid: */
+		if( xc_tc_LLII_idx_isInvalid(&tmp_LLII) ) {
 			xc_err_term_unmg();
 		}
-		/* get free [LLII]: done */
-		
-		if( 0 != xc_tc_LLII_idx_isInvalid(&tmp_LLII) ) {
-			xc_err_term_unmg();
-		}
+		/* paranoic check, LLII must be valid: done */
 		
 		/* push LLII to free: */
-		if( 0 != xc_tcVectorS_u_push(
-				  &refp_deref->refp_hdr->runtime.vectDS_free
-				, &tmp_LLII
-			)
-		) {
-			xc_err_term_unmg();
-		}
+		self_deref.refp_hdr->runtime.frees.arrS[ctx_free.state.length]=tmp_LLII;
 		/* push LLII to free: done */
 
-		/* remove lookup [LLII] at [public idx]: */
-		if( 0 != xc_tcVectorS_u_remove_idx(
-				  &refp_deref->refp_hdr->runtime.vectDS_lookup
-				, public_idx
-			)
-		) {
+		/* remove last lookup LLII: */
+		if( 0 != xc_amOp_seq_remove_at_idx(&ctx_lookup.state, ctx_lookup.cfg.item_bytesize, public_idx) ) {
 			xc_err_term_unmg();
 		}
-		/* remove lookup [LLII] at [public idx]: done */
 		
-		/* clean: */
+		/* pop last lookup LLII: */
+		self_deref.refp_hdr->runtime.lookups.arrS[ctx_lookup.state.length]=tmp_invalid;
+		/* pop last lookup LLII: done */
+		
+		target_item_LLII=tmp_LLII;
+	}
+	
+	/* erase item: */
+	if(1)
+	{
 		if(1)
 		{
-			byteptr_item=LLII_to_itemptr(refp_deref, tmp_LLII);
+			xc_p_pBytes_t byteptr_item=LLII_to_itemptr(refp_deref, target_item_LLII);
 			xc_mem_bzero_bytes(byteptr_item.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize);
 		}
-		/* clean: done */
+		
+		self_deref.refp_hdr->runtime.cur_length=new_required_length;
 	}
+	/* erase item: done */
 	
 	return 0;
 	
@@ -905,10 +963,14 @@ int xc_tcPoolS_LL_rem_idx(xc_tcPoolS_LL_deref_t self_deref, const int public_idx
 int xc_tcPoolS_LL_insert(xc_tcPoolS_LL_deref_t self_deref, const int public_idx, const void* obj_bytes_ref, const size_t obj_bytes_size)
 {
 	size_t new_required_length=0;
-	int conv_err=0;
 	const xc_si_size_t_t target_array_idx = xc_si_size_t_from_int( xc_si_int_v(public_idx) );
 	xc_tcPoolS_LL_deref_t* refp_deref=&self_deref;
 	xc_tc_LLII_idx_t tmp_LLII_target=xc_tc_LLII_idx_itz_invalid();
+	/* --- */
+	xc_am_seq_ctx_t ctx_lookup={0};
+	xc_am_seq_ctx_t ctx_free={0};
+	xc_am_seq_ctx_t ctx_items={0};
+	/* --- */
 	xc_err_decl();
 	/* --- */
 	
@@ -944,77 +1006,48 @@ int xc_tcPoolS_LL_insert(xc_tcPoolS_LL_deref_t self_deref, const int public_idx,
 	}
 	/* validate state: done */
 	
+	
 	if(1)
 	{
-		int free_last_idx= xc_tcVectorS_u_get_length(&self_deref.refp_hdr->runtime.vectDS_free)-1;
+		if( 0 != xc_tc1_lookups(&ctx_lookup, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+		if( 0 != xc_tc1_frees(&ctx_free, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+		if( 0 != xc_tc1_items(&ctx_items, &self_deref) ) {
+			xc_err_term_unmg();
+		}
+	}
+	
+	if(1) 
+	{
+		const int free_idx=ctx_free.state.length-1;
 		xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
-		
-		/* get free [LLII]: */
-		if( 0 != xc_tcVectorS_u_item_cp(
-				  &refp_deref->refp_hdr->runtime.vectDS_free
-				, free_last_idx
-				, &tmp_LLII
-			)
-		) {
-			xc_err_term_unmg();
-		}
-		/* get free [LLII]: done */
-		
-		if( 0 != xc_tc_LLII_idx_isInvalid(&tmp_LLII) ) {
-			xc_err_term_unmg();
-		}
-		
-		/* set lookup: [LLII] at [public idx]: */
-		if( 0 != xc_tcVectorS_u_insert(
-				  &refp_deref->refp_hdr->runtime.vectDS_lookup
-				, public_idx
-				, &tmp_LLII
-			)
-		) {
-			xc_err_term_unmg();
-		}
-		/* set lookup: [LLII] at [public idx]: done */
+		const xc_tc_LLII_idx_t tmp_LLII_invalid=xc_tc_LLII_idx_itz_invalid();
 
-		/* pop free [LLII]: */
-		if( 0 != xc_tcVectorS_u_pop(
-				  &refp_deref->refp_hdr->runtime.vectDS_free
-			)
-		) {
+		/* get free LLII: */
+		tmp_LLII=self_deref.refp_hdr->runtime.frees.arrS[free_idx];
+		/* get free LLII: done */
+		
+		/* paranoic check, LLII must be valid: */
+		if( xc_tc_LLII_idx_isInvalid(&tmp_LLII) ) {
 			xc_err_term_unmg();
 		}
-		/* pop free [LLII]: done */
+		/* paranoic check, LLII must be valid: done */
+		
+		/* insert LLII to lookup: */
+		if( 0 != xc_amOp_seq_insert_at_idx(&ctx_lookup.state, ctx_lookup.cfg.item_bytesize, public_idx, (xc_byteptr_t)&tmp_LLII ) ) {
+			xc_err_term_unmg();
+		}
+		/* push LLII to free: done */
+
+		/* remove free LLII: */
+		self_deref.refp_hdr->runtime.frees.arrS[free_idx]=tmp_LLII_invalid;
+		/* remove free LLII: done */
 		
 		tmp_LLII_target=tmp_LLII;
 	}
-	
-	/* grow if required: */
-	if(1)
-	{
-		
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
-		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
-			  self_deref.refp_hdr->cfg.obj_bytesize
-			, 1
-		);
-		
-		alloctr_state_init=xc_ammo_seq_state_retv(
-			  self_deref.items_byteptr
-			, self_deref.refp_hdr->runtime.cur_length
-			, self_deref.refp_hdr->runtime.cur_capacity
-		);
-		
-		alloctr_state_init_updated=alloctr_state_init;
-
-		alloctr_state_init_updated.length++;
-		
-		refp_deref->items_byteptr=alloctr_state_init_updated.refp_itemArray_byteptr;
-		refp_deref->refp_hdr->runtime.cur_capacity=alloctr_state_init_updated.capacity;
-		refp_deref->refp_hdr->runtime.cur_length=alloctr_state_init_updated.length;
-	}
-	/* grow if required: done */
 	
 	/* set item at index: */
 	if(1)
@@ -1022,8 +1055,9 @@ int xc_tcPoolS_LL_insert(xc_tcPoolS_LL_deref_t self_deref, const int public_idx,
 		xc_p_pBytes_t target={0};
 		
 		target=LLII_to_itemptr(refp_deref, tmp_LLII_target);
+		memmove( target.BtPtr, obj_bytes_ref, self_deref.refp_hdr->cfg.obj_bytesize );
 		
-		memcpy( target.BtPtr, obj_bytes_ref, self_deref.refp_hdr->cfg.obj_bytesize );
+		self_deref.refp_hdr->runtime.cur_length=new_required_length;
 	}
 	/* set item at index: done */
 	
@@ -1039,8 +1073,6 @@ int xc_tcPoolS_LL_insert(xc_tcPoolS_LL_deref_t self_deref, const int public_idx,
 
 int xc_tcPoolS_LL_get_cp(xc_tcPoolS_LL_deref_t self_deref, const int idx, void* obj_bytes_ref, const size_t obj_bytes_size)
 {
-	xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
-	xc_p_pBytes_t tmp_BtPtr={0};
 	xc_err_decl();
 	/* --- */
 	
@@ -1052,14 +1084,22 @@ int xc_tcPoolS_LL_get_cp(xc_tcPoolS_LL_deref_t self_deref, const int idx, void* 
 		xc_err_term_unmg();
 	}
 	/* validate params: done */
-	
-	tmp_BtPtr=publicidxLookup2itemptr(&self_deref, idx);
-	
-	if( NULL == tmp_BtPtr.BtPtr ) {
-		xc_err_term_unmg();
+
+	if(1)
+	{
+		xc_tc_LLII_idx_t tmp_LLII=xc_tc_LLII_idx_itz_invalid();
+		xc_p_pBytes_t tmp_BtPtr={0};
+		
+		tmp_LLII=self_deref.refp_hdr->runtime.lookups.arrS[idx];
+		
+		tmp_BtPtr=LLII_to_itemptr(&self_deref, tmp_LLII);
+		
+		if(NULL == tmp_BtPtr.BtPtr) {
+			xc_err_term_unmg();
+		}
+		
+		memcpy(obj_bytes_ref, tmp_BtPtr.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize);
 	}
-	
-	memcpy(obj_bytes_ref, tmp_BtPtr.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize);
 	
 	return 0;
 	
@@ -1148,7 +1188,9 @@ int xc_tcPoolS_LL_set_idx(xc_tcPoolS_LL_deref_t self_deref, const int idx, const
 		xc_tc_LLII_idx_t tmp_LLII={0};
 		xc_p_pBytes_t tmp_BtPtr={0};
 		
-		tmp_BtPtr=publicidxLookup2itemptr(&self_deref, idx);
+		tmp_LLII=self_deref.refp_hdr->runtime.lookups.arrS[idx];
+		
+		tmp_BtPtr=LLII_to_itemptr(&self_deref, tmp_LLII);
 		
 		if(NULL == tmp_BtPtr.BtPtr) {
 			xc_err_term_unmg();
@@ -1234,17 +1276,30 @@ int xc_tcPoolS_LL_assign_from(xc_tcPoolS_LL_deref_t self_deref, const xc_tcPoolS
 		xc_err_term_unmg();
 	}
 	/* --- */
-	if(1)
+	
+	/* validate capacity difference: illegal to copy non- sequential collection of BIGGER capacity to SMALLER capacity: */
+	if(1) /* addition: export information about overflow */
 	{
-		/* new length: from SRC */
-		new_required_length=src_deref.refp_hdr->runtime.cur_length;
+		size_t diff=0;
+		xc_tc_calc_overflow(
+			  self_deref.refp_hdr->runtime.cur_capacity
+			, src_deref.refp_hdr->runtime.cur_capacity
+			, &diff 
+		);
 		
-		/* limit by SELF capacity: */
-		if( new_required_length > self_deref.refp_hdr->runtime.cur_capacity ) {
-			new_required_length = self_deref.refp_hdr->runtime.cur_capacity;
+		if( NULL != opt_overflow ) {
+			*opt_overflow=diff; /* !!! int -> uint [validated] */
+		}
+		
+		if(diff>0) {
+			xc_err_term_unmg();
 		}
 	}
-	/* limit by SELF capacity: done */
+	/* validate capacity difference: illegal to copy non- sequential collection of BIGGER capacity to SMALLER capacity: done */
+	
+	/* new length: from SRC */
+	new_required_length=src_deref.refp_hdr->runtime.cur_length;
+	
 	/* --- */
 	
 	if(1) /*  optional but useful shortcut: DO NOTHING RETURN OK if PARAM TARGEET and PARAM SOURCE are same */
@@ -1252,7 +1307,6 @@ int xc_tcPoolS_LL_assign_from(xc_tcPoolS_LL_deref_t self_deref, const xc_tcPoolS
 		if( self_deref.self_bytes_ref.BtPtr == src_deref.self_bytes_ref.BtPtr ) {
 			return 0; /* nothing to be done, no error- return OK */
 		}
-		
 	}
 	
 	if(1)
@@ -1262,48 +1316,35 @@ int xc_tcPoolS_LL_assign_from(xc_tcPoolS_LL_deref_t self_deref, const xc_tcPoolS
 		self_deref.refp_hdr->runtime.cur_length=new_required_length;
 	}
 	
-	if(1) /* addition: export information about overflow */
+	if(1)
 	{
-		if( NULL != opt_overflow ) {
-			size_t diff=0;
-			xc_tc_calc_overflow(
-				  self_deref.refp_hdr->runtime.cur_capacity
-				, src_deref.refp_hdr->runtime.cur_length
-				, &diff 
-			);
-			*opt_overflow=diff; /* !!! int -> uint [validated] */
-		}
+		xc_mem_bzero_obj_array(xc_tc_LLII_idx_t,self_deref.refp_hdr->runtime.cur_capacity, self_deref.refp_hdr->runtime.frees.arrS);
+		
+		xc_mem_cp_obj_array(
+			  xc_tc_LLII_idx_t
+			, src_deref.refp_hdr->runtime.cur_capacity
+			, self_deref.refp_hdr->runtime.frees.arrS
+			, src_deref.refp_hdr->runtime.frees.arrS
+		);
 	}
 	
 	if(1)
 	{
-		int is_overflow1=0;
-		if( 0 != xc_tcVectorS_u_assign_from(
-				  &self_deref.refp_hdr->runtime.vectDS_free
-				, &src_deref.refp_hdr->runtime.vectDS_free
-				, &is_overflow1
-			)  
-		) {
-			xc_err_term_unmg();
-		}
-	}
-	if(1)
-	{
-		int is_overflow2=0;
-		if( 0 != xc_tcVectorS_u_assign_from(
-				  &self_deref.refp_hdr->runtime.vectDS_lookup
-				, &src_deref.refp_hdr->runtime.vectDS_lookup
-				, &is_overflow2
-			)  
-		) {
-			xc_err_term_unmg();
-		}
+		xc_mem_bzero_obj_array(xc_tc_LLII_idx_t,self_deref.refp_hdr->runtime.cur_capacity, self_deref.refp_hdr->runtime.lookups.arrS);
+		
+		xc_mem_cp_obj_array(
+			  xc_tc_LLII_idx_t
+			, src_deref.refp_hdr->runtime.cur_capacity
+			, self_deref.refp_hdr->runtime.lookups.arrS
+			, src_deref.refp_hdr->runtime.lookups.arrS
+		);
 	}
 	
+	/* TODO!!! WARNING!!! SLOW!!! compare total block copy vs copy only lookups!!! */
 	if(1) /* just copy entire memory block instead of copying object by object */
 	{
 		size_t self_items_memblock_bytesize_total=0;
-		const size_t maxcnt=new_required_length;
+		/* const size_t maxcnt=new_required_length; */ /* not used */
 		xc_p_pBytes_t self_items_memblock_ptr=xc_p_pBytes_from_ref2pBytes(self_deref.items_byteptr);
 		xc_p_pBytesConst_t src_items_memblock_ptr=xc_ptr_pBytesConst_from_ref2pBytesConst(src_deref.items_byteptr);
 		
@@ -1311,46 +1352,13 @@ int xc_tcPoolS_LL_assign_from(xc_tcPoolS_LL_deref_t self_deref, const xc_tcPoolS
 		
 		xc_mem_bzero_bytes(self_items_memblock_ptr.BtPtr, self_items_memblock_bytesize_total);
 		
-		memcpy(self_items_memblock_ptr.BtPtr, src_items_memblock_ptr.BtPtr, self_deref.refp_hdr->cfg.obj_bytesize*maxcnt); /* varranteed non overlapping memory block, memcpy can be used instead of memmove */
+		memcpy(self_items_memblock_ptr.BtPtr, src_items_memblock_ptr.BtPtr, self_items_memblock_bytesize_total); /* varranteed non overlapping memory block, memcpy can be used instead of memmove */
 	}
 	
 	return 0;
 	
 	xc_err_on_unmg();
 	return 1;
-}
-
-
-static xc_tc_LLII_idx_t publicidxLookup2LLII(const xc_tcPoolS_LL_deref_t* self_deref, const int idx)
-{
-	xc_tc_LLII_idx_t retv=xc_tc_LLII_idx_itz_invalid();
-	xc_tc_LLII_idx_t retv_invalid=xc_tc_LLII_idx_itz_invalid();
-	
-	if(NULL==self_deref) {
-		return retv_invalid;
-	}
-	
-	retv=xc_tcVectorS_u_item_direct(&self_deref->refp_hdr->runtime.vectDS_lookup, idx);
-	
-	return retv;
-}
-
-
-static xc_p_pBytes_t publicidxLookup2itemptr(const xc_tcPoolS_LL_deref_t* self_deref, const int idx)
-{
-	xc_p_pBytes_t tmp_BtPtr={0};
-	xc_p_pBytes_t tmp_BtPtr_invalid={0};
-	xc_tc_LLII_idx_t tmpidx={0};
-	
-	if(NULL==self_deref) {
-		return tmp_BtPtr_invalid;
-	}
-	
-	tmpidx=xc_tcVectorS_u_item_direct(&self_deref->refp_hdr->runtime.vectDS_lookup, idx);
-	tmp_BtPtr=xc_p_pBytes_from_ref2pBytes(self_deref->items_byteptr);
-	tmp_BtPtr.BtPtr=tmp_BtPtr.BtPtr+tmpidx.idx0*self_deref->refp_hdr->cfg.obj_bytesize;
-	
-	return tmp_BtPtr;
 }
 
 
@@ -1367,4 +1375,18 @@ static xc_p_pBytes_t LLII_to_itemptr(const xc_tcPoolS_LL_deref_t* self_deref, co
 	tmp_BtPtr.BtPtr=tmp_BtPtr.BtPtr+idx_LLII.idx0*self_deref->refp_hdr->cfg.obj_bytesize;
 	
 	return tmp_BtPtr;
+}
+
+
+int xc_tcPoolS_DIAG_getFreesLength(const xc_tcPoolS_hdr_t* refp_hdr, int* result_length)
+{
+	*result_length=refp_hdr->runtime.cur_capacity-refp_hdr->runtime.cur_length;
+	return 0;
+}
+
+
+int xc_tcPoolS_DIAG_getLookupsLength(const xc_tcPoolS_hdr_t* refp_hdr, int* result_length)
+{
+	*result_length=refp_hdr->runtime.cur_length;
+	return 0;
 }

@@ -18,7 +18,7 @@
 #include "xcc/test/xcc_test2.hpp"
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcpool_s/xc_tcpool_s.h"
 /* --- */
 
@@ -131,7 +131,7 @@ class intf_internal
 		xc_tcPoolS_LL_deref_t deref={0};
 		xc_tcPoolS_hdr_t* refp_hdr=NULL;
 		int public_idx=0;
-		xcc_test2_scope_disconnected();
+		xcc_test2_scope_disconnected();	
 		
 		refp_hdr=&refp_self->prv__hdrDS;
 		
@@ -226,18 +226,10 @@ class intf_internal
 			xcc_test2_case("ITEMVALUES-length  match (POOL addition)");
 			
 			int free_length=0;
-			int free_capacity=0;
 			int lookup_length=0;
-			int lookup_capacity=0;
 			
-			free_length=xc_tcVectorS_u_get_length(&refp_self->prv__hdrDS.runtime.vectDS_free);
-			free_capacity=xc_tcVectorS_u_get_capacity(&refp_self->prv__hdrDS.runtime.vectDS_free);
-			
-			lookup_length=xc_tcVectorS_u_get_length(&refp_self->prv__hdrDS.runtime.vectDS_lookup);
-			lookup_capacity=xc_tcVectorS_u_get_capacity(&refp_self->prv__hdrDS.runtime.vectDS_lookup);
-			
-			xcc_test2_expect_eq_t(int, lookup_capacity, expected_capacity);
-			xcc_test2_expect_eq_t(int, free_capacity, expected_capacity);
+			xcc_test2_expect( 0 == xc_tcPoolS_DIAG_getFreesLength(&refp_self->prv__hdrDS, &free_length) );
+			xcc_test2_expect( 0 == xc_tcPoolS_DIAG_getLookupsLength(&refp_self->prv__hdrDS, &lookup_length) );
 			
 			xcc_test2_expect_eq_t(int, lookup_length, expected_length);
 			xcc_test2_expect_eq_t(int, free_length, (expected_capacity-expected_length) );
@@ -250,14 +242,53 @@ class intf_internal
 		do
 		{
 			xcc_test2_case("ITEMVALUES-values");
-
-			for(n=0;n<expected_items.size(); n++) 
+			
+			if(1)
+			{
+				fprintf(stdout, "*** *** ***\n");
+				for(n=0; n<expected_capacity; n++) 
+				{
+					const _ARG_TPL_VITEMTYPE_* refp_tested_item=NULL;
+					
+					refp_tested_item=&refp_self->arrayDS_ptr_items[n];
+					//dummyItem_t
+					//refp_tested_item=xc_tcPoolS_u_item_refp(refp_self, n);
+					
+					fprintf(stdout, "%02d: data=[ [%d] [%s] ]\n", n, refp_tested_item->val_int, refp_tested_item->val_str);
+					fprintf(stdout, "------\n");
+				}
+				fprintf(stdout, "*** *** ***\n");;
+				
+				fprintf(stdout, "*** *** *** LOOKUPS:\n");
+				for(n=0; n<expected_capacity; n++) 
+				{
+					const xc_tc_LLII_idx_t tmp_lookup_idx=refp_self->prv__hdrDS.runtime.lookups.arrS[n];
+					
+					fprintf(stdout, "%02d: [%d]\n", n, tmp_lookup_idx.idx0);
+					fprintf(stdout, "------\n");
+				}
+				fprintf(stdout, "*** *** ***\n");;
+				
+				fprintf(stdout, "*** *** *** FREES:\n");
+				for(n=0; n<expected_capacity; n++) 
+				{
+					const xc_tc_LLII_idx_t tmp_lookup_idx=refp_self->prv__hdrDS.runtime.frees.arrS[n];
+					
+					fprintf(stdout, "%02d: [%d]\n", n, tmp_lookup_idx.idx0);
+					fprintf(stdout, "------\n");
+				}
+				fprintf(stdout, "*** *** ***\n");
+			}
+			
+			for(n=0; n<expected_items.size(); n++) 
 			{
 				std::stringstream tmpss;
 				std::string tmpstr;
 				char tmpb[256]={0};
 				const _ARG_TPL_VITEMTYPE_* refp_cur_item=NULL;
 				const _ARG_TPL_VITEMTYPE_* refp_tested_item=NULL;
+				std::string str_item1;
+				std::string str_item_tested;
 				
 				tmpss<<n;
 				tmpstr=tmpss.str();
@@ -265,7 +296,28 @@ class intf_internal
 				refp_cur_item=&expected_items[n];
 				
 				refp_tested_item=xc_tcPoolS_u_item_refp(refp_self, n);
-				xcc_test2_expect( NULL  != refp_tested_item );
+				xcc_test2_expect( NULL != refp_tested_item );
+				
+				if(1)
+				{
+					str_item1=_TPL_LLII_::item_toString(refp_cur_item);
+					str_item_tested=_TPL_LLII_::item_toString(refp_tested_item);
+					
+					snprintf(tmpb, sizeof(tmpb), "    comparing items at idx [%d]: info:", n );
+					xcc_test2_case_step_annotate( tmpb );
+					
+					snprintf(tmpb, sizeof(tmpb), "        item  1 = [%s]", str_item1.c_str() );
+					xcc_test2_case_step_annotate( tmpb );
+
+					snprintf(tmpb, sizeof(tmpb), "        item  2 = [%s]", str_item_tested.c_str() );
+					xcc_test2_case_step_annotate( tmpb );
+					
+					snprintf(tmpb, sizeof(tmpb), "    comparing items at idx [%d]: info: done", n );
+					xcc_test2_case_step_annotate( tmpb );
+				}
+				
+				snprintf(tmpb, sizeof(tmpb), "    comparing item at idx [%s]:", tmpstr.c_str() );
+				xcc_test2_case_step_annotate( tmpb );
 				
 				snprintf(tmpb, sizeof(tmpb), "    comparing item at idx [%s]:", tmpstr.c_str() );
 				xcc_test2_case_step_annotate( tmpb );
@@ -285,7 +337,7 @@ class intf_internal
 		do
 		{
 			int max=0;
-			max=xc_tcVectorS_u_get_length(&refp_self->prv__hdrDS.runtime.vectDS_lookup);
+			xcc_test2_expect( 0 == xc_tcPoolS_DIAG_getLookupsLength(&refp_self->prv__hdrDS, &max) );
 
 			xcc_test2_case("ITEMVALUES-values-complementary-lookup");
 			xcc_test2_case_step_annotate( "checking complementary lookup indexes to be empty...:");
@@ -307,12 +359,7 @@ class intf_internal
 
 				if(1)
 				{
-					xcc_test2_expect( 0 != xc_tcVectorS_u_item_cp(
-							  &refp_self->prv__hdrDS.runtime.vectDS_lookup
-							, n
-							, &tmp_lookup_idx 
-						)
-					);
+					tmp_lookup_idx=refp_self->prv__hdrDS.runtime.lookups.arrS[n];
 					
 					snprintf(tmpb, sizeof(tmpb), "    expecting empty zero item at idx [%s]: OK", tmpstr.c_str() );
 					
@@ -333,7 +380,7 @@ class intf_internal
 		{
 			/* from me: every index in free vector at index range <0, length) must be valid and item pointed by this index must empty */
 			int max=0;
-			max=xc_tcVectorS_u_get_length(&refp_self->prv__hdrDS.runtime.vectDS_free);
+			xcc_test2_expect( 0 == xc_tcPoolS_DIAG_getFreesLength(&refp_self->prv__hdrDS, &max) );
 
 			xcc_test2_case("ITEMVALUES-values-complementary-emptyAtFree");
 			xcc_test2_case_step_annotate( "checking free indexes to be empty...:");
@@ -349,12 +396,7 @@ class intf_internal
 				
 				if(1)
 				{
-					xcc_test2_expect( 0 == xc_tcVectorS_u_item_cp(
-							  &refp_self->prv__hdrDS.runtime.vectDS_free
-							, n
-							, &tmp_free_idx 
-						)
-					);
+					tmp_free_idx=refp_self->prv__hdrDS.runtime.frees.arrS[n];
 					
 					xcc_test2_expect( 0 == xc_tc_LLII_idx_isInvalid(&tmp_free_idx ) );
 				}

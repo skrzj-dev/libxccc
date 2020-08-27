@@ -14,6 +14,13 @@
 #include "xc/common/xc_cptr.h"
 /* --- */
 
+xc_p_pBytesConst_t xc_ptr_pBytesConst_from_raw(const unsigned char* target)
+{
+	xc_p_pBytesConst_t retv={0};
+	retv.BtPtr=target;
+	return retv;
+}
+
 
 xc_p_pBytes_t xc_p_pBytes_from_raw(unsigned char* target)
 {

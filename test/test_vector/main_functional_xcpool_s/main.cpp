@@ -17,7 +17,7 @@
 /* --- */
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "implement_functional_xcpool_s/xcpool_ds_main.hpp"
+#include "implement_functional_xcpool_t/xcpool_ts_main.hpp"
 /* --- */
 
 int main(int argc, char **argv)

@@ -161,6 +161,7 @@ extern "C" {
 	})
 #endif
 
+
 #define xc_tcPoolS_s_item_refp(_ARG_SELF_REFP_, _ARG_TARGET_IDX_)  ({\
 		xc_c_TYPEOF(_ARG_SELF_REFP_) xc_c_LOCALNAME(refp_self)=(_ARG_SELF_REFP_);\
 		const int xc_c_LOCALNAME(idx)=(_ARG_TARGET_IDX_);\
@@ -173,7 +174,7 @@ extern "C" {
 				  ,( xc_c_LOCALNAME(idx) )\
 				)\
 			)\
-			? ( &( xc_c_LOCALNAME(refp_self) )->arrayDS_ptr_items[ ( xc_c_LOCALNAME(idx) ) ] )\
+			? ( &( xc_c_LOCALNAME(refp_self) )->arrayDS_ptr_items[ xc_tcPoolS_LL_publicIdx_to_lookupIdx_validated( xc_tcPoolS_s_derefer_get_retv( xc_c_LOCALNAME(refp_self) ), xc_c_LOCALNAME(idx) ) ] )\
 			: ( ( ( xc_c_LOCALNAME(refp_self) )->prv__dummyptr=NULL) )/* UNINITIALIZED OBJECT OPERATION OR OUT OF BOND ACCESS: MANAGEABLE ERROR, NULL */\
 		);\
 		/* --- */\

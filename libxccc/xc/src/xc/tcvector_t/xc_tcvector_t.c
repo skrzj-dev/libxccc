@@ -14,7 +14,7 @@
 #include "xc/common/xc_mem.h"
 #include "xc/common/xc_tc_common.h"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_t/xc_tcvector_t.h"
 /* --- */
 
@@ -690,19 +690,19 @@ int xc_tcVectorT_LL_rem_idx(xc_tcVectorT_LL_deref_t self_deref, const int public
 	/* shrink if required: */
 	if(1)
 	{
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_init_updated={0};
 		xc_p_refp2pBytes_t tmpRef2PB={0};
 		
 		tmpRef2PB.Refp2BtPtr=&self_deref.items_byteptr.BtPtr; /* wrapper for it, and byteptr must not be passed as value */
 		
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, 1
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  tmpRef2PB
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->cfg.static_capacity
@@ -715,7 +715,7 @@ int xc_tcVectorT_LL_rem_idx(xc_tcVectorT_LL_deref_t self_deref, const int public
 		{
 			const size_t shift_cnt=1;
 			
-			if( 0 != xc_ammo_seq_tStatic_shiftLeft(&alloctr_cfg, &alloctr_state_init_updated, public_idx, shift_cnt) ) {
+			if( 0 != xc_am_seq_tStatic_shiftLeft(&alloctr_cfg, &alloctr_state_init_updated, public_idx, shift_cnt) ) {
 				xc_err_term_unmg();
 			}
 		}
@@ -782,19 +782,19 @@ int xc_tcVectorT_LL_insert(xc_tcVectorT_LL_deref_t self_deref, const int public_
 	if(1)
 	{
 		
-		xc_ammo_seq_cfg_t alloctr_cfg={0};
-		xc_ammo_seq_state_t alloctr_state_init={0};
-		xc_ammo_seq_state_t alloctr_state_init_updated={0};
+		xc_am_seq_cfg_t alloctr_cfg={0};
+		xc_am_seq_state_t alloctr_state_init={0};
+		xc_am_seq_state_t alloctr_state_init_updated={0};
 		xc_p_refp2pBytes_t tmpRef2PB={0};
 		
 		tmpRef2PB.Refp2BtPtr=&self_deref.items_byteptr.BtPtr;
 
-		alloctr_cfg=xc_ammo_seq_cfg_retv(
+		alloctr_cfg=xc_am_seq_cfg_retv(
 			  self_deref.refp_hdr->cfg.obj_bytesize
 			, 1
 		);
 		
-		alloctr_state_init=xc_ammo_seq_state_retv(
+		alloctr_state_init=xc_am_seq_state_retv(
 			  tmpRef2PB
 			, self_deref.refp_hdr->runtime.cur_length
 			, self_deref.refp_hdr->cfg.static_capacity
@@ -809,7 +809,7 @@ int xc_tcVectorT_LL_insert(xc_tcVectorT_LL_deref_t self_deref, const int public_
 			{
 				const size_t shift_cnt=1;
 				
-				if( 0 != xc_ammo_seq_tStatic_shiftRight(&alloctr_cfg, &alloctr_state_init_updated, public_idx, shift_cnt) ) {
+				if( 0 != xc_am_seq_tStatic_shiftRight(&alloctr_cfg, &alloctr_state_init_updated, public_idx, shift_cnt) ) {
 					xc_err_term_unmg();
 				}
 			}

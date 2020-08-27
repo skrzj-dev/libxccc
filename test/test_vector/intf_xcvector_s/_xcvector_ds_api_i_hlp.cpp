@@ -13,7 +13,7 @@
 /* --- */
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_s/xc_tcvector_s.h"
 /* --- */
 #include "intf_xcvector_s/_xcvector_ds_api_i_hlp.hpp"

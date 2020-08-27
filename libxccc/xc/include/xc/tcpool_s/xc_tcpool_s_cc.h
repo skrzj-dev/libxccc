@@ -24,12 +24,10 @@ extern "C" {
 #include "xc/common/xc_mem.h"
 #include "xc/common/xc_cptr.h"
 #include "xc/common/xc_tc_common.h"
-#include "xc/tcvector_s/xc_tcvector_s.h"
 /* --- */
 
-typedef xc_p_declt_objArr(xc_tc_LLII_idx_t) xc_tcPoolS_Arr_LLII;
 
-typedef xc_tcVectorS_declt(xc_tc_LLII_idx_t) vectLLII_t;
+typedef struct { xc_tc_LLII_idx_t* arrS; } xc_tc_LLII_arr1S_t;
 
 typedef struct xc_tcPoolS_cfg_t
 {
@@ -45,11 +43,8 @@ typedef struct xc_tcPoolS_runtime_t
 	size_t cur_capacity;
 	size_t cur_length;
 	
-	/*xcc_p_pIntArray_t arrayDS_lookup;
-	xcc_p_pIntArray_t arrayDS_free;*/
-	
-	vectLLII_t vectDS_lookup;
-	vectLLII_t vectDS_free;
+	xc_tc_LLII_arr1S_t lookups;
+	xc_tc_LLII_arr1S_t frees;
 
 } xc_tcPoolS_runtime_t;
 
@@ -136,6 +131,8 @@ void* xc_tcPoolS_LL_init_ret_self_refp__dc01(
 	, const size_t initial_capacity
 );
 
+int xc_tcPoolS_DIAG_getFreesLength(const xc_tcPoolS_hdr_t* refp_hdr, int* result_length);
+int xc_tcPoolS_DIAG_getLookupsLength(const xc_tcPoolS_hdr_t* refp_hdr, int* result_length);
 
 /*
  * high- level validation of DEREFER; checks if object is operational; 

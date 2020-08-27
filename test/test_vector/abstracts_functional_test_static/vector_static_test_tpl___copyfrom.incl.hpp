@@ -598,74 +598,265 @@ xcc_tplTestVector_static_method(int) test_copyFrom_ok(xcc_test2_param_list) noex
 		
 	} while(0);
 	
+	/* TODO ugly hack: this depends on sequential continuous data (or not) in tested collecction*/
 	
-	do
+	if( 0 != vector_I.DIAG_is_continuous() ) /* if  sequential */
 	{
-		xcc_test2_case("copyfrom-1.101.2-[non-empty#1<-non-empty#2(length bigger (more than capacity of #1) than #1)]; expect result: non-empty#2");
-		
-		TPL_VTYPE vector_self_obj;
-		TPL_VTYPE vector_src_obj;
-		TPL_VTYPE vector_self_obj_copy_before_op={0};
-		
-		if(1)
+		do
 		{
-			xc_mem_bzero_obj(TPL_VTYPE, &vector_self_obj);
-			xc_mem_bzero_obj(TPL_VTYPE, &vector_src_obj);
-			xcc_test2_expect( 0 == vector_I.init(&vector_self_obj) );
-			xcc_test2_expect( 0 == vector_I.init(&vector_src_obj) );
+			xcc_test2_case("copyfrom-1.101.2-A-SEQUENTIAL-[non-empty#1<-non-empty#2(length bigger (more than capacity of #1) than #1)]; expect result: non-empty#2");
 			
-			xcc_test2_expect( 0 == INTF_INTERNAL_I.hack_forceSmallerCapacity(&vector_self_obj, 4) );
-			
+			TPL_VTYPE vector_self_obj;
+			TPL_VTYPE vector_src_obj;
+			TPL_VTYPE vector_self_obj_copy_before_op={0};
 			
 			if(1)
 			{
-				xcc_test2_expect( 4 == vector_I.get_capacity(&vector_self_obj) );
-				xcc_test2_expect( vector_I.get_capacity(&vector_self_obj) != vector_I.get_capacity(&vector_src_obj) );
-			}
-			
-			if(1)
-			{
-				TPL_ITEM_TYPE tmp_item;
+				xc_mem_bzero_obj(TPL_VTYPE, &vector_self_obj);
+				xc_mem_bzero_obj(TPL_VTYPE, &vector_src_obj);
+				xcc_test2_expect( 0 == vector_I.init(&vector_self_obj) );
+				xcc_test2_expect( 0 == vector_I.init(&vector_src_obj) );
 				
-				tmp_item=LLII_I.item_obj(1, "v:001");
-				xcc_test2_expect( 0 == vector_I.push(&vector_self_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(2, "v:002");
-				xcc_test2_expect( 0 == vector_I.push(&vector_self_obj, &tmp_item) );
+				xcc_test2_expect( 0 == INTF_INTERNAL_I.hack_forceSmallerCapacity(&vector_self_obj, 4) );
+				
+				
+				if(1)
+				{
+					xcc_test2_expect( 4 == vector_I.get_capacity(&vector_self_obj) );
+					xcc_test2_expect( vector_I.get_capacity(&vector_self_obj) != vector_I.get_capacity(&vector_src_obj) );
+				}
+				
+				if(1)
+				{
+					TPL_ITEM_TYPE tmp_item;
+					
+					tmp_item=LLII_I.item_obj(1, "v:001");
+					xcc_test2_expect( 0 == vector_I.push(&vector_self_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(2, "v:002");
+					xcc_test2_expect( 0 == vector_I.push(&vector_self_obj, &tmp_item) );
+				}
+				
+				if(1)
+				{
+					TPL_ITEM_TYPE tmp_item;
+					
+					tmp_item=LLII_I.item_obj(11, "v:011");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(12, "v:012");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(13, "v:013");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(14, "v:014");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(15, "v:015");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(16, "v:016");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(17, "v:017");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(18, "v:018");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(19, "v:019");
+					xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(20, "v:020");
+					xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(21, "v:021");
+					xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+				}
+				
+				xc_mem_cp_obj(TPL_VTYPE, &vector_self_obj_copy_before_op, &vector_self_obj);
 			}
 			
 			if(1)
 			{
-				TPL_ITEM_TYPE tmp_item;
 				
-				tmp_item=LLII_I.item_obj(11, "v:011");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(12, "v:012");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(13, "v:013");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(14, "v:014");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(15, "v:015");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(16, "v:016");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(17, "v:017");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(18, "v:018");
-				xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(19, "v:019");
-				xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(20, "v:020");
-				xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
-				tmp_item=LLII_I.item_obj(21, "v:021");
-				xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+				if(1) {
+					const size_t expected_length=2;
+					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02_cap( xcc_test2_case_refer_customFailInfo(),  
+							  &vector_self_obj
+							, expected_length
+							, 4
+							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+									  LLII_I.item_obj(1, "v:001")
+									, LLII_I.item_obj(2, "v:002")
+								}
+							) 
+						)
+					);
+				}
+				
+				if(1) {
+					const size_t expected_length=8;
+					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02_cap( xcc_test2_case_refer_customFailInfo(),  
+							  &vector_src_obj
+							, expected_length
+							, 8
+							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+									  LLII_I.item_obj(11, "v:011")
+									, LLII_I.item_obj(12, "v:012")
+									, LLII_I.item_obj(13, "v:013")
+									, LLII_I.item_obj(14, "v:014")
+									, LLII_I.item_obj(15, "v:015")
+									, LLII_I.item_obj(16, "v:016")
+									, LLII_I.item_obj(17, "v:017")
+									, LLII_I.item_obj(18, "v:018")
+								}
+							) 
+						)
+					);
+				}
+				
 			}
 			
-			xc_mem_cp_obj(TPL_VTYPE, &vector_self_obj_copy_before_op, &vector_self_obj);
-		}
+			if(1)
+			{
+				xcc_test2_expect( 0 == vector_I.assignFrom(&vector_self_obj, &vector_src_obj, NULL) );
+			}
+			
+			if(1) {
+				const size_t expected_length=4;
+				xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02_cap( xcc_test2_case_refer_customFailInfo(),  
+						  &vector_self_obj
+						, expected_length
+						, 4
+						, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+								  LLII_I.item_obj(11, "v:011")
+								, LLII_I.item_obj(12, "v:012")
+								, LLII_I.item_obj(13, "v:013")
+								, LLII_I.item_obj(14, "v:014")
+							}
+						) 
+					)
+				);
+			}
+			
+			if(0) /* unusable here */
+			{
+				xcc_test2_expect( 0 != xc_mem_u_cmp_obj(TPL_VTYPE, &vector_self_obj, &vector_self_obj_copy_before_op) );
+			}
+			
+			if(1)
+			{
+				xcc_test2_expect( 0 == vector_I.deinit(&vector_self_obj) );
+				xcc_test2_expect( 0 == vector_I.deinit(&vector_src_obj) );
+			}
+			
+			xcc_test2_case_end();
 		
-		if(1)
+		} while(0);
+	}
+	else /* not sequential */
+	{
+		do
 		{
+			xcc_test2_case("copyfrom-1.101.2-B-NOTSEQUENTIAL-[non-empty#1<-non-empty#2(length bigger (more than capacity of #1) than #1)]; expect result: non-empty#2");
+			
+			TPL_VTYPE vector_self_obj;
+			TPL_VTYPE vector_src_obj;
+			TPL_VTYPE vector_self_obj_copy_before_op={0};
+			
+			if(1)
+			{
+				xc_mem_bzero_obj(TPL_VTYPE, &vector_self_obj);
+				xc_mem_bzero_obj(TPL_VTYPE, &vector_src_obj);
+				xcc_test2_expect( 0 == vector_I.init(&vector_self_obj) );
+				xcc_test2_expect( 0 == vector_I.init(&vector_src_obj) );
+				
+				xcc_test2_expect( 0 == INTF_INTERNAL_I.hack_forceSmallerCapacity(&vector_self_obj, 4) );
+				
+				
+				if(1)
+				{
+					xcc_test2_expect( 4 == vector_I.get_capacity(&vector_self_obj) );
+					xcc_test2_expect( vector_I.get_capacity(&vector_self_obj) != vector_I.get_capacity(&vector_src_obj) );
+				}
+				
+				if(1)
+				{
+					TPL_ITEM_TYPE tmp_item;
+					
+					tmp_item=LLII_I.item_obj(1, "v:001");
+					xcc_test2_expect( 0 == vector_I.push(&vector_self_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(2, "v:002");
+					xcc_test2_expect( 0 == vector_I.push(&vector_self_obj, &tmp_item) );
+				}
+				
+				if(1)
+				{
+					TPL_ITEM_TYPE tmp_item;
+					
+					tmp_item=LLII_I.item_obj(11, "v:011");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(12, "v:012");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(13, "v:013");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(14, "v:014");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(15, "v:015");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(16, "v:016");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(17, "v:017");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(18, "v:018");
+					xcc_test2_expect( 0 == vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(19, "v:019");
+					xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(20, "v:020");
+					xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+					tmp_item=LLII_I.item_obj(21, "v:021");
+					xcc_test2_expect( 0 != vector_I.push(&vector_src_obj, &tmp_item) );
+				}
+				
+				xc_mem_cp_obj(TPL_VTYPE, &vector_self_obj_copy_before_op, &vector_self_obj);
+			}
+			
+			if(1)
+			{
+				
+				if(1) {
+					const size_t expected_length=2;
+					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02_cap( xcc_test2_case_refer_customFailInfo(),  
+							  &vector_self_obj
+							, expected_length
+							, 4
+							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+									  LLII_I.item_obj(1, "v:001")
+									, LLII_I.item_obj(2, "v:002")
+								}
+							) 
+						)
+					);
+				}
+				
+				if(1) {
+					const size_t expected_length=8;
+					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02_cap( xcc_test2_case_refer_customFailInfo(),  
+							  &vector_src_obj
+							, expected_length
+							, 8
+							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+									  LLII_I.item_obj(11, "v:011")
+									, LLII_I.item_obj(12, "v:012")
+									, LLII_I.item_obj(13, "v:013")
+									, LLII_I.item_obj(14, "v:014")
+									, LLII_I.item_obj(15, "v:015")
+									, LLII_I.item_obj(16, "v:016")
+									, LLII_I.item_obj(17, "v:017")
+									, LLII_I.item_obj(18, "v:018")
+								}
+							) 
+						)
+					);
+				}
+				
+			}
+			
+			if(1)
+			{
+				xcc_test2_expect( 0 != vector_I.assignFrom(&vector_self_obj, &vector_src_obj, NULL) );
+			}
 			
 			if(1) {
 				const size_t expected_length=2;
@@ -703,44 +894,21 @@ xcc_tplTestVector_static_method(int) test_copyFrom_ok(xcc_test2_param_list) noex
 				);
 			}
 			
-		}
+			if(0) /* unusable here */
+			{
+				xcc_test2_expect( 0 != xc_mem_u_cmp_obj(TPL_VTYPE, &vector_self_obj, &vector_self_obj_copy_before_op) );
+			}
+			
+			if(1)
+			{
+				xcc_test2_expect( 0 == vector_I.deinit(&vector_self_obj) );
+				xcc_test2_expect( 0 == vector_I.deinit(&vector_src_obj) );
+			}
+			
+			xcc_test2_case_end();
 		
-		if(1)
-		{
-			xcc_test2_expect( 0 == vector_I.assignFrom(&vector_self_obj, &vector_src_obj, NULL) );
-		}
-		
-		if(1) {
-			const size_t expected_length=4;
-			xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02_cap( xcc_test2_case_refer_customFailInfo(),  
-					  &vector_self_obj
-					, expected_length
-					, 4
-					, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-							  LLII_I.item_obj(11, "v:011")
-							, LLII_I.item_obj(12, "v:012")
-							, LLII_I.item_obj(13, "v:013")
-							, LLII_I.item_obj(14, "v:014")
-						}
-					) 
-				)
-			);
-		}
-		
-		if(0) /* unusable here */
-		{
-			xcc_test2_expect( 0 != xc_mem_u_cmp_obj(TPL_VTYPE, &vector_self_obj, &vector_self_obj_copy_before_op) );
-		}
-		
-		if(1)
-		{
-			xcc_test2_expect( 0 == vector_I.deinit(&vector_self_obj) );
-			xcc_test2_expect( 0 == vector_I.deinit(&vector_src_obj) );
-		}
-		
-		xcc_test2_case_end();
-	
-	} while(0);
+		} while(0);
+	}
 	
 	do
 	{
