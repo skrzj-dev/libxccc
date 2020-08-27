@@ -21,42 +21,44 @@ Project provides commonly used components such as:
 
 Library expected to met following postulates:
 
-1. Ergonomy
+### 1. Ergonomy
 A functionality must be provided with minimal "noise" (and it's C we're talking about)
 
-2. Usage
+### 2. Usage
 Usage of a component must rely on regular C syntax.
 
-3. Dependencies
+### 3. Dependencies
 - The only external dependency for components is libc.
-- The only internal dependency is small common part of implementation.
+- The only internal dependency is small core part of implementation.
 - The only exception are standard system headers (if applicable for both windows and linux).
 - Components relying on external dependencies must be optional.
+- Components relying on internal dependencies other than the core part must be optional.
 
-4. Reliability
+### 4. Reliability
 Component must provide, if possible:
 - Type safety at compilation time
 - Boundary checking at runtime
 - Handling null and invalid parameters at runtime (component must not crash context in which it is called)
 
-5. Tested
+### 5. Tested
 All components must be covered at least with a functional test.
 
-6. Performance
+### 6. Performance
 Expected performance no worse than high- level reference (eg. for collections - corresponding STL collection)
 
-7. Modularity
+### 7. Modularity
 Project expected to be highly modularized. 
-The granularity is expected to be 1 component + common part.
+The granularity is expected to be 1 component + core part.
+The exception are optional components where granularity is expected to be 1 component + dependency + core part.
 
-8. Portability
+### 8. Portability
 -  Implementation must be possible to compile with restrictive compilation flags.
 -  Implementation must be possible to be used with C++ compiler
 -  Implementation rely only on standard compiler features (not extensions), standard C syntax and code written by a developer.
--  Implementation compatible with ANSI C C90; optional features avialable for ANSI C for C99.
+-  Implementation compatible with ANSI C C90; there may be optional features for C99.
 -  Implementation does not rely on system- specific features or platform- specific features.
 
-9. Strict namespacing
+### 9. Strict namespacing
 -  Strict naming convention must prevent global namespace from being polluted with random identifiers.
 -  All identifiers in library start with library prefix.
 -  Components provide own unique name prefixes.
@@ -75,7 +77,22 @@ General purpose utilities
 | xc_rtdbg               | debug toggleable at runtime                       | Done                | yes        | none             |
 | xc_si                  | safe integer operations                           | Done                | yes        | functional       |
 | xc_hash                | hash functions                                    | Partial/ WIP        | yes        | none             |
+| xc_rand                | randomization functions                           | Done                | yes        | none             |
 
+
+Abstraction over memory management 
+
+| Component name in code |  Description                                      | State               | Stable API | Tests            |
+| ---------------------- | ------------------------------------------------- | ------------------- | ---------- | ---------------- |
+| xc_amAlc               | stateful allocator operating on raw bytes         | Done                | no         | functional       |
+| xc_amMdl               | access to objects in allocated memory block       | Done                | no         | functional       |
+| xc_amOp                | operations over objects in allocated memory block | Done                | no         | functional       |
+
+Available allocators:
+
+- Sequential data, grow / shrink, capacity changes by multipication of 2
+- Sequential data, grow / shrink, capacity changes by constant size step 
+- Sequential data, fixed constant capacity
 
 ### String
 
@@ -98,11 +115,31 @@ Generic typesafe data collections
 | xc_tcVectorS           |  static capacity vector (runtime fixed capacity)  |  Done               | yes        | functional       |
 | xc_tcVectorT           |  static capacity vector (compilation time fixed)  |  Done               | yes        | functional       |
 | xc_tcPoolD             |  dynamic pool                                     |  TODO               |            |                  |
-| xc_tcPoolS             |  static pool (runtime fixed capacity)             |  WIP (0.1)          |            |                  |
-| xc_tcPoolT             |  static pool (compilation time fixed capacity)    |  TODO               |            |                  |
+| xc_tcPoolS             |  static pool (runtime fixed capacity)             |  DONE               | yes        | functional       |
+| xc_tcPoolT             |  static pool (compilation time fixed capacity)    |  TODO               | yes        | functional       |
 | xc_tcSelectD           |  dynamic hashtable/pool                           |  TODO               |            |                  |
 | xc_tcSelectS           |  static hashtable/pool (runtime fixed capacity)   |  TODO               |            |                  |
-| xc_tcArray2D           |  dynamic array 2D                                 |  TODO               |            |                  |
+| xc_tcArray2DS          |  static array 2D (runtime fixed capacity)         |  TODO               |            |                  |
+| xc_tcArray2DD          |  dynamic array 2D (growing / shrinking)           |  TODO               |            |                  |
+
+
+### Specialized Collections
+
+Specialized data collections
+
+| Component name in code |  Description                                       | State               | Stable API | Tests            |
+| xc_scBitVectD          | dynamic bit vector (runtime growing)               | TODO                |            |                  |
+| xc_scBitVectS          | statiic bit vector (runtime fixed)                 | TODO                |            |                  |
+| xc_scBitVectT          | static bit vector (compilation time fixed)         | TODO                |            |                  |
+| xc_scStrBlobT          | static bit vector (compilation time fixed)         | TODO                |            |                  |
+| xc_scStrBlobS          | static bit vector (runtime fixed)                  | TODO                |            |                  |
+
+
+### Optional
+
+| Component name in code |  Description                                       | State               | Stable API | Tests            |
+| xc_fs                  | abstraction over elementary file operations        | TODO                |            |                  |
+| xc_ssrw                | unified stream- liike API for both string/ file    | TODO                |            |                  |
 
 
 ### Test
