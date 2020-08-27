@@ -10,6 +10,7 @@
  * Copyright block: end
  */
 
+#include <sstream>
 #include <xc/common/xc_mem.h>
 #include <xcc/common/xcc_err.hpp>
 
@@ -52,7 +53,6 @@ xcc_tplTestVector_itemIntf_obj1_method(_ARG_TPL_VITEMTYPE_) item_val(const int i
 }
 
 
-
 xcc_tplTestVector_itemIntf_obj1_hdr()
 xcc_tplTestVector_itemIntf_obj1_method(int) item_eq(const _ARG_TPL_VITEMTYPE_* refp_item_1, const _ARG_TPL_VITEMTYPE_* refp_item_2) noexcept
 {
@@ -81,6 +81,48 @@ xcc_tplTestVector_itemIntf_obj1_method(int) item_eq(const _ARG_TPL_VITEMTYPE_* r
 		return 0;
 	}
 }
+
+xcc_tplTestVector_itemIntf_obj1_hdr()
+xcc_tplTestVector_itemIntf_obj1_method(std::string) item_toString(const _ARG_TPL_VITEMTYPE_* refp_item_1) noexcept
+{
+	xcc_err_decl();
+	std::string retv="";
+	std::stringstream ss;
+	
+	try
+	{
+		std::string tmp="";
+		
+		if(NULL==refp_item_1) {
+			xcc_err_term_unmg();
+		}
+		
+		tmp="[ val=[";
+		ss<<tmp;
+		
+		ss<<refp_item_1->val_int;
+		
+		tmp="]";
+		ss<<tmp;
+		
+		tmp="str=[";
+		ss<<tmp;
+		
+		ss<<refp_item_1->val_str;
+		
+		tmp="] ]";
+		ss<<tmp;
+		
+		retv=ss.str();
+		return retv;
+	}
+	catch(...)
+	{
+		xcc_err_handle();
+		return "";
+	}
+}
+
 
 template<typename TPL_ITEMTYPE, size_t TPL_SIZE>
 std::vector<TPL_ITEMTYPE> TEST_ARRAY2VEC(const std::array<TPL_ITEMTYPE, TPL_SIZE>& arg_array)

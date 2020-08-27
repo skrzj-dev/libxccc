@@ -60,6 +60,8 @@ class xcc_tplTestVector_vectorIntf__stlVector: public tplTestVector_vectorIntf<T
 	public: int dealloc(TPL_VTYPE* refp_self) noexcept;
 	
 	public: int assignFrom(TPL_VTYPE* refp_self, const TPL_VTYPE* refp_self_src, int* result_overflow) noexcept;
+	
+	public: int DIAG_is_continuous(void) noexcept;
 };
 
 #include "intf_stlvector_d/xcvector_stlvector_api.incl.hpp"

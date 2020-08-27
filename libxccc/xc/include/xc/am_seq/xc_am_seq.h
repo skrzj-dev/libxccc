@@ -109,6 +109,13 @@ typedef struct xc_am_seq_cfg_t
 } xc_am_seq_cfg_t;
 
 
+typedef struct xc_am_seq_ctx_t
+{
+	xc_am_seq_cfg_t cfg;
+	xc_am_seq_state_t state;
+	
+} xc_am_seq_ctx_t;
+
 xc_am_seq_cfg_t xc_am_seq_cfg_retv(const size_t item_bytesize, const size_t cnt_items_in_chunk);
 
 
@@ -140,6 +147,15 @@ int xc_amOp_seq_push(
 	, const xc_byteptr_t refp_item
 );
 
+#define xc_amOp_seq_push_U(_ARG_TYPE_, _ARG_REFP_STATE_, _ARG_ITEMSIZE_, _ARG_REFP_ITEM_) ( \
+	xc_amOp_seq_push( \
+		  (_ARG_REFP_STATE_) \
+		, (_ARG_ITEMSIZE_) \
+		, ( (_ARG_TYPE_*)(NULL) == (_ARG_REFP_ITEM_) ? (_ARG_REFP_ITEM_) : (_ARG_REFP_ITEM_) ) \
+	) \
+)
+
+
 int xc_amOp_seq_pop(
 	  xc_am_seq_state_t* self_state
 	, const size_t item_bytesize
@@ -170,6 +186,14 @@ xc_byteptr_t xc_amOp_seq_item_at_idx(
 	, xc_am_seq_state_t* refp_state
 	, const size_t idx
 );
+
+#define xc_amOp_seq_item_at_idx_U(_ARG_TYPE_, _ARG_REFP_CFG_, _ARG_REFP_STATE_, _ARG_IDX_) ( \
+	(_ARG_TYPE_*)xc_amOp_seq_item_at_idx( \
+		  (_ARG_REFP_CFG_) \
+		, (_ARG_REFP_STATE_) \
+		, (_ARG_IDX_) \
+	) \
+)
 
 /* --- */
 

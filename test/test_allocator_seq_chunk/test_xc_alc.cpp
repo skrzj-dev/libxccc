@@ -16,7 +16,7 @@
 #include "xcc/common/xcc_cpp.hpp"
 #include "xcc/test/xcc_test2.hpp"
 /* --- */
-#include "./xc/am_seq/xc_ammo_seq.h"
+#include "./xc/am_seq/xc_am_seq.h"
 /* --- */
 #include "test_allocator_seq_chunk/test_xc_alc.hpp"
 /* --- */
@@ -46,8 +46,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=8;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -58,7 +58,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
 
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 1
@@ -98,8 +98,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=16;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -109,7 +109,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				int* x1=prealloc_int_array;
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 1
@@ -149,8 +149,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=16;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -161,7 +161,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
 
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 0
@@ -200,8 +200,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=16;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -212,7 +212,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
 
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 0
@@ -252,8 +252,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=16;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -264,7 +264,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
 
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 5
@@ -304,8 +304,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=16;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -316,7 +316,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
 
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 4
@@ -356,8 +356,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 			
 			if(1)
 			{
-				xc_ammo_seq_cfg_t tmp_cfg={0};
-				xc_ammo_seq_state_t tmp_state={0};
+				xc_am_seq_cfg_t tmp_cfg={0};
+				xc_am_seq_state_t tmp_state={0};
 				
 				tmp_cfg.cnt_items_in_chunk=16;
 				tmp_cfg.item_bytesize=sizeof(int);
@@ -368,7 +368,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 				
 
-				xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+				xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 						  &tmp_cfg
 						, &tmp_state
 						, 5
@@ -411,8 +411,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				
 				if(1)
 				{
-					xc_ammo_seq_cfg_t tmp_cfg={0};
-					xc_ammo_seq_state_t tmp_state={0};
+					xc_am_seq_cfg_t tmp_cfg={0};
+					xc_am_seq_state_t tmp_state={0};
 					
 					tmp_cfg.cnt_items_in_chunk=16;
 					tmp_cfg.item_bytesize=sizeof(int);
@@ -423,7 +423,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 					tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 					
 
-					xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+					xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 							  &tmp_cfg
 							, &tmp_state
 							, 1-1
@@ -469,8 +469,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				
 				if(1)
 				{
-					xc_ammo_seq_cfg_t tmp_cfg={0};
-					xc_ammo_seq_state_t tmp_state={0};
+					xc_am_seq_cfg_t tmp_cfg={0};
+					xc_am_seq_state_t tmp_state={0};
 					
 					tmp_cfg.cnt_items_in_chunk=16;
 					tmp_cfg.item_bytesize=sizeof(int);
@@ -481,7 +481,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 					tmp_state.refp_itemArray_byteptr.Refp2BtPtr=xc_p_refp2pBytes_castFrom_raw(x1);
 					
 
-					xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+					xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 							  &tmp_cfg
 							, &tmp_state
 							, 0
@@ -521,8 +521,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				
 				if(1)
 				{
-					xc_ammo_seq_cfg_t tmp_cfg={0};
-					xc_ammo_seq_state_t tmp_state={0};
+					xc_am_seq_cfg_t tmp_cfg={0};
+					xc_am_seq_state_t tmp_state={0};
 					
 					tmp_cfg.cnt_items_in_chunk=16;
 					tmp_cfg.item_bytesize=sizeof(int);
@@ -533,7 +533,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 					tmp_state.refp_itemArray_byteptr.Refp2BtPtr=(unsigned char**)&x1;
 					
 
-					xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+					xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 							  &tmp_cfg
 							, &tmp_state
 							, 4
@@ -573,8 +573,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				
 				if(1)
 				{
-					xc_ammo_seq_cfg_t tmp_cfg={0};
-					xc_ammo_seq_state_t tmp_state={0};
+					xc_am_seq_cfg_t tmp_cfg={0};
+					xc_am_seq_state_t tmp_state={0};
 					
 					tmp_cfg.cnt_items_in_chunk=16;
 					tmp_cfg.item_bytesize=sizeof(int);
@@ -585,7 +585,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 					tmp_state.refp_itemArray_byteptr.Refp2BtPtr=(unsigned char**)&x1;
 					
 
-					xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+					xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 							  &tmp_cfg
 							, &tmp_state
 							, 5
@@ -625,8 +625,8 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 				
 				if(1)
 				{
-					xc_ammo_seq_cfg_t tmp_cfg={0};
-					xc_ammo_seq_state_t tmp_state={0};
+					xc_am_seq_cfg_t tmp_cfg={0};
+					xc_am_seq_state_t tmp_state={0};
 					
 					tmp_cfg.cnt_items_in_chunk=16;
 					tmp_cfg.item_bytesize=sizeof(int);
@@ -637,7 +637,7 @@ int test_alc_shift_right(xcc_test2_param_list) noexcept
 					tmp_state.refp_itemArray_byteptr.Refp2BtPtr=(unsigned char**)&x1;
 					
 
-					xcc_test2_expect( 0 == xc_ammo_seq_tStatic_shiftRight(
+					xcc_test2_expect( 0 == xc_am_seq_tStatic_shiftRight(
 							  &tmp_cfg
 							, &tmp_state
 							, 14-1

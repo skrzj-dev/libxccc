@@ -14,12 +14,12 @@
 #include "xcc/common/xcc_err.hpp"
 /* --- */
 #include "xc/am_seq/xc_am_seq.h"
-#include "xc/tcvector_s/xc_tcvector_s.h"
+#include "xc/tcpool_t/xc_tcpool_t.h"
 /* --- */
-#include "intf_xcvector_s/_xcvector_ds_api_i_hlp.hpp"
+#include "_xcpool_ts_api_i_hlp.hpp"
 /* --- */
 
 /* --- --- --- --- */
 /* --- --- --- --- */
 
-xc_tcVectorS_i_local_instI(seqDS_dummyItem_t, dummyItem_t);
+xc_tcPoolT_i_local_instI(xcPoolTS_dummyItem_t, dummyItem_t);

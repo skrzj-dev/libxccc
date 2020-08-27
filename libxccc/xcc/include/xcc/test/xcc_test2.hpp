@@ -420,6 +420,7 @@ namespace test2
 			{
 				this->fail(curExpectedStatementInfo);
 				this->trapOnFail();
+				throw 11;
 			}
 			else {
 				/* do nothing */

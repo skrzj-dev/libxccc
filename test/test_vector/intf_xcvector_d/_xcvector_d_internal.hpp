@@ -18,7 +18,7 @@
 #include "xcc/test/xcc_test2.hpp"
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcvector_d/xc_tcvector_d.h"
 /* --- */
 

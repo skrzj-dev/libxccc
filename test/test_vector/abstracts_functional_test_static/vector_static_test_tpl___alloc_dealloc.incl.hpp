@@ -50,7 +50,7 @@ xcc_tplTestVector_static_method(int) test_raii_alloc_init(xcc_test2_param_list) 
 		
 		xcc_test2_case("ALLOC_INIT-0.1-E");
 		
-		vector_obj_ptr=vector_I.alloc_init(NULL);
+			vector_obj_ptr=vector_I.alloc_init(NULL);
 		xcc_test2_expect( NULL != vector_obj_ptr );
 		
 		derefer_obj = vector_I.derefer_retv(vector_obj_ptr);

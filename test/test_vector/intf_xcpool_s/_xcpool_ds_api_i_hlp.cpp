@@ -13,7 +13,7 @@
 /* --- */
 #include "xcc/common/xcc_err.hpp"
 /* --- */
-#include "xc/am_seq/xc_ammo_seq.h"
+#include "xc/am_seq/xc_am_seq.h"
 #include "xc/tcpool_s/xc_tcpool_s.h"
 /* --- */
 #include "_xcpool_ds_api_i_hlp.hpp"

@@ -266,155 +266,156 @@ xcc_tplTestVector_static_method(int) test_rem_idx(xcc_test2_param_list) noexcept
 
 			if(1)
 			{
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				if(1) {
-					const size_t expected_length=6;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  LLII_I.item_obj( 3, "v:003")
-									, LLII_I.item_obj( 4, "v:004")
-									, LLII_I.item_obj( 5, "v:005")
-									, LLII_I.item_obj( 6, "v:006")
-									, LLII_I.item_obj( 7, "v:007")
-									, LLII_I.item_obj( 8, "v:008")
-								}
-							) 
-						)
-					);
-				}
-				
-			}
-
-			if(1)
-			{
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				
-				
-				if(1) {
-					const size_t expected_length=5;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  LLII_I.item_obj( 4, "v:004")
-									, LLII_I.item_obj( 5, "v:005")
-									, LLII_I.item_obj( 6, "v:006")
-									, LLII_I.item_obj( 7, "v:007")
-									, LLII_I.item_obj( 8, "v:008")
-								}
-							) 
-						)
-					);
-				}
-				
-			}
-			
-			if(1)
-			{
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				if(1) {
-					const size_t expected_length=4;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  LLII_I.item_obj( 5, "v:005")
-									, LLII_I.item_obj( 6, "v:006")
-									, LLII_I.item_obj( 7, "v:007")
-									, LLII_I.item_obj( 8, "v:008")
-								}
-							) 
-						)
-					);
-				}
-				
-			}
-
-			if(1)
-			{
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				if(1) {
-					const size_t expected_length=3;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  LLII_I.item_obj( 6, "v:006")
-									, LLII_I.item_obj( 7, "v:007")
-									, LLII_I.item_obj( 8, "v:008")
-								}
-							) 
-						)
-					);
-				}
-				
-				
-			}
-
-			if(1)
-			{
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				if(1) {
-					const size_t expected_length=2;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  LLII_I.item_obj( 7, "v:007")
-									, LLII_I.item_obj( 8, "v:008")
-								}
-							) 
-						)
-					);
+				if(1)
+				{
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					
+					if(1) {
+						const size_t expected_length=6;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  LLII_I.item_obj( 3, "v:003")
+										, LLII_I.item_obj( 4, "v:004")
+										, LLII_I.item_obj( 5, "v:005")
+										, LLII_I.item_obj( 6, "v:006")
+										, LLII_I.item_obj( 7, "v:007")
+										, LLII_I.item_obj( 8, "v:008")
+									}
+								) 
+							)
+						);
+					}
+					
 				}
 
-			}
-			
-
-			if(1)
-			{
-				
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				if(1) {
-					const size_t expected_length=1;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  LLII_I.item_obj( 8, "v:008")
-								}
-							) 
-						)
-					);
-				}
-
-			}
-
-			if(1)
-			{
-				xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
-				
-				if(1) {
-					const size_t expected_length=0;
-					xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
-							  &vector_obj
-							, expected_length
-							, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
-									  
-								}
-							) 
-						)
-					);
+				if(1)
+				{
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					
+					
+					
+					if(1) {
+						const size_t expected_length=5;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  LLII_I.item_obj( 4, "v:004")
+										, LLII_I.item_obj( 5, "v:005")
+										, LLII_I.item_obj( 6, "v:006")
+										, LLII_I.item_obj( 7, "v:007")
+										, LLII_I.item_obj( 8, "v:008")
+									}
+								) 
+							)
+						);
+					}
+					
 				}
 				
+				if(1)
+				{
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					
+					if(1) {
+						const size_t expected_length=4;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  LLII_I.item_obj( 5, "v:005")
+										, LLII_I.item_obj( 6, "v:006")
+										, LLII_I.item_obj( 7, "v:007")
+										, LLII_I.item_obj( 8, "v:008")
+									}
+								) 
+							)
+						);
+					}
+					
+				}
+
+				if(1)
+				{
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					
+					if(1) {
+						const size_t expected_length=3;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  LLII_I.item_obj( 6, "v:006")
+										, LLII_I.item_obj( 7, "v:007")
+										, LLII_I.item_obj( 8, "v:008")
+									}
+								) 
+							)
+						);
+					}
+					
+					
+				}
+
+				if(1)
+				{
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					
+					if(1) {
+						const size_t expected_length=2;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  LLII_I.item_obj( 7, "v:007")
+										, LLII_I.item_obj( 8, "v:008")
+									}
+								) 
+							)
+						);
+					}
+				}
+				
+				if(1)
+				{
+					
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					/*here problem*/
+					if(1) {
+						const size_t expected_length=1;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  LLII_I.item_obj( 8, "v:008")
+									}
+								) 
+							)
+						);
+					}
+
+				}
+
+				if(1)
+				{
+					xcc_test2_expect( 0 == vector_I.remove_idx(&vector_obj, 0) );
+					
+					if(1) {
+						const size_t expected_length=0;
+						xcc_test2_expect( 0 == TMP_TEST_INTERNAL_02( xcc_test2_case_refer_customFailInfo(),  
+								  &vector_obj
+								, expected_length
+								, TEST_ARRAY2VEC<TPL_ITEM_TYPE>( std::array<TPL_ITEM_TYPE, expected_length>{
+										  
+									}
+								) 
+							)
+						);
+					}
+					
+				}
 			}
 		}
 		

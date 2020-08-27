@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	{
 		try
 		{
-			if(0!=test_xcPoolDS_x() ) {
+			if(0!=test_xcPoolTS_x() ) {
 				xcc_err_term_unmg();
 			}
 		}
