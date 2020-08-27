@@ -128,6 +128,7 @@ Generic typesafe data collections
 Specialized data collections
 
 | Component name in code |  Description                                       | State               | Stable API | Tests            |
+| ---------------------- | -------------------------------------------------- | ------------------- | ---------- | ---------------- |
 | xc_scBitVectD          | dynamic bit vector (runtime growing)               | TODO                |            |                  |
 | xc_scBitVectS          | statiic bit vector (runtime fixed)                 | TODO                |            |                  |
 | xc_scBitVectT          | static bit vector (compilation time fixed)         | TODO                |            |                  |
@@ -138,6 +139,7 @@ Specialized data collections
 ### Optional
 
 | Component name in code |  Description                                       | State               | Stable API | Tests            |
+| ---------------------- | -------------------------------------------------- | ------------------- | ---------- | ---------------- |
 | xc_fs                  | abstraction over elementary file operations        | TODO                |            |                  |
 | xc_ssrw                | unified stream- liike API for both string/ file    | TODO                |            |                  |
 
