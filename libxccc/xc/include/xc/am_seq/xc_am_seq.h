@@ -116,7 +116,10 @@ typedef struct xc_am_seq_ctx_t
 	
 } xc_am_seq_ctx_t;
 
+
 xc_am_seq_cfg_t xc_am_seq_cfg_retv(const size_t item_bytesize, const size_t cnt_items_in_chunk);
+
+#define xc_am_seq_cfg_retv_TYPE(_ARG_TYPE_, _ARG_CNT_ITEMS_IN_CHUNK_) xc_am_seq_cfg_retv( sizeof( _ARG_TYPE_ ), (_ARG_CNT_ITEMS_IN_CHUNK_) )
 
 
 int xc_am_seq_tChunkC_realloc(

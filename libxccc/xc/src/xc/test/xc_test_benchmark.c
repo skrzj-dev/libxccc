@@ -87,18 +87,18 @@ int xc_testBenchmark_fckup_cpu_cache(void)
 	int* big_array_of_crap2=NULL;
 	int* big_array_of_crap3=NULL;
 	int n=0;
-	ERR_DECL();
+	xc_err_decl();
 	
 	return 0;
 	
 	if(NULL == (big_array_of_crap1=(int*)malloc(static_size*sizeof(int) ) ) ) {
-		ERR_TERM(L_ERR);
+		xc_err_term(L_ERR);
 	}
 	if(NULL == (big_array_of_crap2=(int*)malloc(static_size*sizeof(int) ) ) ) {
-		ERR_TERM(L_ERR);
+		xc_err_term(L_ERR);
 	}
 	if(NULL == (big_array_of_crap3=(int*)malloc(static_size*sizeof(int) ) ) ) {
-		ERR_TERM(L_ERR);
+		xc_err_term(L_ERR);
 	}
 	
 	for(n=static_size-1; n>=0; n--)

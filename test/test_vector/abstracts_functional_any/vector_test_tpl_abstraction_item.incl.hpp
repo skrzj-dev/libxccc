@@ -123,7 +123,6 @@ xcc_tplTestVector_itemIntf_obj1_method(std::string) item_toString(const _ARG_TPL
 	}
 }
 
-
 template<typename TPL_ITEMTYPE, size_t TPL_SIZE>
 std::vector<TPL_ITEMTYPE> TEST_ARRAY2VEC(const std::array<TPL_ITEMTYPE, TPL_SIZE>& arg_array)
 {
@@ -131,3 +130,4 @@ std::vector<TPL_ITEMTYPE> TEST_ARRAY2VEC(const std::array<TPL_ITEMTYPE, TPL_SIZE
 	
 	return expected_items;
 }
+

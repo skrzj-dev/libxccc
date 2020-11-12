@@ -25,6 +25,7 @@ extern "C" {
 
 /* mark unchecked operations */
 #define xc_si_UNCHECKED(_ARG_STMT_) (_ARG_STMT_)
+#define xc_si_UNCHECKED_INT2UINT(_ARG_STMT_) (_ARG_STMT_)
 
 typedef enum xc_si_retv_t
 {
@@ -74,8 +75,16 @@ xc_si_int_t xc_si_int_sub(const xc_si_int_t param, const xc_si_int_t val);
 xc_si_int_t xc_si_int_div(const xc_si_int_t param, const xc_si_int_t val);
 xc_si_int_t xc_si_int_mul(const xc_si_int_t param, const xc_si_int_t val);
 
+int xc_si_int_sets_intp(xc_si_int_t* refp_self, const int* pval);
+int xc_si_int_adds_intp(xc_si_int_t* refp_self, const int* pval);
+int xc_si_int_subs_intp(xc_si_int_t* refp_self, const int* pval);
+int xc_si_int_divs_intp(xc_si_int_t* refp_self, const int* pval);
+int xc_si_int_muls_intp(xc_si_int_t* refp_self, const int* pval);
+
 xc_si_int_t xc_si_int_from_uint(const xc_si_uint_t param);
+xc_si_int_t xc_si_int_from_uint_p(const unsigned int* param);
 xc_si_int_t xc_si_int_from_size_t(const xc_si_size_t_t param);
+xc_si_int_t xc_si_int_from_size_t_p(const size_t* target_val);
 xc_si_int_t xc_si_int_from_uintptr_t(const xc_si_uintptr_t_t target_val);
 
 /* --- --- --- --- */

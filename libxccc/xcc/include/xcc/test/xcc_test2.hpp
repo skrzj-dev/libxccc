@@ -35,6 +35,31 @@ namespace xcc
 
 namespace test2
 {
+	class helper
+	{
+
+		public: static std::string cstrfmt_to_string(const char* fmt, ...)
+		{
+			char tmp[1]={0};
+			size_t length=0;
+			char* buf=NULL;
+			va_list args;
+			std::string retv="";
+			
+			va_start (args, fmt);
+			length=vsnprintf(tmp, 0, fmt, args);
+			buf=(char*)malloc(sizeof(char)*length+1);
+			
+			vsnprintf(buf, length+1, fmt, args);
+			va_end (args);
+			
+			retv.assign(buf);
+			free(buf);
+			
+			return retv;
+		}
+		
+	};
 	
 	struct testExpectUnevaluatedStringifiedInfo_t
 	{
@@ -72,14 +97,12 @@ namespace test2
 
 	struct testScopeInfo_t
 	{
-		char filename[256];
-		char fnname[256];
+		std::string filename;
+		std::string fnname;
 		int line;
 		
 		testScopeInfo_t()
 		{
-			std::memset(this->filename, 0, sizeof(this->filename) );
-			std::memset(this->fnname, 0, sizeof(this->fnname) );
 			this->line=0;
 		}
 		
@@ -87,8 +110,8 @@ namespace test2
 		{
 			testScopeInfo_t retv={};
 			
-			snprintf(retv.filename, sizeof(retv.filename), "%s", filename);
-			snprintf(retv.fnname, sizeof(retv.fnname), "%s", fnname);
+			retv.filename=helper::cstrfmt_to_string("%s", filename);
+			retv.fnname=helper::cstrfmt_to_string("%s", fnname);
 			retv.line=line;
 			
 			return retv;
@@ -250,6 +273,12 @@ namespace test2
 		public: testFailureDetails_t& customFailInfo_ref()
 		{
 			return this->results.last_case.failCustomInfo;
+		}
+		
+		
+		public: testFailureDetails_t* customFailInfo_refp()
+		{
+			return &this->results.last_case.failCustomInfo;
 		}
 		
 		private: int trapOnFail()
@@ -482,7 +511,7 @@ namespace test2
 			this->results.last_case.cur_annotation_data=annotation_data;
 		
 			fprintf(stdout, "/// ??? fn=[%s]:[%d]: info=[%s]:[%s]\n", 
-				  this->results.last_case.cur_annotation_data.scopeInfo.fnname
+				  this->results.last_case.cur_annotation_data.scopeInfo.fnname.c_str()
 				, this->results.last_case.cur_annotation_data.scopeInfo.line
 				, this->results.last_case.cur_annotation_data.static_part
 				, this->results.last_case.cur_annotation_data.runtime_part
@@ -519,7 +548,7 @@ namespace test2
 					fprintf(stdout, "    [%s]:[%s]: (OK) //[%s]:[%d]\n", 
 						  tmp.proc_id.c_str()
 						, tmp.case_id.c_str() 
-						, tmp.scopeInfo.fnname
+						, tmp.scopeInfo.fnname.c_str()
 						, tmp.scopeInfo.line
 					);
 					fprintf(stdout, "    //{%s}\n", 
@@ -535,7 +564,7 @@ namespace test2
 					fprintf(stdout, "    [%s]:[%s]: (FAIL): //[%s]:[%d]\n",  
 						  tmp.proc_id.c_str()
 						, tmp.case_id.c_str()
-						, tmp.scopeInfo.fnname
+						, tmp.scopeInfo.fnname.c_str()
 						, tmp.scopeInfo.line
 					);
 					fprintf(stdout, "    //{%s}\n", 
@@ -548,8 +577,8 @@ namespace test2
 						  tmp.cur_annotation_data.static_part
 						, tmp.cur_annotation_data.runtime_part
 					);
-					fprintf(stdout, "       file=[%s] \n", tmp.failInfo.scopeInfo.filename);
-					fprintf(stdout, "       fn=[%s]:[%d] \n", tmp.failInfo.scopeInfo.fnname, tmp.failInfo.scopeInfo.line);
+					fprintf(stdout, "       file=[%s] \n", tmp.failInfo.scopeInfo.filename.c_str());
+					fprintf(stdout, "       fn=[%s]:[%d] \n", tmp.failInfo.scopeInfo.fnname.c_str(), tmp.failInfo.scopeInfo.line);
 					fprintf(stdout, "       stmt=[%s]\n", 
 						  tmp.failInfo.stringifiedUnevaluatedStmt.stringifiedStmt.c_str() 
 					); 
@@ -562,11 +591,11 @@ namespace test2
 						fprintf(stdout, "       custom fail info:\n");
 						fprintf(stdout, "       ^^^^^^^^^^^^^^^^^\n");
 						fprintf(stdout, "fn=[%s]:[%d]\n", 
-							  tmp.failCustomInfo.scopeInfo.fnname
+							  tmp.failCustomInfo.scopeInfo.fnname.c_str()
 							, tmp.failCustomInfo.scopeInfo.line
 						);
 						fprintf(stdout, "last annotation at [%s]:[%d] is [%s]:[%s]\n", 
-							  tmp.failCustomInfo.lastAnnotation.scopeInfo.fnname
+							  tmp.failCustomInfo.lastAnnotation.scopeInfo.fnname.c_str()
 							, tmp.failCustomInfo.lastAnnotation.scopeInfo.line
 							, tmp.failCustomInfo.lastAnnotation.static_part
 							, tmp.failCustomInfo.lastAnnotation.runtime_part
@@ -621,15 +650,15 @@ namespace test2
 				fprintf(stdout, "///\t\t[%s]: test case: [%s]: (FAIL): // [%s]:[%d]\n",  
 					  this->header.proc_id.c_str()
 					, this->results.last_case.case_id.c_str() 
-					, this->results.last_case.scopeInfo.fnname
+					, this->results.last_case.scopeInfo.fnname.c_str()
 					, this->results.last_case.scopeInfo.line
 				);
 				fprintf(stdout, "///\t\t-------- -------- -------- --------\n"); \
 				fprintf(stdout, "///\t\t\t file=[%s] \n", 
-					  this->results.last_case.failInfo.scopeInfo.filename
+					  this->results.last_case.failInfo.scopeInfo.filename.c_str()
 				);
 				fprintf(stdout, "///\t\t\t fn=[%s]:[%d] \n", 
-					  this->results.last_case.failInfo.scopeInfo.fnname
+					  this->results.last_case.failInfo.scopeInfo.fnname.c_str()
 					, this->results.last_case.failInfo.scopeInfo.line
 				);
 				fprintf(stdout, "///\t\t\t stmt=[%s]\n", 
@@ -680,10 +709,10 @@ namespace test2
 				fprintf(stdout, "///\t[%s]: test scope: (FAIL):\n",  this->header.proc_id.c_str() );
 				fprintf(stdout, "///\t-------- -------- -------- --------\n"); \
 				fprintf(stdout, "///\t\t file=[%s] \n", 
-					  this->results.last_case.failInfo.scopeInfo.filename
+					  this->results.last_case.failInfo.scopeInfo.filename.c_str()
 				);
 				fprintf(stdout, "///\t\t fn=[%s]:[%d] \n", 
-					  this->results.last_case.failInfo.scopeInfo.fnname
+					  this->results.last_case.failInfo.scopeInfo.fnname.c_str()
 					, this->results.last_case.failInfo.scopeInfo.line
 				);
 				/*fprintf(stdout, "///\t\t info=[%s]:[%s] \n", this->last_fail.annotation.static_part, this->last_fail.annotation.runtime_part);*/
@@ -700,7 +729,7 @@ namespace test2
 			fprintf(stdout, "/// <!!!!> test proc [%s]: FAIL at [%d] //%s\n", 
 				  this->header.proc_id.c_str()
 				, this->results.last_case.failInfo.scopeInfo.line
-				, this->results.last_case.failInfo.scopeInfo.fnname 
+				, this->results.last_case.failInfo.scopeInfo.fnname.c_str() 
 			);
 			return;
 		}
@@ -999,6 +1028,7 @@ inline xcc_test2_testParamObj_t xcc_test2_param_public_result(xcc_test2_procedur
 
 
 #define xcc_test2_case_refer_customFailInfo() t__testScope.customFailInfo_ref()
+#define xcc_test2_case_referp_customFailInfo() t__testScope.customFailInfo_refp()
 
 
 #define xcc_test2_expect(_STMT_) do {\
@@ -1042,7 +1072,7 @@ inline xcc_test2_testParamObj_t xcc_test2_param_public_result(xcc_test2_procedur
 				  tmp\
 			)\
 		) {\
-			/* additional code to handle [on failure]? */\
+			int* x=NULL; *x=0xdead; /* additional code to handle [on failure]? */\
 		}\
 		else {\
 			/* OK */\
