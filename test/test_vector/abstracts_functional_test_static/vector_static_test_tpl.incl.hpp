@@ -34,7 +34,6 @@
 
 /* --- */
 
-
 /* --- */
 
 xcc_tplTestVector_static_hdr()

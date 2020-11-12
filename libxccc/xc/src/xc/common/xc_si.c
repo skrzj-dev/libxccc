@@ -369,6 +369,37 @@ xc_si_int_t xc_si_int_from_size_t(const xc_si_size_t_t target_val)
 	return retv;
 }
 
+xc_si_int_t xc_si_int_from_size_t_p(const size_t* refp_target_val)
+{
+	xc_si_int_t retv={0};
+	size_t target_val=*refp_target_val;
+	/* --- */
+	
+	
+	
+	
+	if(1)
+	{
+		if( target_val > (size_t)(INT_MAX) ) {
+			retv._private_err=xc_si_retv_overflow;
+		}
+		
+		
+		/* size_t cannot be <0 */
+		/*
+		 * if( target_val < (size_t)(INT_MIN) ) {
+		 *  	retv._private_err=xc_si_retv_underflow;
+		 * }
+		 */
+	}
+	/* --- */
+	
+	retv._private_val=target_val;
+	
+	return retv;
+}
+
+
 xc_si_int_t xc_si_int_from_uintptr_t(const xc_si_uintptr_t_t target_val)
 {
 	xc_si_int_t retv={0};
@@ -398,6 +429,134 @@ xc_si_int_t xc_si_int_from_uintptr_t(const xc_si_uintptr_t_t target_val)
 	}
 	
 	return retv;
+}
+
+/* --- --- --- --- */
+
+int xc_si_int_sets_intp(xc_si_int_t* refp_self, const int* pval)
+{
+	xc_si_int_t tmp={0};
+	xc_err_decl();
+	/* --- */
+	
+	if(NULL==refp_self) {
+		xc_err_term_unmg();
+	}
+	if(NULL==pval) {
+		xc_err_term_unmg();
+	}
+	/* --- */
+	
+	*refp_self=xc_si_int_p(pval);
+	
+	return 0;
+	
+	xc_err_on_unmg();
+	return 1;
+}
+
+int xc_si_int_adds_intp(xc_si_int_t* refp_self, const int* pval)
+{
+	xc_si_int_t tmp1={0};
+	xc_si_int_t tmp2={0};
+	xc_err_decl();
+	/* --- */
+	
+	if(NULL==refp_self) {
+		xc_err_term_unmg();
+	}
+	if(NULL==pval) {
+		xc_err_term_unmg();
+	}
+	/* --- */
+	
+	tmp1=xc_si_int(*refp_self);
+	tmp2=xc_si_int_p(pval);
+	
+	*refp_self=xc_si_int_add(tmp1, tmp2);
+	
+	return 0;
+	
+	xc_err_on_unmg();
+	return 1;
+}
+
+int xc_si_int_subs_intp(xc_si_int_t* refp_self, const int* pval)
+{
+	xc_si_int_t tmp1={0};
+	xc_si_int_t tmp2={0};
+	xc_err_decl();
+	/* --- */
+	
+	if(NULL==refp_self) {
+		xc_err_term_unmg();
+	}
+	if(NULL==pval) {
+		xc_err_term_unmg();
+	}
+	/* --- */
+	
+	tmp1=xc_si_int(*refp_self);
+	tmp2=xc_si_int_p(pval);
+	
+	*refp_self=xc_si_int_sub(tmp1, tmp2);
+	
+	return 0;
+	
+	xc_err_on_unmg();
+	return 1;
+}
+
+int xc_si_int_divs_intp(xc_si_int_t* refp_self, const int* pval)
+{
+	xc_si_int_t tmp1={0};
+	xc_si_int_t tmp2={0};
+	xc_err_decl();
+	/* --- */
+	
+	if(NULL==refp_self) {
+		xc_err_term_unmg();
+	}
+	if(NULL==pval) {
+		xc_err_term_unmg();
+	}
+	/* --- */
+	
+	tmp1=xc_si_int(*refp_self);
+	tmp2=xc_si_int_p(pval);
+	
+	*refp_self=xc_si_int_div(tmp1, tmp2);
+	
+	return 0;
+	
+	xc_err_on_unmg();
+	return 1;
+}
+
+int xc_si_int_muls_intp(xc_si_int_t* refp_self, const int* pval)
+{
+	xc_si_int_t tmp1={0};
+	xc_si_int_t tmp2={0};
+	xc_err_decl();
+	/* --- */
+	
+	if(NULL==refp_self) {
+		xc_err_term_unmg();
+	}
+	if(NULL==pval) {
+		xc_err_term_unmg();
+	}
+	/* --- */
+	
+	tmp1=xc_si_int(*refp_self);
+	tmp2=xc_si_int_p(pval);
+	
+	*refp_self=xc_si_int_mul(tmp1, tmp2);
+	
+	return 0;
+	
+	xc_err_on_unmg();
+	return 1;
 }
 
 /* --- --- --- --- */

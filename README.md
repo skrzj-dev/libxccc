@@ -75,9 +75,10 @@ General purpose utilities
 | xc_err                 | exception- like error handling for C              | Done                | yes        | functional       |
 | xc_p                   | struct wrappers over generic pointers             | Done                | yes        | N/A              |
 | xc_rtdbg               | debug toggleable at runtime                       | Done                | yes        | none             |
-| xc_si                  | safe integer operations                           | Done                | yes        | functional       |
+| xc_si                  | safe integer operations                           | WIP                 | yes        | functional       |
 | xc_hash                | hash functions                                    | Partial/ WIP        | yes        | none             |
 | xc_rand                | randomization functions                           | Done                | yes        | none             |
+| xc_bitfl               | bit fields                                        | TODO                |            |                  |
 
 
 Abstraction over memory management 
@@ -100,9 +101,10 @@ char- based string objects
 
 | Component name in code |  Description                                      | State               | Stable API | Tests            |
 | ---------------------- | ------------------------------------------------- | ------------------- | ---------- | ---------------- |
-| xc_strD                | dynamic capacity string (growing)                 | WIP (0.1)           | no         | none             |
-| xc_strT                | static capacity string (compilation time fixed)   | TODO                |            |                  |
-| xc_strpr               | stateless string parsing                          | TODO                |            |                  |
+| xc_strcs               | immutable string (runtime fixed capacity)         | WIP                 | yes        | functional       |
+| xc_strcd               | mutable (growing) string                          | WIP                 | no         | none             |
+| xc_strct               | mutable static string (compilation time capacity) | TODO                |            |                  |
+| xc_strss               | stream- like string parsing                       | TODO                |            |                  |
 
 
 ### Generic Collections
@@ -116,11 +118,11 @@ Generic typesafe data collections
 | xc_tcVectorT           |  static capacity vector (compilation time fixed)  |  Done               | yes        | functional       |
 | xc_tcPoolD             |  dynamic pool                                     |  TODO               |            |                  |
 | xc_tcPoolS             |  static pool (runtime fixed capacity)             |  DONE               | yes        | functional       |
-| xc_tcPoolT             |  static pool (compilation time fixed capacity)    |  TODO               | yes        | functional       |
+| xc_tcPoolT             |  static pool (compilation time fixed capacity)    |  Done               | yes        | functional       |
 | xc_tcSelectD           |  dynamic hashtable/pool                           |  TODO               |            |                  |
 | xc_tcSelectS           |  static hashtable/pool (runtime fixed capacity)   |  TODO               |            |                  |
-| xc_tcArray2DS          |  static array 2D (runtime fixed capacity)         |  TODO               |            |                  |
-| xc_tcArray2DD          |  dynamic array 2D (growing / shrinking)           |  TODO               |            |                  |
+| xc_tcSurfS             |  static array 2D (runtime fixed capacity)         |  TODO               |            |                  |
+| xc_tcSurfD             |  dynamic array 2D (growing / shrinking)           |  TODO               |            |                  |
 
 
 ### Specialized Collections
@@ -129,18 +131,18 @@ Specialized data collections
 
 | Component name in code |  Description                                       | State               | Stable API | Tests            |
 | ---------------------- | -------------------------------------------------- | ------------------- | ---------- | ---------------- |
-| xc_scBitVectD          | dynamic bit vector (runtime growing)               | TODO                |            |                  |
-| xc_scBitVectS          | statiic bit vector (runtime fixed)                 | TODO                |            |                  |
-| xc_scBitVectT          | static bit vector (compilation time fixed)         | TODO                |            |                  |
-| xc_scStrBlobT          | static bit vector (compilation time fixed)         | TODO                |            |                  |
-| xc_scStrBlobS          | static bit vector (runtime fixed)                  | TODO                |            |                  |
+| xc_scBitVectD          | dynamic bit vector (runtime growing capacity)      | TODO                |            |                  |
+| xc_scBitVectS          | statiic bit vector (runtime fixed capacity)        | TODO                |            |                  |
+| xc_scBitVectT          | static bit vector (compilation time fixed capacity)| TODO                |            |                  |
+| xc_scStrBlobS          | String collection in a continuous byte block       | TODO                |            |                  |
+| xc_scValTree           | tree- like structure for primitive values          | TODO                |            |                  |
 
 
 ### Optional
 
 | Component name in code |  Description                                       | State               | Stable API | Tests            |
 | ---------------------- | -------------------------------------------------- | ------------------- | ---------- | ---------------- |
-| xc_fs                  | abstraction over elementary file operations        | TODO                |            |                  |
+| xc_fs                  | abstraction over elementary file system operations | TODO                |            |                  |
 | xc_ssrw                | unified stream- liike API for both string/ file    | TODO                |            |                  |
 
 
